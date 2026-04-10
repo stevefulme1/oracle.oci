@@ -70,6 +70,8 @@ jobs:
             python: "3.13"
           - ansible: "2.20"
             python: "3.10"
+          - ansible: "2.20"
+            python: "3.11"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
