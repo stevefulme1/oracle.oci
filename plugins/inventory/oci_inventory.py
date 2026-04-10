@@ -8,8 +8,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: oci_inventory
-plugin_type: inventory
+name: oci_inventory
 short_description: Oracle Cloud Infrastructure (OCI) dynamic inventory plugin
 description:
   - Queries OCI compute instances across regions and compartments to build
@@ -19,7 +18,7 @@ description:
   - Supports tag-based filtering, caching, and multiple authentication methods.
 version_added: "1.0.0"
 author:
-  - Oracle Cloud Infrastructure
+  - Steve Fulmer (@stevefulmer)
 extends_documentation_fragment:
   - constructed
   - inventory_cache
@@ -101,49 +100,8 @@ notes:
   - Inventory source files must be named C(*.oci.yml) or C(*.oci.yaml).
 
 requirements:
-  - "python >= 3.8"
+  - "python >= 3.12"
   - "oci >= 2.90.0"
-
-examples:
-  - |
-    # Basic inventory file — oracle.oci.yml
-    ---
-    plugin: oracle.oci.oci_inventory
-  - |
-    # Filter to a specific compartment
-    ---
-    plugin: oracle.oci.oci_inventory
-    compartments:
-      - ocid1.compartment.oc1..aaaaaaaaxyz
-    regions:
-      - us-ashburn-1
-      - us-phoenix-1
-  - |
-    # Filter instances by freeform tag
-    ---
-    plugin: oracle.oci.oci_inventory
-    filters:
-      freeform:
-        environment: production
-  - |
-    # Group by region and shape with custom composed variable
-    ---
-    plugin: oracle.oci.oci_inventory
-    keyed_groups:
-      - key: oci_region
-        prefix: region
-      - key: oci_shape
-        prefix: shape
-    compose:
-      ansible_user: "'opc'"
-  - |
-    # Instance principal authentication (from within OCI)
-    ---
-    plugin: oracle.oci.oci_inventory
-    auth_type: instance_principal
-    regions:
-      - us-ashburn-1
-    fetch_db_hosts: true
 """
 
 EXAMPLES = r"""

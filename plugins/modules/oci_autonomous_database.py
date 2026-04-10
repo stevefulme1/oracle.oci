@@ -45,7 +45,6 @@ options:
             - The password for the ADMIN user.
             - Required when creating a new Autonomous Database.
         type: str
-        no_log: true
     cpu_core_count:
         description:
             - The number of OCPU cores to be made available to the database.

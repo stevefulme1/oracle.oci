@@ -62,7 +62,6 @@ options:
             - The ADMIN password for the cloned database.
             - Required when creating a clone.
         type: str
-        no_log: true
     cpu_core_count:
         description:
             - The number of OCPU cores for the cloned database.
