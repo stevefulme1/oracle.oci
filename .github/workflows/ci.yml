@@ -27,7 +27,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install ansible-core>=2.15 ansible-lint yamllint flake8
+        run: pip install ansible-core>=2.16 ansible-lint yamllint flake8
 
       - name: Run yamllint
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
@@ -49,31 +49,18 @@ jobs:
       fail-fast: false
       matrix:
         ansible:
-          - "2.15"
           - "2.16"
           - "2.17"
           - "2.18"
           - "2.20"
         python:
-          - "3.10"
-          - "3.11"
           - "3.12"
           - "3.13"
         exclude:
-          - ansible: "2.15"
-            python: "3.12"
-          - ansible: "2.15"
-            python: "3.13"
           - ansible: "2.16"
             python: "3.13"
           - ansible: "2.17"
             python: "3.13"
-          - ansible: "2.18"
-            python: "3.10"
-          - ansible: "2.20"
-            python: "3.10"
-          - ansible: "2.20"
-            python: "3.11"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -104,9 +91,8 @@ jobs:
       fail-fast: false
       matrix:
         python:
-          - "3.10"
-          - "3.11"
           - "3.12"
+          - "3.13"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -119,7 +105,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - name: Install nox and dependencies
-        run: pip install nox ansible-core>=2.15 oci pytest pytest-cov
+        run: pip install nox ansible-core>=2.16 oci pytest pytest-cov
 
       - name: Run nox sessions
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
