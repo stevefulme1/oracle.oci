@@ -64,12 +64,11 @@
         mode: "0700"
 
     - name: Download ADB wallet
-      oracle.oci.oci_autonomous_database:
+      oracle.oci.oci_autonomous_database_wallet:
         autonomous_database_id: "{{ adb.autonomous_database.id }}"
-        wallet_password: "{{ wallet_password }}"
-        wallet_file: "{{ wallet_dir }}/wallet_{{ db_name }}.zip"
+        password: "{{ wallet_password }}"
+        dest: "{{ wallet_dir }}/wallet_{{ db_name }}.zip"
         region: "{{ region }}"
-        action: generate_wallet
       register: wallet
 
     - name: Show wallet location

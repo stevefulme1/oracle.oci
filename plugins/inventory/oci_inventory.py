@@ -148,9 +148,11 @@ examples:
 
 EXAMPLES = r"""
 # Minimal inventory source (oracle.oci.yml):
+---
 plugin: oracle.oci.oci_inventory
 
 # Scoped to two regions and one compartment:
+---
 plugin: oracle.oci.oci_inventory
 regions:
   - us-ashburn-1
@@ -159,6 +161,7 @@ compartments:
   - ocid1.compartment.oc1..aaaaaaaaxyz
 
 # Tag-based filtering (freeform tags):
+---
 plugin: oracle.oci.oci_inventory
 filters:
   freeform:
@@ -166,6 +169,7 @@ filters:
     team: platform
 
 # Keyed groups and compose:
+---
 plugin: oracle.oci.oci_inventory
 keyed_groups:
   - key: oci_region
@@ -179,6 +183,7 @@ compose:
   ansible_port: 22
 
 # Instance principal authentication:
+---
 plugin: oracle.oci.oci_inventory
 auth_type: instance_principal
 regions:

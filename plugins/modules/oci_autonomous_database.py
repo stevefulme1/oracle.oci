@@ -127,6 +127,7 @@ EXAMPLES = r"""
 
 - name: Update an Autonomous Database display name and scaling
   oracle.oci.oci_autonomous_database:
+    compartment_id: "ocid1.compartment.oc1..example"
     autonomous_database_id: "ocid1.autonomousdatabase.oc1..example"
     display_name: "Updated ATP Database"
     cpu_core_count: 2
