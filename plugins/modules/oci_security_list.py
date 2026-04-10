@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Oracle and/or its affiliates.
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
@@ -208,7 +207,9 @@ def build_egress_rules(rules_param):
 
 
 class OciSecurityList(OciResourceBase):
-    client_class = VirtualNetworkClient
+    def __init__(self, module):
+        self.client_class = VirtualNetworkClient
+        super().__init__(module)
 
     def get_resource(self):
         sl_id = self.module.params.get("security_list_id")

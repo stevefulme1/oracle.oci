@@ -1,11 +1,10 @@
 """Unit tests for oracle.oci.plugins.module_utils.oci_auth."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 import os
-from unittest.mock import MagicMock, mock_open, patch
-
-import pytest
+from unittest.mock import MagicMock, patch
 
 
 AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"

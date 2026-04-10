@@ -1,6 +1,7 @@
 """Shared pytest fixtures for OCI collection unit tests."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 from unittest.mock import MagicMock
 

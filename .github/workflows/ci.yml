@@ -68,6 +68,8 @@ jobs:
             python: "3.13"
           - ansible: "2.17"
             python: "3.13"
+          - ansible: "2.18"
+            python: "3.10"
           - ansible: "2.20"
             python: "3.10"
           - ansible: "2.20"
