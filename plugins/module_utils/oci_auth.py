@@ -1,9 +1,9 @@
 """OCI authentication utilities supporting multiple auth methods."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 import os
-from typing import TYPE_CHECKING
 
 try:
     import oci
@@ -11,11 +11,8 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-if TYPE_CHECKING:
-    from ansible.module_utils.basic import AnsibleModule
 
-
-def get_oci_config(module: AnsibleModule) -> dict:
+def get_oci_config(module):
     """Build OCI config dict from module params or environment."""
     auth_type = module.params.get("auth_type", "api_key")
 
@@ -64,7 +61,7 @@ def get_oci_config(module: AnsibleModule) -> dict:
     return config
 
 
-def create_service_client(module: AnsibleModule, client_class: type):
+def create_service_client(module, client_class):
     """Create an OCI service client with the appropriate auth method."""
     if not HAS_OCI_SDK:
         module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")

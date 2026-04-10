@@ -1,9 +1,9 @@
 """Waiter and retry utilities for OCI resources."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 import time
-from typing import TYPE_CHECKING
 
 try:
     from oci.exceptions import ServiceError
@@ -11,17 +11,14 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-if TYPE_CHECKING:
-    from ansible.module_utils.basic import AnsibleModule
-
 
 def wait_for_resource(
-    module: AnsibleModule,
+    module,
     get_fn,
-    resource_id: str,
-    target_states: frozenset[str] | set[str],
-    failure_states: frozenset[str] | None = None,
-) -> object:
+    resource_id,
+    target_states,
+    failure_states=None,
+):
     """Poll a resource until it reaches a target lifecycle state."""
     wait = module.params.get("wait", True)
     if not wait:
@@ -63,10 +60,10 @@ def wait_for_resource(
 
 
 def wait_for_work_request(
-    module: AnsibleModule,
+    module,
     client,
-    work_request_id: str,
-) -> object:
+    work_request_id,
+):
     """Wait for an OCI work request to complete."""
     timeout = module.params.get("wait_timeout", 1200)
     interval = module.params.get("wait_interval", 30)
