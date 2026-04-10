@@ -160,7 +160,6 @@ autonomous_database:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import oci
     from oci.database import DatabaseClient
     from oci.database.models import (
         CreateAutonomousDatabaseDetails,

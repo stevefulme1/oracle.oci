@@ -235,7 +235,8 @@ def delete_topic(module, client, topic):
 
 def needs_update(module, topic):
     """Check if topic needs to be updated."""
-    if module.params.get("description") is not None and getattr(topic, "description", None) != module.params["description"]:
+    if (module.params.get("description") is not None
+            and getattr(topic, "description", None) != module.params["description"]):
         return True
     freeform = module.params.get("freeform_tags")
     if freeform is not None and getattr(topic, "freeform_tags", None) != freeform:

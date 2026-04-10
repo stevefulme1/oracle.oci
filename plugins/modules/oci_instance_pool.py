@@ -116,7 +116,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,
@@ -273,7 +272,9 @@ def main():
         argument_spec=module_args,
         supports_check_mode=True,
         required_if=[
-            ("state", "present", ("compartment_id", "instance_configuration_id", "size", "placement_configurations"), True),
+            ("state", "present",
+             ("compartment_id", "instance_configuration_id", "size", "placement_configurations"),
+             True),
             ("state", "absent", ("pool_id",)),
         ],
     )

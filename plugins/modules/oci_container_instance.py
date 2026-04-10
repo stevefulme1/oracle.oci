@@ -155,7 +155,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     LIFECYCLE_DELETED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,
@@ -280,7 +279,7 @@ class OciContainerInstance(OciResourceBase):
             kwargs["defined_tags"] = defined_tags
 
         update_details = oci.container_instances.models.UpdateContainerInstanceDetails(**kwargs)
-        response = call_with_retry(
+        call_with_retry(
             self.client.update_container_instance, resource.id, update_details,
         )
 

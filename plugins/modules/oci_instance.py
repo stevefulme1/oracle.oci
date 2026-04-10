@@ -127,7 +127,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,

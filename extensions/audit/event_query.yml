@@ -2,6 +2,16 @@
 # Indirect node counting event queries for Oracle Cloud Infrastructure.
 # Each entry maps a module FQCN to a jq query that extracts managed node
 # identity from the module's return data for AAP 2.6+ node counting.
+#
+# device_type values follow the Normalized Resource Taxonomy v2 (2026-03-19).
+# Modules that are read-only (_facts), pure IAM (user, group, policy),
+# credential artifacts (api_key, wallet), or metadata-only (tag, tag_namespace,
+# log_group, events_rule, console_connection) are intentionally excluded —
+# they do not represent managed infrastructure nodes.
+
+# ---------------------------------------------------------------------------
+# Compute
+# ---------------------------------------------------------------------------
 
 oracle.oci.oci_instance:
   query: >-
@@ -13,23 +23,7 @@ oracle.oci.oci_instance:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "cloud_instance",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_boot_volume:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_boot_volume:" + .id),
-      canonical_facts: {
-        module: "oci_boot_volume",
-        boot_volume_id: .id,
-        compartment_id: .compartment_id
-      },
-      facts: {
-        device_type: "storage_node",
+        device_type: "virtual_machine",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -45,7 +39,7 @@ oracle.oci.oci_image:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "resource",
+        device_type: "virtual_machine",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -61,7 +55,23 @@ oracle.oci.oci_instance_pool:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "resource_pool",
+        device_type: "auto_scaling_group",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_boot_volume:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_boot_volume:" + .id),
+      canonical_facts: {
+        module: "oci_boot_volume",
+        boot_volume_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "block_storage",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -83,6 +93,10 @@ oracle.oci.oci_container_instance:
       }
     }
 
+# ---------------------------------------------------------------------------
+# Kubernetes (OKE)
+# ---------------------------------------------------------------------------
+
 oracle.oci.oci_oke_cluster:
   query: >-
     .resource | select(. != null) | {
@@ -93,7 +107,7 @@ oracle.oci.oci_oke_cluster:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "cluster",
+        device_type: "container",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -109,11 +123,15 @@ oracle.oci.oci_oke_node_pool:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "resource_pool",
+        device_type: "auto_scaling_group",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
     }
+
+# ---------------------------------------------------------------------------
+# Networking
+# ---------------------------------------------------------------------------
 
 oracle.oci.oci_vcn:
   query: >-
@@ -125,7 +143,7 @@ oracle.oci.oci_vcn:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "cloud_service",
+        device_type: "vpc",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -141,102 +159,39 @@ oracle.oci.oci_subnet:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "cloud_service",
+        device_type: "subnet",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
     }
 
-oracle.oci.oci_load_balancer:
+oracle.oci.oci_route_table:
   query: >-
     .resource | select(. != null) | {
-      name: ("oci_load_balancer:" + .id),
+      name: ("oci_route_table:" + .id),
       canonical_facts: {
-        module: "oci_load_balancer",
-        load_balancer_id: .id,
-        compartment_id: .compartment_id
-      },
-      facts: {
-        device_type: "load_balancer",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_autonomous_database:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_autonomous_database:" + .id),
-      canonical_facts: {
-        module: "oci_autonomous_database",
-        autonomous_database_id: .id,
-        compartment_id: .compartment_id
-      },
-      facts: {
-        device_type: "cloud_service",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_db_system:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_db_system:" + .id),
-      canonical_facts: {
-        module: "oci_db_system",
-        db_system_id: .id,
-        compartment_id: .compartment_id
-      },
-      facts: {
-        device_type: "cloud_service",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_vault:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_vault:" + .id),
-      canonical_facts: {
-        module: "oci_vault",
-        vault_id: .id,
-        compartment_id: .compartment_id
-      },
-      facts: {
-        device_type: "appliance",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_compartment:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_compartment:" + .id),
-      canonical_facts: {
-        module: "oci_compartment",
-        compartment_id: .id
-      },
-      facts: {
-        device_type: "organizational_unit",
-        platform: "oracle_oci",
-        infra_type: "PublicCloudOCI"
-      }
-    }
-
-oracle.oci.oci_drg:
-  query: >-
-    .resource | select(. != null) | {
-      name: ("oci_drg:" + .id),
-      canonical_facts: {
-        module: "oci_drg",
-        drg_id: .id,
+        module: "oci_route_table",
+        route_table_id: .id,
         compartment_id: .compartment_id
       },
       facts: {
         device_type: "router",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_security_list:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_security_list:" + .id),
+      canonical_facts: {
+        module: "oci_security_list",
+        security_list_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "firewall",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -268,7 +223,7 @@ oracle.oci.oci_internet_gateway:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "router",
+        device_type: "gateway",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -284,11 +239,233 @@ oracle.oci.oci_nat_gateway:
         compartment_id: .compartment_id
       },
       facts: {
+        device_type: "gateway",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_service_gateway:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_service_gateway:" + .id),
+      canonical_facts: {
+        module: "oci_service_gateway",
+        service_gateway_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "gateway",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_drg:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_drg:" + .id),
+      canonical_facts: {
+        module: "oci_drg",
+        drg_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
         device_type: "router",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
     }
+
+oracle.oci.oci_dns_zone:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_dns_zone:" + .id),
+      canonical_facts: {
+        module: "oci_dns_zone",
+        zone_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "dns_service",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Load Balancer
+# ---------------------------------------------------------------------------
+
+oracle.oci.oci_load_balancer:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_load_balancer:" + .id),
+      canonical_facts: {
+        module: "oci_load_balancer",
+        load_balancer_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "load_balancer",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_load_balancer_backend_set:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_lb_backend_set:" + .load_balancer_id + "/" + .name),
+      canonical_facts: {
+        module: "oci_load_balancer_backend_set",
+        load_balancer_id: .load_balancer_id,
+        backend_set_name: .name
+      },
+      facts: {
+        device_type: "load_balancer",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_load_balancer_backend:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_lb_backend:" + .load_balancer_id + "/" + .backend_set_name + "/" + .ip_address + ":" + (.port | tostring)),
+      canonical_facts: {
+        module: "oci_load_balancer_backend",
+        load_balancer_id: .load_balancer_id,
+        backend_set_name: .backend_set_name,
+        ip_address: .ip_address,
+        port: .port
+      },
+      facts: {
+        device_type: "load_balancer",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_load_balancer_listener:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_lb_listener:" + .load_balancer_id + "/" + .name),
+      canonical_facts: {
+        module: "oci_load_balancer_listener",
+        load_balancer_id: .load_balancer_id,
+        listener_name: .name
+      },
+      facts: {
+        device_type: "load_balancer",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_load_balancer_health_checker:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_lb_health_checker:" + .load_balancer_id + "/" + .backend_set_name),
+      canonical_facts: {
+        module: "oci_load_balancer_health_checker",
+        load_balancer_id: .load_balancer_id,
+        backend_set_name: .backend_set_name
+      },
+      facts: {
+        device_type: "load_balancer",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Database
+# ---------------------------------------------------------------------------
+
+oracle.oci.oci_autonomous_database:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_autonomous_database:" + .id),
+      canonical_facts: {
+        module: "oci_autonomous_database",
+        autonomous_database_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "database_relational",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_autonomous_database_clone:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_autonomous_database_clone:" + .id),
+      canonical_facts: {
+        module: "oci_autonomous_database_clone",
+        autonomous_database_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "database_relational",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_db_system:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_db_system:" + .id),
+      canonical_facts: {
+        module: "oci_db_system",
+        db_system_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "database_relational",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_db_backup:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_db_backup:" + .id),
+      canonical_facts: {
+        module: "oci_db_backup",
+        backup_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "archive_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_data_guard:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_data_guard:" + .id),
+      canonical_facts: {
+        module: "oci_data_guard",
+        data_guard_association_id: .id,
+        database_id: .database_id
+      },
+      facts: {
+        device_type: "database_relational",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Storage
+# ---------------------------------------------------------------------------
 
 oracle.oci.oci_volume:
   query: >-
@@ -300,7 +477,23 @@ oracle.oci.oci_volume:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "storage_node",
+        device_type: "block_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_volume_backup:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_volume_backup:" + .id),
+      canonical_facts: {
+        module: "oci_volume_backup",
+        volume_backup_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "archive_storage",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -317,7 +510,24 @@ oracle.oci.oci_bucket:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "storage_array",
+        device_type: "object_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_object:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_object:" + .namespace_name + "/" + .bucket_name + "/" + .name),
+      canonical_facts: {
+        module: "oci_object",
+        namespace: .namespace_name,
+        bucket_name: .bucket_name,
+        object_name: .name
+      },
+      facts: {
+        device_type: "object_storage",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -333,7 +543,107 @@ oracle.oci.oci_file_system:
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "storage_array",
+        device_type: "file_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_mount_target:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_mount_target:" + .id),
+      canonical_facts: {
+        module: "oci_mount_target",
+        mount_target_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "file_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_export:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_export:" + .id),
+      canonical_facts: {
+        module: "oci_export",
+        export_id: .id,
+        file_system_id: .file_system_id
+      },
+      facts: {
+        device_type: "file_storage",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Security & Monitoring
+# ---------------------------------------------------------------------------
+
+oracle.oci.oci_vault:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_vault:" + .id),
+      canonical_facts: {
+        module: "oci_vault",
+        vault_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "firewall",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_key:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_key:" + .id),
+      canonical_facts: {
+        module: "oci_key",
+        key_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "firewall",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_vault_secret:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_vault_secret:" + .id),
+      canonical_facts: {
+        module: "oci_vault_secret",
+        secret_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "firewall",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+oracle.oci.oci_cloud_guard:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_cloud_guard:" + .id),
+      canonical_facts: {
+        module: "oci_cloud_guard",
+        target_id: .id,
+        compartment_id: .compartment_id
+      },
+      facts: {
+        device_type: "firewall",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }
@@ -355,17 +665,36 @@ oracle.oci.oci_alarm:
       }
     }
 
-oracle.oci.oci_cloud_guard:
+oracle.oci.oci_notification_topic:
   query: >-
     .resource | select(. != null) | {
-      name: ("oci_cloud_guard:" + .id),
+      name: ("oci_notification_topic:" + .topic_id),
       canonical_facts: {
-        module: "oci_cloud_guard",
-        target_id: .id,
+        module: "oci_notification_topic",
+        topic_id: .topic_id,
         compartment_id: .compartment_id
       },
       facts: {
-        device_type: "controller",
+        device_type: "message_queue",
+        platform: "oracle_oci",
+        infra_type: "PublicCloudOCI"
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Identity (organizational structure only)
+# ---------------------------------------------------------------------------
+
+oracle.oci.oci_compartment:
+  query: >-
+    .resource | select(. != null) | {
+      name: ("oci_compartment:" + .id),
+      canonical_facts: {
+        module: "oci_compartment",
+        compartment_id: .id
+      },
+      facts: {
+        device_type: "vpc",
         platform: "oracle_oci",
         infra_type: "PublicCloudOCI"
       }

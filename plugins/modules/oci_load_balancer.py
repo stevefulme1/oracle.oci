@@ -93,9 +93,6 @@ from ansible.module_utils.basic import AnsibleModule
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
-    LIFECYCLE_ACTIVE,
-    LIFECYCLE_DELETED,
-    LIFECYCLE_FAILED,
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 

@@ -165,7 +165,6 @@ try:
     from oci.identity.models import (
         CreateTagDetails,
         UpdateTagDetails,
-        BaseTagDefinitionValidator,
         DefaultTagDefinitionValidator,
         EnumTagDefinitionValidator,
     )

@@ -156,7 +156,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
-    create_service_client,
     get_oci_config,
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (

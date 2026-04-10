@@ -85,7 +85,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
