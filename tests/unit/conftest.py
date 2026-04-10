@@ -3,9 +3,20 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+import os
+import sys
 from unittest.mock import MagicMock
 
 import pytest
+
+# When the collection is checked out as ansible_collections/oracle/oci/,
+# the grandparent of the collection root contains the ansible_collections
+# namespace package.  Add it to sys.path so that imports like
+# ``ansible_collections.oracle.oci.plugins...`` resolve during unit tests.
+_collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+_namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.pardir))
+if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
+    sys.path.insert(0, _namespace_root)
 
 
 @pytest.fixture
