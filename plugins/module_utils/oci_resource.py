@@ -1,13 +1,9 @@
 """Base resource helper for OCI Ansible modules."""
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-
-if TYPE_CHECKING:
-    from ansible.module_utils.basic import AnsibleModule
 
 
 class OciResourceBase:
@@ -24,7 +20,7 @@ class OciResourceBase:
 
     client_class = None
 
-    def __init__(self, module: AnsibleModule):
+    def __init__(self, module):
         self.module = module
         self.client = create_service_client(module, self.client_class)
         self.check_mode = module.check_mode
@@ -77,11 +73,11 @@ class OciResourceBase:
                 return True
         return False
 
-    def _updatable_attributes(self) -> list[str]:
+    def _updatable_attributes(self):
         """Return list of attribute names that can be updated."""
         return []
 
-    def get_tags(self) -> tuple[dict | None, dict | None]:
+    def get_tags(self):
         """Return (freeform_tags, defined_tags) from module params."""
         return (
             self.module.params.get("freeform_tags"),

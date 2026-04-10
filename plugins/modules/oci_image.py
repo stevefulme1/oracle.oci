@@ -5,7 +5,8 @@
 
 """Ansible module for managing OCI custom images."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
