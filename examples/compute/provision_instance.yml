@@ -1,0 +1,144 @@
+---
+# Provision a compute instance with full networking stack.
+#
+# Usage:
+#   ansible-playbook provision_instance.yml \
+#     -e compartment_id=ocid1.compartment.oc1..aaaaaaaaexample \
+#     -e ssh_public_key_file=~/.ssh/id_rsa.pub
+#
+- name: Provision OCI Compute Instance
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    # Required -- override on the command line or in a vars file
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaaexample"
+    ssh_public_key_file: "~/.ssh/id_rsa.pub"
+
+    # Defaults -- safe to customize
+    region: "us-ashburn-1"
+    availability_domain: "Uxas:US-ASHBURN-AD-1"
+    vcn_name: "ansible-vcn"
+    vcn_cidr: "10.0.0.0/16"
+    subnet_name: "ansible-public-subnet"
+    subnet_cidr: "10.0.1.0/24"
+    instance_name: "ansible-instance"
+    instance_shape: "VM.Standard.E4.Flex"
+    instance_ocpus: 1
+    instance_memory_gb: 16
+    image_id: "ocid1.image.oc1.iad.aaaaaaaaexample"  # Oracle Linux 8
+
+  tasks:
+    # ---- Networking ----
+
+    - name: Create VCN
+      oracle.oci.oci_vcn:
+        compartment_id: "{{ compartment_id }}"
+        display_name: "{{ vcn_name }}"
+        cidr_blocks:
+          - "{{ vcn_cidr }}"
+        dns_label: "ansiblevcn"
+        region: "{{ region }}"
+        state: present
+      register: vcn
+
+    - name: Create internet gateway
+      oracle.oci.oci_internet_gateway:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-igw"
+        is_enabled: true
+        region: "{{ region }}"
+        state: present
+      register: igw
+
+    - name: Create route table with internet route
+      oracle.oci.oci_route_table:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-public-rt"
+        route_rules:
+          - destination: "0.0.0.0/0"
+            destination_type: CIDR_BLOCK
+            network_entity_id: "{{ igw.internet_gateway.id }}"
+        region: "{{ region }}"
+        state: present
+      register: route_table
+
+    - name: Create security list allowing SSH and ICMP
+      oracle.oci.oci_security_list:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-public-sl"
+        ingress_security_rules:
+          - source: "0.0.0.0/0"
+            protocol: "6"   # TCP
+            tcp_options:
+              destination_port_range:
+                min: 22
+                max: 22
+          - source: "0.0.0.0/0"
+            protocol: "1"   # ICMP
+            icmp_options:
+              type: 3
+              code: 4
+        egress_security_rules:
+          - destination: "0.0.0.0/0"
+            protocol: "all"
+        region: "{{ region }}"
+        state: present
+      register: security_list
+
+    - name: Create public subnet
+      oracle.oci.oci_subnet:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ subnet_name }}"
+        cidr_block: "{{ subnet_cidr }}"
+        route_table_id: "{{ route_table.route_table.id }}"
+        security_list_ids:
+          - "{{ security_list.security_list.id }}"
+        dns_label: "pubsubnet"
+        prohibit_public_ip_on_vnic: false
+        availability_domain: "{{ availability_domain }}"
+        region: "{{ region }}"
+        state: present
+      register: subnet
+
+    # ---- Compute ----
+
+    - name: Read SSH public key
+      ansible.builtin.set_fact:
+        ssh_public_key: "{{ lookup('file', ssh_public_key_file) }}"
+
+    - name: Launch compute instance
+      oracle.oci.oci_instance:
+        compartment_id: "{{ compartment_id }}"
+        availability_domain: "{{ availability_domain }}"
+        display_name: "{{ instance_name }}"
+        shape: "{{ instance_shape }}"
+        shape_config:
+          ocpus: "{{ instance_ocpus }}"
+          memory_in_gbs: "{{ instance_memory_gb }}"
+        source_details:
+          source_type: image
+          image_id: "{{ image_id }}"
+        create_vnic_details:
+          subnet_id: "{{ subnet.subnet.id }}"
+          assign_public_ip: true
+        metadata:
+          ssh_authorized_keys: "{{ ssh_public_key }}"
+        freeform_tags:
+          ManagedBy: ansible
+          Project: demo
+        region: "{{ region }}"
+        state: present
+      register: instance
+
+    - name: Show instance details
+      ansible.builtin.debug:
+        msg: >-
+          Instance {{ instance.instance.display_name }}
+          ({{ instance.instance.id }}) is
+          {{ instance.instance.lifecycle_state }}.
