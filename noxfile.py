@@ -22,6 +22,17 @@ def lint(session):
 def unit(session):
     """Run unit tests with pytest."""
     session.install("pytest", "pytest-cov", "ansible-core>=2.16", "oci")
+
+    # When checked out as ansible_collections/oracle/oci/, the workspace
+    # root (three levels up) must be on PYTHONPATH so that imports like
+    # ``ansible_collections.oracle.oci.plugins...`` resolve.
+    import os
+    cwd = os.path.abspath(".")
+    namespace_root = os.path.abspath(os.path.join(cwd, os.pardir, os.pardir, os.pardir))
+    env = {}
+    if os.path.isdir(os.path.join(namespace_root, "ansible_collections")):
+        env["PYTHONPATH"] = namespace_root
+
     session.run(
         "pytest", "tests/unit/",
         "-v",
@@ -29,6 +40,7 @@ def unit(session):
         "--cov=plugins",
         "--cov-report=term-missing",
         *session.posargs,
+        env=env,
     )
 
 
