@@ -26,6 +26,11 @@
 
 - name: Create same instance again (idempotency check)
   oracle.oci.oci_instance:
+    compartment_id: "{{ oci_instance_compartment_id }}"
+    availability_domain: "{{ oci_instance_availability_domain }}"
+    shape: "{{ oci_instance_shape }}"
+    image_id: "{{ oci_instance_image_id }}"
+    subnet_id: "{{ oci_instance_subnet_id }}"
     instance_id: "{{ test_instance_id }}"
     display_name: "{{ oci_instance_display_name }}"
     state: present
@@ -38,6 +43,11 @@
 
 - name: Update instance display_name
   oracle.oci.oci_instance:
+    compartment_id: "{{ oci_instance_compartment_id }}"
+    availability_domain: "{{ oci_instance_availability_domain }}"
+    shape: "{{ oci_instance_shape }}"
+    image_id: "{{ oci_instance_image_id }}"
+    subnet_id: "{{ oci_instance_subnet_id }}"
     instance_id: "{{ test_instance_id }}"
     display_name: "{{ oci_instance_updated_display_name }}"
     state: present
