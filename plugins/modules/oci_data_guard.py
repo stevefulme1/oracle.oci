@@ -79,7 +79,6 @@ options:
             - The admin password of the primary database in the Data Guard association.
             - Required when creating a Data Guard association.
         type: str
-        no_log: true
     state:
         description:
             - The desired state of the Data Guard association.

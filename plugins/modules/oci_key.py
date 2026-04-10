@@ -330,6 +330,7 @@ def run_module():
         display_name=dict(type="str"),
         key_shape=dict(
             type="dict",
+            no_log=False,
             options=dict(
                 algorithm=dict(type="str", choices=["AES", "RSA", "ECDSA"], required=True),
                 length=dict(type="int", required=True),
