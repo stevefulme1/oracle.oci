@@ -1,0 +1,99 @@
+---
+# Provision an Autonomous Database (ATP), download the wallet, and create
+# an IAM policy granting a group access to the database.
+#
+# Usage:
+#   ansible-playbook provision_adb.yml \
+#     -e compartment_id=ocid1.compartment.oc1..aaaaaaaaexample \
+#     -e admin_password='S3cureP@ss!' \
+#     -e wallet_password='W@lletP@ss1'
+#
+- name: Provision Autonomous Database
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    # Required
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaaexample"
+    admin_password: "CHANGE_ME"
+    wallet_password: "CHANGE_ME"
+
+    # Defaults
+    region: "us-ashburn-1"
+    db_name: "ansibleatp"
+    display_name: "ansible-atp"
+    db_workload: "OLTP"           # OLTP = ATP, DW = ADW
+    cpu_core_count: 1
+    data_storage_size_in_tbs: 1
+    is_auto_scaling_enabled: true
+    license_model: "LICENSE_INCLUDED"  # or BRING_YOUR_OWN_LICENSE
+    wallet_dir: "/tmp/adb_wallet"
+    iam_group_name: "ADB-Users"
+
+  tasks:
+    - name: Create Autonomous Database
+      oracle.oci.oci_autonomous_database:
+        compartment_id: "{{ compartment_id }}"
+        db_name: "{{ db_name }}"
+        display_name: "{{ display_name }}"
+        admin_password: "{{ admin_password }}"
+        cpu_core_count: "{{ cpu_core_count }}"
+        data_storage_size_in_tbs: "{{ data_storage_size_in_tbs }}"
+        db_workload: "{{ db_workload }}"
+        is_auto_scaling_enabled: "{{ is_auto_scaling_enabled }}"
+        license_model: "{{ license_model }}"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+      register: adb
+
+    - name: Display ADB connection strings
+      ansible.builtin.debug:
+        msg: >-
+          ADB {{ adb.autonomous_database.display_name }} is
+          {{ adb.autonomous_database.lifecycle_state }}.
+          Connect via:
+          {{ adb.autonomous_database.connection_strings.all_connection_strings | default({}) }}
+
+    - name: Ensure wallet directory exists
+      ansible.builtin.file:
+        path: "{{ wallet_dir }}"
+        state: directory
+        mode: "0700"
+
+    - name: Download ADB wallet
+      oracle.oci.oci_autonomous_database:
+        autonomous_database_id: "{{ adb.autonomous_database.id }}"
+        wallet_password: "{{ wallet_password }}"
+        wallet_file: "{{ wallet_dir }}/wallet_{{ db_name }}.zip"
+        region: "{{ region }}"
+        action: generate_wallet
+      register: wallet
+
+    - name: Show wallet location
+      ansible.builtin.debug:
+        msg: "Wallet saved to {{ wallet_dir }}/wallet_{{ db_name }}.zip"
+
+    - name: Create IAM policy for ADB access
+      oracle.oci.oci_policy:
+        compartment_id: "{{ compartment_id }}"
+        name: "adb-{{ db_name }}-policy"
+        description: "Allow {{ iam_group_name }} to manage ADB {{ display_name }}"
+        statements:
+          - >-
+            Allow group {{ iam_group_name }}
+            to manage autonomous-database-family
+            in compartment id {{ compartment_id }}
+          - >-
+            Allow group {{ iam_group_name }}
+            to use virtual-network-family
+            in compartment id {{ compartment_id }}
+        region: "{{ region }}"
+        state: present
+      register: policy
+
+    - name: Show policy
+      ansible.builtin.debug:
+        var: policy.policy.statements

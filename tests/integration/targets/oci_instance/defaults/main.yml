@@ -1,0 +1,11 @@
+---
+oci_instance_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+oci_instance_availability_domain: "{{ lookup('env', 'OCI_AVAILABILITY_DOMAIN') | default('Uocm:PHX-AD-1', true) }}"
+oci_instance_shape: "VM.Standard.E4.Flex"
+oci_instance_image_id: "{{ lookup('env', 'OCI_IMAGE_ID') }}"
+oci_instance_subnet_id: "{{ lookup('env', 'OCI_SUBNET_ID') }}"
+oci_instance_display_name: "ansible-integration-test-instance"
+oci_instance_updated_display_name: "ansible-integration-test-instance-updated"
+oci_instance_shape_config:
+  ocpus: 1
+  memory_in_gbs: 8

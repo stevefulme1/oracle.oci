@@ -1,0 +1,103 @@
+---
+# Provision an OKE (Oracle Kubernetes Engine) cluster with a node pool.
+# Assumes an existing VCN with subnets (see networking/full_network_stack.yml).
+#
+# Usage:
+#   ansible-playbook provision_cluster.yml \
+#     -e compartment_id=ocid1.compartment.oc1..aaaaaaaaexample \
+#     -e vcn_id=ocid1.vcn.oc1.iad.aaaaaaaaexample \
+#     -e k8s_endpoint_subnet_id=ocid1.subnet.oc1.iad.aaaaaaaaexample \
+#     -e node_subnet_id=ocid1.subnet.oc1.iad.aaaaaaaaexample \
+#     -e service_lb_subnet_id=ocid1.subnet.oc1.iad.aaaaaaaaexample
+#
+- name: Provision OKE Cluster
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    # Required -- provide via -e or vars file
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaaexample"
+    vcn_id: "ocid1.vcn.oc1.iad.aaaaaaaaexample"
+    k8s_endpoint_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaENDPOINT"
+    node_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaWORKER"
+    service_lb_subnet_id: "ocid1.subnet.oc1.iad.aaaaaaaaSVCLB"
+
+    # Defaults
+    region: "us-ashburn-1"
+    availability_domain: "Uxas:US-ASHBURN-AD-1"
+    cluster_name: "ansible-oke"
+    kubernetes_version: "v1.30.1"
+    node_pool_name: "ansible-node-pool"
+    node_shape: "VM.Standard.E4.Flex"
+    node_ocpus: 2
+    node_memory_gb: 32
+    node_count: 3
+    node_image_id: "ocid1.image.oc1.iad.aaaaaaaaexample"  # OKE-optimized image
+    ssh_public_key_file: "~/.ssh/id_rsa.pub"
+
+  tasks:
+    - name: Create OKE cluster
+      oracle.oci.oci_oke_cluster:
+        compartment_id: "{{ compartment_id }}"
+        name: "{{ cluster_name }}"
+        vcn_id: "{{ vcn_id }}"
+        kubernetes_version: "{{ kubernetes_version }}"
+        endpoint_config:
+          subnet_id: "{{ k8s_endpoint_subnet_id }}"
+          is_public_ip_enabled: true
+        options:
+          service_lb_subnet_ids:
+            - "{{ service_lb_subnet_id }}"
+          kubernetes_network_config:
+            pods_cidr: "10.244.0.0/16"
+            services_cidr: "10.96.0.0/16"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+      register: cluster
+
+    - name: Display cluster status
+      ansible.builtin.debug:
+        msg: >-
+          Cluster {{ cluster.cluster.name }}
+          ({{ cluster.cluster.id }}) is
+          {{ cluster.cluster.lifecycle_state }}.
+
+    - name: Read SSH public key
+      ansible.builtin.set_fact:
+        ssh_public_key: "{{ lookup('file', ssh_public_key_file) }}"
+
+    - name: Create node pool
+      oracle.oci.oci_oke_node_pool:
+        compartment_id: "{{ compartment_id }}"
+        cluster_id: "{{ cluster.cluster.id }}"
+        name: "{{ node_pool_name }}"
+        kubernetes_version: "{{ kubernetes_version }}"
+        node_shape: "{{ node_shape }}"
+        node_shape_config:
+          ocpus: "{{ node_ocpus }}"
+          memory_in_gbs: "{{ node_memory_gb }}"
+        node_source_details:
+          source_type: IMAGE
+          image_id: "{{ node_image_id }}"
+        node_config_details:
+          size: "{{ node_count }}"
+          placement_configs:
+            - availability_domain: "{{ availability_domain }}"
+              subnet_id: "{{ node_subnet_id }}"
+        ssh_public_key: "{{ ssh_public_key }}"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+      register: node_pool
+
+    - name: Display node pool summary
+      ansible.builtin.debug:
+        msg:
+          - "Cluster:   {{ cluster.cluster.name }} ({{ cluster.cluster.id }})"
+          - "Node Pool: {{ node_pool.node_pool.name }} ({{ node_pool.node_pool.id }})"
+          - "Nodes:     {{ node_count }}"
+          - "Shape:     {{ node_shape }} ({{ node_ocpus }} OCPUs, {{ node_memory_gb }} GB)"

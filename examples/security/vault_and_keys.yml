@@ -1,0 +1,97 @@
+---
+# Create a Vault, an AES encryption key, and store a secret.
+#
+# Usage:
+#   ansible-playbook vault_and_keys.yml \
+#     -e compartment_id=ocid1.compartment.oc1..aaaaaaaaexample \
+#     -e secret_value='my-database-password'
+#
+- name: Provision Vault, Key, and Secret
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    # Required
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaaexample"
+    secret_value: "CHANGE_ME"
+
+    # Defaults
+    region: "us-ashburn-1"
+    vault_name: "ansible-vault"
+    vault_type: "DEFAULT"             # DEFAULT or VIRTUAL_PRIVATE
+    key_name: "ansible-master-key"
+    key_algorithm: "AES"
+    key_length: 32                    # 16, 24, or 32 bytes
+    key_protection_mode: "HSM"        # HSM or SOFTWARE
+    secret_name: "db-admin-password"
+
+  tasks:
+    # ------------------------------------------------------------ Vault
+    - name: Create vault
+      oracle.oci.oci_vault:
+        compartment_id: "{{ compartment_id }}"
+        display_name: "{{ vault_name }}"
+        vault_type: "{{ vault_type }}"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+      register: vault
+
+    - name: Display vault details
+      ansible.builtin.debug:
+        msg: >-
+          Vault {{ vault.vault.display_name }}
+          ({{ vault.vault.id }}) --
+          Management endpoint: {{ vault.vault.management_endpoint }}
+
+    # -------------------------------------------------------------- Key
+    - name: Create encryption key
+      oracle.oci.oci_key:
+        compartment_id: "{{ compartment_id }}"
+        display_name: "{{ key_name }}"
+        key_shape:
+          algorithm: "{{ key_algorithm }}"
+          length: "{{ key_length }}"
+        protection_mode: "{{ key_protection_mode }}"
+        vault_id: "{{ vault.vault.id }}"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+      register: key
+
+    - name: Display key details
+      ansible.builtin.debug:
+        msg: >-
+          Key {{ key.key.display_name }}
+          ({{ key.key.id }}) is {{ key.key.lifecycle_state }}.
+
+    # ----------------------------------------------------------- Secret
+    - name: Encode secret value as base64
+      ansible.builtin.set_fact:
+        secret_base64: "{{ secret_value | b64encode }}"
+
+    - name: Store secret in vault
+      oracle.oci.oci_vault:
+        compartment_id: "{{ compartment_id }}"
+        vault_id: "{{ vault.vault.id }}"
+        secret_name: "{{ secret_name }}"
+        key_id: "{{ key.key.id }}"
+        secret_content:
+          content_type: BASE64
+          content: "{{ secret_base64 }}"
+        freeform_tags:
+          ManagedBy: ansible
+        region: "{{ region }}"
+        state: present
+        action: create_secret
+      register: secret
+
+    - name: Display summary
+      ansible.builtin.debug:
+        msg:
+          - "Vault:  {{ vault.vault.display_name }} ({{ vault.vault.id }})"
+          - "Key:    {{ key.key.display_name }} ({{ key.key.id }})"
+          - "Secret: {{ secret_name }}"

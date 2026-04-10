@@ -1,0 +1,64 @@
+---
+# OCI Dynamic Inventory Configuration
+#
+# File must end in .oci.yml or .oci.yaml for Ansible to detect the plugin.
+#
+# Usage:
+#   ansible-inventory -i oracle.oci.yml --list
+#   ansible-playbook -i oracle.oci.yml site.yml
+#
+plugin: oracle.oci.oci_inventory
+
+# Authentication -- defaults to api_key using ~/.oci/config [DEFAULT].
+# Uncomment to override:
+# auth_type: instance_principal
+# config_file: ~/.oci/config
+# config_profile: DEFAULT
+
+# Regions to scan
+regions:
+  - us-ashburn-1
+  - us-phoenix-1
+
+# Compartments to scan
+compartments:
+  - compartment_ocid: ocid1.compartment.oc1..aaaaaaaaexample
+    fetch_hosts_from_subcompartments: true
+
+# Only return running instances
+filters:
+  lifecycle_state: RUNNING
+  # Uncomment to filter by tags:
+  # freeform_tags:
+  #   Environment: production
+  #   ManagedBy: ansible
+  # defined_tags:
+  #   Operations:
+  #     Team: platform-eng
+
+# How to set ansible_host
+hostname_format: private_ip    # private_ip | public_ip | display_name
+
+# Grouping
+keyed_groups:
+  - key: region
+    prefix: region
+    separator: "_"
+  - key: availability_domain
+    prefix: ad
+    separator: "_"
+  - key: shape
+    prefix: shape
+    separator: "_"
+  - key: freeform_tags.Environment
+    prefix: env
+    separator: "_"
+  - key: freeform_tags.ManagedBy
+    prefix: managed_by
+    separator: "_"
+
+# Caching -- reduce API calls during repeated runs
+cache: true
+cache_plugin: jsonfile
+cache_connection: /tmp/oci_inventory_cache
+cache_timeout: 3600

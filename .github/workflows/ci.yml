@@ -1,0 +1,120 @@
+---
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NAMESPACE: oracle
+  COLLECTION: oci
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lint tools
+        run: pip install yamllint ansible-lint flake8
+
+      - name: Run yamllint
+        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+        run: yamllint -c .yamllint .
+
+      - name: Run flake8
+        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+        run: flake8 plugins/ --max-line-length=120 --ignore=E402,W503
+
+      - name: Install ansible-core
+        run: pip install ansible-core>=2.15
+
+      - name: Run ansible-lint
+        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+        run: ansible-lint
+
+  sanity:
+    name: Sanity (Python ${{ matrix.python }} / Ansible ${{ matrix.ansible }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ansible:
+          - "2.15"
+          - "2.16"
+          - "2.17"
+        python:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install ansible-core ${{ matrix.ansible }}
+        run: pip install "ansible-core~=${{ matrix.ansible }}.0"
+
+      - name: Run sanity tests
+        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+        run: >-
+          ansible-test sanity
+          --python ${{ matrix.python }}
+          --color yes
+          -v
+
+  unit:
+    name: Unit (Python ${{ matrix.python }} / Ansible ${{ matrix.ansible }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ansible:
+          - "2.15"
+          - "2.16"
+          - "2.17"
+        python:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install ansible-core ${{ matrix.ansible }}
+        run: pip install "ansible-core~=${{ matrix.ansible }}.0"
+
+      - name: Install test dependencies
+        run: pip install pytest pytest-cov oci
+
+      - name: Run unit tests
+        working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
+        run: >-
+          ansible-test units
+          --python ${{ matrix.python }}
+          --color yes
+          -v

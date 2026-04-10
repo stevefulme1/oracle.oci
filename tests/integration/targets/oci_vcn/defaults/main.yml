@@ -1,0 +1,7 @@
+---
+oci_vcn_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+oci_vcn_cidr_blocks:
+  - "10.100.0.0/16"
+oci_vcn_display_name: "ansible-integration-test-vcn"
+oci_vcn_updated_display_name: "ansible-integration-test-vcn-updated"
+oci_vcn_dns_label: "ansibletest"

@@ -1,0 +1,202 @@
+---
+# Build a complete OCI network stack:
+#   - VCN
+#   - Internet Gateway + public route table
+#   - NAT Gateway + private route table
+#   - Service Gateway
+#   - Public Subnet
+#   - Private Subnet
+#   - Security lists for each subnet
+#
+# Usage:
+#   ansible-playbook full_network_stack.yml \
+#     -e compartment_id=ocid1.compartment.oc1..aaaaaaaaexample
+#
+- name: Provision Full Network Stack
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    compartment_id: "ocid1.compartment.oc1..aaaaaaaaexample"
+    region: "us-ashburn-1"
+    availability_domain: "Uxas:US-ASHBURN-AD-1"
+
+    vcn_name: "ansible-network"
+    vcn_cidr: "10.0.0.0/16"
+    public_subnet_cidr: "10.0.1.0/24"
+    private_subnet_cidr: "10.0.2.0/24"
+
+  tasks:
+    # ------------------------------------------------------------------ VCN
+    - name: Create VCN
+      oracle.oci.oci_vcn:
+        compartment_id: "{{ compartment_id }}"
+        display_name: "{{ vcn_name }}"
+        cidr_blocks:
+          - "{{ vcn_cidr }}"
+        dns_label: "ansiblenet"
+        region: "{{ region }}"
+        state: present
+      register: vcn
+
+    # --------------------------------------------------------- Gateways
+    - name: Create Internet Gateway
+      oracle.oci.oci_internet_gateway:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-igw"
+        is_enabled: true
+        region: "{{ region }}"
+        state: present
+      register: igw
+
+    - name: Create NAT Gateway
+      oracle.oci.oci_nat_gateway:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-natgw"
+        region: "{{ region }}"
+        state: present
+      register: natgw
+
+    - name: Create Service Gateway
+      oracle.oci.oci_service_gateway:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-sgw"
+        services:
+          - service_id: "ocid1.service.oc1.iad.aaaaaaaaexample"  # All IAD Services in Oracle Services Network
+            service_name: "All IAD Services In Oracle Services Network"
+        region: "{{ region }}"
+        state: present
+      register: sgw
+
+    # -------------------------------------------------------- Route Tables
+    - name: Create public route table
+      oracle.oci.oci_route_table:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-public-rt"
+        route_rules:
+          - destination: "0.0.0.0/0"
+            destination_type: CIDR_BLOCK
+            network_entity_id: "{{ igw.internet_gateway.id }}"
+        region: "{{ region }}"
+        state: present
+      register: public_rt
+
+    - name: Create private route table
+      oracle.oci.oci_route_table:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-private-rt"
+        route_rules:
+          - destination: "0.0.0.0/0"
+            destination_type: CIDR_BLOCK
+            network_entity_id: "{{ natgw.nat_gateway.id }}"
+          - destination: "all-iad-services-in-oracle-services-network"
+            destination_type: SERVICE_CIDR_BLOCK
+            network_entity_id: "{{ sgw.service_gateway.id }}"
+        region: "{{ region }}"
+        state: present
+      register: private_rt
+
+    # ----------------------------------------------------- Security Lists
+    - name: Create public security list
+      oracle.oci.oci_security_list:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-public-sl"
+        ingress_security_rules:
+          - source: "0.0.0.0/0"
+            protocol: "6"
+            tcp_options:
+              destination_port_range:
+                min: 22
+                max: 22
+          - source: "0.0.0.0/0"
+            protocol: "6"
+            tcp_options:
+              destination_port_range:
+                min: 443
+                max: 443
+          - source: "{{ vcn_cidr }}"
+            protocol: "1"
+            icmp_options:
+              type: 3
+              code: 4
+        egress_security_rules:
+          - destination: "0.0.0.0/0"
+            protocol: "all"
+        region: "{{ region }}"
+        state: present
+      register: public_sl
+
+    - name: Create private security list
+      oracle.oci.oci_security_list:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-private-sl"
+        ingress_security_rules:
+          - source: "{{ vcn_cidr }}"
+            protocol: "6"
+            tcp_options:
+              destination_port_range:
+                min: 22
+                max: 22
+          - source: "{{ vcn_cidr }}"
+            protocol: "1"
+            icmp_options:
+              type: 3
+              code: 4
+        egress_security_rules:
+          - destination: "0.0.0.0/0"
+            protocol: "all"
+        region: "{{ region }}"
+        state: present
+      register: private_sl
+
+    # ----------------------------------------------------------- Subnets
+    - name: Create public subnet
+      oracle.oci.oci_subnet:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-public-subnet"
+        cidr_block: "{{ public_subnet_cidr }}"
+        route_table_id: "{{ public_rt.route_table.id }}"
+        security_list_ids:
+          - "{{ public_sl.security_list.id }}"
+        dns_label: "pubsub"
+        prohibit_public_ip_on_vnic: false
+        availability_domain: "{{ availability_domain }}"
+        region: "{{ region }}"
+        state: present
+      register: public_subnet
+
+    - name: Create private subnet
+      oracle.oci.oci_subnet:
+        compartment_id: "{{ compartment_id }}"
+        vcn_id: "{{ vcn.vcn.id }}"
+        display_name: "{{ vcn_name }}-private-subnet"
+        cidr_block: "{{ private_subnet_cidr }}"
+        route_table_id: "{{ private_rt.route_table.id }}"
+        security_list_ids:
+          - "{{ private_sl.security_list.id }}"
+        dns_label: "privsub"
+        prohibit_public_ip_on_vnic: true
+        availability_domain: "{{ availability_domain }}"
+        region: "{{ region }}"
+        state: present
+      register: private_subnet
+
+    # ----------------------------------------------------------- Summary
+    - name: Display network summary
+      ansible.builtin.debug:
+        msg:
+          - "VCN:            {{ vcn.vcn.display_name }} ({{ vcn.vcn.id }})"
+          - "Internet GW:    {{ igw.internet_gateway.id }}"
+          - "NAT GW:         {{ natgw.nat_gateway.id }}"
+          - "Service GW:     {{ sgw.service_gateway.id }}"
+          - "Public Subnet:  {{ public_subnet.subnet.id }}"
+          - "Private Subnet: {{ private_subnet.subnet.id }}"
