@@ -5,10 +5,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
-    call_with_retry,
-    wait_for_resource,
-)
 
 if TYPE_CHECKING:
     from ansible.module_utils.basic import AnsibleModule

@@ -191,7 +191,8 @@ def create_resource(client, module):
 def update_resource(client, module, resource):
     """Update an existing group."""
     kwargs = {}
-    if module.params.get("description") is not None and module.params["description"] != getattr(resource, "description", None):
+    if (module.params.get("description") is not None
+            and module.params["description"] != getattr(resource, "description", None)):
         kwargs["description"] = module.params["description"]
 
     freeform_tags = module.params.get("freeform_tags")

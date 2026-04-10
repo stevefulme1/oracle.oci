@@ -166,7 +166,6 @@ data_guard_association:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import oci
     from oci.database import DatabaseClient
     from oci.database.models import (
         CreateDataGuardAssociationWithNewDbSystemDetails,
@@ -187,7 +186,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
 from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,
-    wait_for_resource,
 )
 
 # Data Guard specific lifecycle states

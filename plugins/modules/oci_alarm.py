@@ -331,7 +331,7 @@ def run_module():
         supports_check_mode=True,
         required_if=[
             ("state", "present", ("compartment_id", "display_name", "metric_compartment_id",
-                                   "namespace", "query", "destinations"), True),
+                                  "namespace", "query", "destinations"), True),
         ],
     )
 
@@ -361,7 +361,9 @@ def run_module():
     # state == present
     if alarm is None:
         if not module.params.get("compartment_id") or not module.params.get("display_name"):
-            module.fail_json(msg="compartment_id, display_name, and other required params are needed to create an alarm.")
+            module.fail_json(
+                msg="compartment_id, display_name, and other required params are needed to create an alarm."
+            )
         if module.check_mode:
             module.exit_json(changed=True)
         alarm = create_alarm(module, client)

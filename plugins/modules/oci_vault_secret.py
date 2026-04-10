@@ -149,7 +149,6 @@ try:
         Base64SecretContentDetails,
         CreateSecretDetails,
         ScheduleSecretDeletionDetails,
-        SecretContentDetails,
         UpdateSecretDetails,
     )
     from oci.exceptions import ServiceError
@@ -160,7 +159,6 @@ except ImportError:
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
-    DEAD_STATES,
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (

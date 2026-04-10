@@ -101,7 +101,6 @@ resource:
 from ansible.module_utils.basic import AnsibleModule
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 

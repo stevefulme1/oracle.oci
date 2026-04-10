@@ -177,8 +177,6 @@ resource:
       type: str
 """
 
-import json
-
 from ansible.module_utils.basic import AnsibleModule
 
 from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (

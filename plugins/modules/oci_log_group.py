@@ -110,7 +110,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
     call_with_retry,
-    wait_for_resource,
     wait_for_work_request,
 )
 
@@ -244,7 +243,8 @@ def needs_update(module, log_group):
     """Check if log group needs to be updated."""
     if module.params.get("display_name") and log_group.display_name != module.params["display_name"]:
         return True
-    if module.params.get("description") is not None and getattr(log_group, "description", None) != module.params["description"]:
+    if (module.params.get("description") is not None
+            and getattr(log_group, "description", None) != module.params["description"]):
         return True
     freeform = module.params.get("freeform_tags")
     if freeform is not None and getattr(log_group, "freeform_tags", None) != freeform:

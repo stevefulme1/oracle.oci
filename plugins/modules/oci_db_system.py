@@ -205,7 +205,6 @@ db_system:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    import oci
     from oci.database import DatabaseClient
     from oci.database.models import (
         CreateDbHomeDetails,
@@ -461,7 +460,7 @@ def main():
     # state == present
     if existing is None:
         for req in ("compartment_id", "availability_domain", "shape", "ssh_public_keys",
-                     "subnet_id", "hostname", "db_home"):
+                    "subnet_id", "hostname", "db_home"):
             if not params.get(req):
                 module.fail_json(msg=f"Parameter '{req}' is required to create a DB System.")
         if module.check_mode:

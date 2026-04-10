@@ -93,7 +93,6 @@ from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
-    LIFECYCLE_FAILED,
 )
 from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
 
