@@ -23,6 +23,8 @@
 
 - name: Create same VCN again (idempotency check)
   oracle.oci.oci_vcn:
+    compartment_id: "{{ oci_vcn_compartment_id }}"
+    cidr_blocks: "{{ oci_vcn_cidr_blocks }}"
     vcn_id: "{{ test_vcn_id }}"
     display_name: "{{ oci_vcn_display_name }}"
     state: present
@@ -35,6 +37,8 @@
 
 - name: Update VCN display_name
   oracle.oci.oci_vcn:
+    compartment_id: "{{ oci_vcn_compartment_id }}"
+    cidr_blocks: "{{ oci_vcn_cidr_blocks }}"
     vcn_id: "{{ test_vcn_id }}"
     display_name: "{{ oci_vcn_updated_display_name }}"
     state: present
