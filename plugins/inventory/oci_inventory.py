@@ -106,50 +106,7 @@ requirements:
 
 EXAMPLES = r"""
 # Minimal inventory source (oracle.oci.yml):
----
 plugin: oracle.oci.oci_inventory
-
-# Scoped to two regions and one compartment:
----
-plugin: oracle.oci.oci_inventory
-regions:
-  - us-ashburn-1
-  - eu-frankfurt-1
-compartments:
-  - ocid1.compartment.oc1..aaaaaaaaxyz
-
-# Tag-based filtering (freeform tags):
----
-plugin: oracle.oci.oci_inventory
-filters:
-  freeform:
-    environment: production
-    team: platform
-
-# Keyed groups and compose:
----
-plugin: oracle.oci.oci_inventory
-keyed_groups:
-  - key: oci_region
-    prefix: region
-  - key: oci_shape
-    prefix: shape
-  - key: oci_lifecycle_state | lower
-    prefix: state
-compose:
-  ansible_user: "'opc'"
-  ansible_port: 22
-
-# Instance principal authentication:
----
-plugin: oracle.oci.oci_inventory
-auth_type: instance_principal
-regions:
-  - us-ashburn-1
-fetch_db_hosts: true
-hostname_preference:
-  - private_ip
-  - display_name
 """
 
 import os
