@@ -1,0 +1,32 @@
+---
+namespace: oracle
+name: oci
+version: 1.0.0
+readme: README.md
+authors:
+  - Steve Fulmer <sfulmer@redhat.com>
+description: >-
+  Ansible Collection for Oracle Cloud Infrastructure (OCI).
+  Provides modules for compute, networking, database, IAM, storage,
+  security, observability, and a dynamic inventory plugin.
+license:
+  - GPL-3.0-or-later
+tags:
+  - oracle
+  - oci
+  - cloud
+  - infrastructure
+  - networking
+  - database
+  - iam
+  - storage
+  - security
+dependencies: {}
+repository: https://github.com/stevefulme1/oracle.oci
+documentation: https://github.com/stevefulme1/oracle.oci/blob/main/README.md
+homepage: https://github.com/stevefulme1/oracle.oci
+issues: https://github.com/stevefulme1/oracle.oci/issues
+build_ignore:
+  - .git
+  - .github
+  - tests/output
