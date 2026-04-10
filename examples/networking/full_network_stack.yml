@@ -66,8 +66,7 @@
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-sgw"
         services:
-          - service_id: "ocid1.service.oc1.iad.aaaaaaaaexample"  # All IAD Services in Oracle Services Network
-            service_name: "All IAD Services In Oracle Services Network"
+          - service_id: "ocid1.service.oc1.iad.aaaaaaaaexample"
         region: "{{ region }}"
         state: present
       register: sgw
