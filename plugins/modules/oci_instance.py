@@ -95,6 +95,11 @@ EXAMPLES = r"""
 
 - name: Update instance display name
   oracle.oci.oci_instance:
+    compartment_id: "ocid1.compartment.oc1..example"
+    availability_domain: "Uocm:PHX-AD-1"
+    shape: "VM.Standard.E4.Flex"
+    image_id: "ocid1.image.oc1.phx.example"
+    subnet_id: "ocid1.subnet.oc1.phx.example"
     instance_id: "ocid1.instance.oc1.phx.example"
     display_name: "renamed-instance"
     state: present

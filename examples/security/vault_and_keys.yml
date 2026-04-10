@@ -51,11 +51,11 @@
       oracle.oci.oci_key:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ key_name }}"
+        management_endpoint: "{{ vault.resource.management_endpoint }}"
         key_shape:
           algorithm: "{{ key_algorithm }}"
           length: "{{ key_length }}"
         protection_mode: "{{ key_protection_mode }}"
-        vault_id: "{{ vault.vault.id }}"
         freeform_tags:
           ManagedBy: ansible
         region: "{{ region }}"
@@ -74,7 +74,7 @@
         secret_base64: "{{ secret_value | b64encode }}"
 
     - name: Store secret in vault
-      oracle.oci.oci_vault:
+      oracle.oci.oci_vault_secret:
         compartment_id: "{{ compartment_id }}"
         vault_id: "{{ vault.vault.id }}"
         secret_name: "{{ secret_name }}"
@@ -86,7 +86,6 @@
           ManagedBy: ansible
         region: "{{ region }}"
         state: present
-        action: create_secret
       register: secret
 
     - name: Display summary
