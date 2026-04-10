@@ -2,13 +2,13 @@
 
 import nox
 
-PYTHON_VERSIONS = ["3.10", "3.11", "3.12", "3.13"]
+PYTHON_VERSIONS = ["3.12", "3.13"]
 
 
 @nox.session(python=PYTHON_VERSIONS)
 def lint(session):
     """Run linting checks."""
-    session.install("yamllint", "flake8", "ansible-lint", "ansible-core>=2.15")
+    session.install("yamllint", "flake8", "ansible-lint", "ansible-core>=2.16")
     session.run("yamllint", "-c", ".yamllint", ".")
     session.run(
         "flake8", "plugins/",
@@ -21,7 +21,7 @@ def lint(session):
 @nox.session(python=PYTHON_VERSIONS)
 def unit(session):
     """Run unit tests with pytest."""
-    session.install("pytest", "pytest-cov", "ansible-core>=2.15", "oci")
+    session.install("pytest", "pytest-cov", "ansible-core>=2.16", "oci")
     session.run(
         "pytest", "tests/unit/",
         "-v",
@@ -35,7 +35,7 @@ def unit(session):
 @nox.session(python=PYTHON_VERSIONS)
 def sanity(session):
     """Run ansible-test sanity checks."""
-    session.install("ansible-core>=2.15")
+    session.install("ansible-core>=2.16")
     session.run(
         "ansible-test", "sanity",
         "--python", session.python,
@@ -47,7 +47,7 @@ def sanity(session):
 @nox.session(python=PYTHON_VERSIONS)
 def import_check(session):
     """Verify all modules can be imported without errors."""
-    session.install("ansible-core>=2.15", "oci")
+    session.install("ansible-core>=2.16", "oci")
     import glob
     modules = glob.glob("plugins/modules/*.py")
     for module in sorted(modules):
@@ -57,7 +57,7 @@ def import_check(session):
 @nox.session(python=["3.12"])
 def docs(session):
     """Validate module documentation."""
-    session.install("ansible-core>=2.15", "oci")
+    session.install("ansible-core>=2.16", "oci")
     session.run(
         "ansible-test", "sanity",
         "--test", "validate-modules",
