@@ -1,6 +1,7 @@
 """Unit tests for oracle.oci.oci_instance module."""
 
-from __future__ import annotations
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
 
 from unittest.mock import MagicMock, patch
 
@@ -76,7 +77,11 @@ class TestOciInstanceArgValidation:
         with pytest.raises(SystemExit):
             with patch.object(basic, "_ANSIBLE_ARGS", None):
                 from ansible_collections.oracle.oci.plugins.modules.oci_instance import main
-                args_json = '{"ANSIBLE_MODULE_ARGS": ' + str(module_args).replace("'", '"').replace("None", "null").replace("True", "true").replace("False", "false") + '}'
+                args_str = str(module_args).replace("'", '"')
+                args_str = args_str.replace("None", "null")
+                args_str = args_str.replace("True", "true")
+                args_str = args_str.replace("False", "false")
+                args_json = '{"ANSIBLE_MODULE_ARGS": ' + args_str + '}'
                 with patch.object(basic, "_ANSIBLE_ARGS", args_json.encode()):
                     main()
 
@@ -123,7 +128,9 @@ class TestOciInstanceCreate:
     @patch(f"{WAIT_PATH}.wait_for_resource")
     @patch(f"{WAIT_PATH}.call_with_retry")
     @patch(f"{AUTH_PATH}.create_service_client")
-    def test_create_instance_with_shape_config(self, mock_create_client, mock_call_retry, mock_wait, instance_create_args):
+    def test_create_instance_with_shape_config(
+        self, mock_create_client, mock_call_retry, mock_wait, instance_create_args,
+    ):
         """Creating a flex instance passes shape_config details."""
         mock_client = MagicMock()
         mock_create_client.return_value = mock_client

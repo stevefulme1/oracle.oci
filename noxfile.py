@@ -26,7 +26,7 @@ def unit(session):
         "pytest", "tests/unit/",
         "-v",
         "--tb=short",
-        f"--cov=plugins",
+        "--cov=plugins",
         "--cov-report=term-missing",
         *session.posargs,
     )
@@ -35,7 +35,7 @@ def unit(session):
 @nox.session(python=PYTHON_VERSIONS)
 def sanity(session):
     """Run ansible-test sanity checks."""
-    session.install(f"ansible-core>=2.15")
+    session.install("ansible-core>=2.15")
     session.run(
         "ansible-test", "sanity",
         "--python", session.python,
