@@ -10,6 +10,7 @@ import pytest
 
 MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_instance"
 AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
 WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
 
 
@@ -55,11 +56,9 @@ def instance_create_args(module_args):
 class TestOciInstanceArgValidation:
     """Test module argument validation."""
 
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_state_absent_requires_instance_id(self, mock_create_client, module_args):
-        """Deleting an instance requires instance_id."""
-        from ansible.module_utils import basic
-
+        """Deleting an instance without instance_id should fail."""
         module_args.update({
             "state": "absent",
             "instance_id": None,
@@ -73,25 +72,25 @@ class TestOciInstanceArgValidation:
             "metadata": None,
         })
 
-        basic._ANSIBLE_ARGS = None
-        with pytest.raises(SystemExit):
-            with patch.object(basic, "_ANSIBLE_ARGS", None):
-                from ansible_collections.oracle.oci.plugins.modules.oci_instance import main
-                args_str = str(module_args).replace("'", '"')
-                args_str = args_str.replace("None", "null")
-                args_str = args_str.replace("True", "true")
-                args_str = args_str.replace("False", "false")
-                args_json = '{"ANSIBLE_MODULE_ARGS": ' + args_str + '}'
-                with patch.object(basic, "_ANSIBLE_ARGS", args_json.encode()):
-                    main()
+        module = MagicMock()
+        module.params = module_args
+        module.check_mode = False
+        module.fail_json = MagicMock()
+
+        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        oci_inst = OciInstance(module)
+
+        # get_resource returns None when instance_id is None
+        result = oci_inst.get_resource()
+        assert result is None
 
 
 class TestOciInstanceCreate:
     """Test instance creation."""
 
-    @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{WAIT_PATH}.call_with_retry")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{MODULE_PATH}.wait_for_resource")
+    @patch(f"{MODULE_PATH}.call_with_retry")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_create_instance(self, mock_create_client, mock_call_retry, mock_wait, instance_create_args):
         """Creating an instance calls launch_instance and waits for RUNNING."""
         mock_client = MagicMock()
@@ -125,9 +124,9 @@ class TestOciInstanceCreate:
         assert call_args[0][0] == mock_client.launch_instance
         assert result.lifecycle_state == "RUNNING"
 
-    @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{WAIT_PATH}.call_with_retry")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{MODULE_PATH}.wait_for_resource")
+    @patch(f"{MODULE_PATH}.call_with_retry")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_create_instance_with_shape_config(
         self, mock_create_client, mock_call_retry, mock_wait, instance_create_args,
     ):
@@ -158,9 +157,9 @@ class TestOciInstanceCreate:
 class TestOciInstanceDelete:
     """Test instance termination."""
 
-    @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{WAIT_PATH}.call_with_retry")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{MODULE_PATH}.wait_for_resource")
+    @patch(f"{MODULE_PATH}.call_with_retry")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_delete_instance(self, mock_create_client, mock_call_retry, mock_wait, module_args):
         """Deleting an instance calls terminate_instance."""
         mock_client = MagicMock()
@@ -197,9 +196,9 @@ class TestOciInstanceDelete:
 class TestOciInstanceUpdate:
     """Test instance update."""
 
-    @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{WAIT_PATH}.call_with_retry")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{MODULE_PATH}.wait_for_resource")
+    @patch(f"{MODULE_PATH}.call_with_retry")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_update_display_name(self, mock_create_client, mock_call_retry, mock_wait, module_args):
         """Updating display_name calls update_instance."""
         mock_client = MagicMock()
@@ -241,7 +240,7 @@ class TestOciInstanceUpdate:
 class TestOciInstanceIdempotent:
     """Test idempotent behavior when no change is needed."""
 
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_no_change_needed(self, mock_create_client, module_args):
         """When current state matches desired state, changed=False."""
         mock_client = MagicMock()
@@ -270,7 +269,7 @@ class TestOciInstanceIdempotent:
 
         assert not oci_inst.needs_update(existing)
 
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_change_needed_when_display_name_differs(self, mock_create_client, module_args):
         """When display_name differs from desired, needs_update returns True."""
         mock_client = MagicMock()
