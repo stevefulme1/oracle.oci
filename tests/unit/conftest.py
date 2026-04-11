@@ -5,18 +5,108 @@ __metaclass__ = type
 
 import os
 import sys
+import types
 from unittest.mock import MagicMock
 
 import pytest
 
-# When the collection is checked out as ansible_collections/oracle/oci/,
-# the grandparent of the collection root contains the ansible_collections
-# namespace package.  Add it to sys.path so that imports like
-# ``ansible_collections.oracle.oci.plugins...`` resolve during unit tests.
+# ---------------------------------------------------------------------------
+# 1.  Provide a mock ``oci`` SDK if the real one is not installed.
+#     This must happen before any collection code is imported so that
+#     ``try: import oci`` blocks see HAS_OCI_SDK = True.
+# ---------------------------------------------------------------------------
+try:
+    import oci as _real_oci  # noqa: F401
+except ImportError:
+    class _ServiceError(Exception):
+        """Minimal stand-in for oci.exceptions.ServiceError."""
+        def __init__(self, status=None, code=None, message=None, headers=None, **kwargs):
+            self.status = status
+            self.code = code
+            self.message = message
+            self.headers = headers or {}
+            super().__init__(message)
+
+    class _InvalidConfig(Exception):
+        """Stand-in for oci.exceptions.InvalidConfig."""
+
+    # Build the ``oci`` package tree that collection code imports from.
+    _oci = types.ModuleType("oci")
+    _oci.__path__ = []
+    _oci.__package__ = "oci"
+
+    _oci_exceptions = types.ModuleType("oci.exceptions")
+    _oci_exceptions.ServiceError = _ServiceError
+    _oci_exceptions.InvalidConfig = _InvalidConfig
+    _oci.exceptions = _oci_exceptions
+
+    _oci_config = MagicMock()
+    _oci.config = _oci_config
+
+    _oci_auth = types.ModuleType("oci.auth")
+    _oci_auth.__path__ = []
+    _oci_auth_signers = MagicMock()
+    _oci_auth.signers = _oci_auth_signers
+    _oci.auth = _oci_auth
+
+    _oci_core = types.ModuleType("oci.core")
+    _oci_core.__path__ = []
+    _oci_core.ComputeClient = MagicMock
+    _oci_core.VirtualNetworkClient = MagicMock
+    _oci.core = _oci_core
+
+    class _OciModelsModule(types.ModuleType):
+        """Auto-creates simple data classes for any oci.core.models.* access."""
+        def __getattr__(self, name):
+            # Dynamically create a class that stores **kwargs as attributes.
+            cls = type(name, (), {"__init__": lambda self, **kw: self.__dict__.update(kw)})
+            setattr(self, name, cls)
+            return cls
+
+    _oci_core_models = _OciModelsModule("oci.core.models")
+    _oci_core.models = _oci_core_models
+
+    for _name, _mod in [
+        ("oci", _oci),
+        ("oci.exceptions", _oci_exceptions),
+        ("oci.config", _oci_config),
+        ("oci.auth", _oci_auth),
+        ("oci.auth.signers", _oci_auth_signers),
+        ("oci.core", _oci_core),
+        ("oci.core.models", _oci_core_models),
+    ]:
+        sys.modules[_name] = _mod
+
+
+# ---------------------------------------------------------------------------
+# 2.  Set up the ansible_collections.oracle.oci namespace package so that
+#     collection imports work from a standalone checkout.
+# ---------------------------------------------------------------------------
 _collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
+
+# When the repo is checked out inside an ansible_collections/oracle/oci/
+# directory tree, the grandparent already provides the namespace package.
 _namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.pardir))
 if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
     sys.path.insert(0, _namespace_root)
+
+# When the repo is a standalone checkout (e.g. ~/oracle.oci), the namespace
+# package does not exist on disk.  Build it synthetically.
+if "ansible_collections.oracle.oci" not in sys.modules:
+    for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
+        if _pkg_name not in sys.modules:
+            _pkg = types.ModuleType(_pkg_name)
+            _pkg.__path__ = []
+            _pkg.__package__ = _pkg_name
+            sys.modules[_pkg_name] = _pkg
+
+    _oci_mod = types.ModuleType("ansible_collections.oracle.oci")
+    _oci_mod.__path__ = [_collection_root]
+    _oci_mod.__package__ = "ansible_collections.oracle.oci"
+    sys.modules["ansible_collections.oracle.oci"] = _oci_mod
+
+    sys.modules["ansible_collections"].oracle = sys.modules["ansible_collections.oracle"]
+    sys.modules["ansible_collections.oracle"].oci = _oci_mod
 
 
 @pytest.fixture

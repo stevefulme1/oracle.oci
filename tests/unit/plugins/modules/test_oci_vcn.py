@@ -10,6 +10,7 @@ import pytest
 
 MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_vcn"
 AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
 WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
 
 
@@ -51,7 +52,7 @@ class TestOciVcnCreate:
     """Test VCN creation."""
 
     @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_create_vcn(self, mock_create_client, mock_wait, vcn_create_args):
         """Creating a VCN calls create_vcn and waits for AVAILABLE."""
         mock_client = MagicMock()
@@ -81,7 +82,7 @@ class TestOciVcnCreate:
         assert result.lifecycle_state == "AVAILABLE"
 
     @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_create_vcn_with_dns_label(self, mock_create_client, mock_wait, vcn_create_args):
         """DNS label is passed through to CreateVcnDetails."""
         mock_client = MagicMock()
@@ -108,7 +109,7 @@ class TestOciVcnDelete:
     """Test VCN deletion."""
 
     @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_delete_vcn(self, mock_create_client, mock_wait, module_args):
         """Deleting a VCN calls delete_vcn."""
         mock_client = MagicMock()
@@ -135,7 +136,7 @@ class TestOciVcnDelete:
 
         mock_client.delete_vcn.assert_called_once_with(resource.id)
 
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_delete_vcn_already_gone(self, mock_create_client, module_args):
         """When VCN does not exist, get_resource returns None."""
         mock_client = MagicMock()
@@ -169,7 +170,7 @@ class TestOciVcnUpdate:
     """Test VCN update."""
 
     @patch(f"{WAIT_PATH}.wait_for_resource")
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_update_display_name(self, mock_create_client, mock_wait, module_args):
         """Updating display_name calls update_vcn."""
         mock_client = MagicMock()
@@ -200,7 +201,7 @@ class TestOciVcnUpdate:
         assert mock_client.update_vcn.call_args[0][0] == resource.id
         assert result.display_name == "renamed-vcn"
 
-    @patch(f"{AUTH_PATH}.create_service_client")
+    @patch(f"{RESOURCE_PATH}.create_service_client")
     def test_no_update_when_display_name_matches(self, mock_create_client, module_args):
         """needs_update returns False when display_name matches."""
         mock_client = MagicMock()
