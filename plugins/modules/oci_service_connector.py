@@ -44,6 +44,7 @@ options:
       log_sources:
         description: List of log source configurations.
         type: list
+        elements: dict
   target:
     description:
       - The target configuration for the service connector.

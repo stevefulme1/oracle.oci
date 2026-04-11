@@ -53,7 +53,6 @@ options:
             - The admin password for the cluster.
             - Required when creating a new instance.
         type: str
-        no_log: true
     nodes:
         description:
             - Node configuration for the BDS instance.
