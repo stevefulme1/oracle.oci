@@ -65,6 +65,7 @@ def create_service_client(module, client_class):
     """Create an OCI service client with the appropriate auth method."""
     if not HAS_OCI_SDK:
         module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
+        return None
 
     auth_type = module.params.get("auth_type", "api_key")
 
