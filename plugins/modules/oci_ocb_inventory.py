@@ -57,7 +57,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -65,14 +65,14 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a Cloud Bridge inventory
-  oracle.oci.oci_ocb_inventory:
+  stevefulme1.oci_cloud.oci_ocb_inventory:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-inventory"
     description: "On-premises inventory"
     state: present
 
 - name: Delete a Cloud Bridge inventory
-  oracle.oci.oci_ocb_inventory:
+  stevefulme1.oci_cloud.oci_ocb_inventory:
     inventory_id: "ocid1.ocbinventory.oc1..example"
     state: absent
 """
@@ -102,13 +102,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

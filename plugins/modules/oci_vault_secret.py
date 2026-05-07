@@ -92,7 +92,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -100,7 +100,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a vault secret
-  oracle.oci.oci_vault_secret:
+  stevefulme1.oci_cloud.oci_vault_secret:
     compartment_id: "ocid1.compartment.oc1..example"
     vault_id: "ocid1.vault.oc1..example"
     key_id: "ocid1.key.oc1..example"
@@ -112,7 +112,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update an existing secret with new content
-  oracle.oci.oci_vault_secret:
+  stevefulme1.oci_cloud.oci_vault_secret:
     secret_id: "ocid1.vaultsecret.oc1..example"
     secret_content:
       content_type: BASE64
@@ -120,7 +120,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete (schedule deletion of) a secret
-  oracle.oci.oci_vault_secret:
+  stevefulme1.oci_cloud.oci_vault_secret:
     secret_id: "ocid1.vaultsecret.oc1..example"
     state: absent
 """
@@ -156,11 +156,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

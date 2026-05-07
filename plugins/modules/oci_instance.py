@@ -74,12 +74,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Launch a compute instance
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     shape: "VM.Standard.E4.Flex"
@@ -94,7 +94,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update instance display name
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     shape: "VM.Standard.E4.Flex"
@@ -105,7 +105,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Terminate a compute instance
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     instance_id: "ocid1.instance.oc1.phx.example"
     state: absent
 """
@@ -126,14 +126,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_RUNNING,
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

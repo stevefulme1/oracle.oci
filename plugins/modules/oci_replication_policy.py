@@ -54,12 +54,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a replication policy
-  oracle.oci.oci_replication_policy:
+  stevefulme1.oci_cloud.oci_replication_policy:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     name: "replicate-to-phoenix"
@@ -68,7 +68,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a replication policy
-  oracle.oci.oci_replication_policy:
+  stevefulme1.oci_cloud.oci_replication_policy:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     replication_policy_id: "example-replication-id"
@@ -100,9 +100,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

@@ -62,12 +62,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a retention rule for 365 days
-  oracle.oci.oci_retention_rule:
+  stevefulme1.oci_cloud.oci_retention_rule:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     display_name: "annual-retention"
@@ -77,7 +77,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a locked retention rule
-  oracle.oci.oci_retention_rule:
+  stevefulme1.oci_cloud.oci_retention_rule:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     display_name: "compliance-lock"
@@ -88,7 +88,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a retention rule
-  oracle.oci.oci_retention_rule:
+  stevefulme1.oci_cloud.oci_retention_rule:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     retention_rule_id: "example-retention-rule-id"
@@ -120,9 +120,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

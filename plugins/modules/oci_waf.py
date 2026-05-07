@@ -55,12 +55,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a Web Application Firewall
-  oracle.oci.oci_waf:
+  stevefulme1.oci_cloud.oci_waf:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-waf"
     web_app_firewall_policy_id: "ocid1.webappfirewallpolicy.oc1..example"
@@ -69,13 +69,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a WAF display name
-  oracle.oci.oci_waf:
+  stevefulme1.oci_cloud.oci_waf:
     web_app_firewall_id: "ocid1.webappfirewall.oc1..example"
     display_name: "renamed-waf"
     state: present
 
 - name: Delete a WAF
-  oracle.oci.oci_waf:
+  stevefulme1.oci_cloud.oci_waf:
     web_app_firewall_id: "ocid1.webappfirewall.oc1..example"
     state: absent
 """
@@ -113,9 +113,9 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

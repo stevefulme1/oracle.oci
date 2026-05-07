@@ -52,12 +52,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a private endpoint
-  oracle.oci.oci_private_endpoint:
+  stevefulme1.oci_cloud.oci_private_endpoint:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-private-endpoint"
     vcn_id: "ocid1.vcn.oc1..example"
@@ -66,13 +66,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a private endpoint
-  oracle.oci.oci_private_endpoint:
+  stevefulme1.oci_cloud.oci_private_endpoint:
     private_endpoint_id: "ocid1.ormpe.oc1..example"
     display_name: "updated-pe"
     state: present
 
 - name: Delete a private endpoint
-  oracle.oci.oci_private_endpoint:
+  stevefulme1.oci_cloud.oci_private_endpoint:
     private_endpoint_id: "ocid1.ormpe.oc1..example"
     state: absent
 """
@@ -93,12 +93,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.resourcemanager import ResourceManagerClient
@@ -129,7 +129,7 @@ class OciPrivateEndpoint(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -152,7 +152,7 @@ class OciPrivateEndpoint(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -177,7 +177,7 @@ class OciPrivateEndpoint(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

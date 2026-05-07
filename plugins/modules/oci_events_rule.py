@@ -93,12 +93,12 @@ options:
       - Defined tags for this resource.
     type: dict
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an event rule for bucket creation
-  oracle.oci.oci_events_rule:
+  stevefulme1.oci_cloud.oci_events_rule:
     compartment_id: ocid1.compartment.oc1..example
     display_name: bucket-creation-alert
     description: Alert when a new bucket is created
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a rule with streaming action
-  oracle.oci.oci_events_rule:
+  stevefulme1.oci_cloud.oci_events_rule:
     compartment_id: ocid1.compartment.oc1..example
     display_name: audit-to-stream
     condition: '{"eventType": ["com.oraclecloud.identitycontrolplane.createuser"]}'
@@ -121,7 +121,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a rule with function invocation
-  oracle.oci.oci_events_rule:
+  stevefulme1.oci_cloud.oci_events_rule:
     compartment_id: ocid1.compartment.oc1..example
     display_name: auto-remediate
     condition: '{"eventType": ["com.oraclecloud.cloudguard.problemdetected"]}'
@@ -131,13 +131,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Disable an event rule
-  oracle.oci.oci_events_rule:
+  stevefulme1.oci_cloud.oci_events_rule:
     rule_id: ocid1.eventrule.oc1..example
     is_enabled: false
     state: present
 
 - name: Delete an event rule
-  oracle.oci.oci_events_rule:
+  stevefulme1.oci_cloud.oci_events_rule:
     rule_id: ocid1.eventrule.oc1..example
     state: absent
 """
@@ -179,13 +179,13 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     create_service_client,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

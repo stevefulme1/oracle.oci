@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the `oracle.oci` Ansible collection will be documented
+All notable changes to the `stevefulme1.oci_cloud` Ansible collection will be documented
 in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),

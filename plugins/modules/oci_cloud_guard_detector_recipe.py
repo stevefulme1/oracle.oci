@@ -55,25 +55,25 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "custom-detector-recipe"
     source_detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     state: present
 
 - name: Update a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     display_name: "renamed-detector-recipe"
     state: present
 
 - name: Delete a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     state: absent
 """
@@ -108,9 +108,9 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

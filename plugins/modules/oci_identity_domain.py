@@ -59,12 +59,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an identity domain
-  oracle.oci.oci_identity_domain:
+  stevefulme1.oci_cloud.oci_identity_domain:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-domain"
     description: "Development identity domain"
@@ -73,14 +73,14 @@ EXAMPLES = r"""
     state: present
 
 - name: Update an identity domain
-  oracle.oci.oci_identity_domain:
+  stevefulme1.oci_cloud.oci_identity_domain:
     domain_id: "ocid1.domain.oc1..example"
     description: "Updated description"
     is_hidden_on_login: true
     state: present
 
 - name: Delete an identity domain
-  oracle.oci.oci_identity_domain:
+  stevefulme1.oci_cloud.oci_identity_domain:
     domain_id: "ocid1.domain.oc1..example"
     state: absent
 """
@@ -121,9 +121,9 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

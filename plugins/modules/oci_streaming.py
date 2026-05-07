@@ -67,7 +67,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -75,7 +75,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a stream
-  oracle.oci.oci_streaming:
+  stevefulme1.oci_cloud.oci_streaming:
     compartment_id: "ocid1.compartment.oc1..example"
     name: "my-stream"
     partitions: 1
@@ -83,7 +83,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a stream
-  oracle.oci.oci_streaming:
+  stevefulme1.oci_cloud.oci_streaming:
     stream_id: "ocid1.stream.oc1..example"
     state: absent
 """
@@ -113,13 +113,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

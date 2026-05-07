@@ -1,5 +1,5 @@
 ==============================
-oracle.oci Release Notes
+stevefulme1.oci_cloud Release Notes
 ==============================
 
 .. contents:: Topics
@@ -175,7 +175,7 @@ v1.0.0
 Release Summary
 ---------------
 
-Initial release of the ``oracle.oci`` Ansible collection with 56 modules
+Initial release of the ``stevefulme1.oci_cloud`` Ansible collection with 56 modules
 and a dynamic inventory plugin for Oracle Cloud Infrastructure.
 
 New Modules

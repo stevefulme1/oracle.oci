@@ -4,10 +4,10 @@
 # File must end in .oci.yml or .oci.yaml for Ansible to detect the plugin.
 #
 # Usage:
-#   ansible-inventory -i oracle.oci.yml --list
-#   ansible-playbook -i oracle.oci.yml site.yml
+#   ansible-inventory -i stevefulme1.oci_cloud.yml --list
+#   ansible-playbook -i stevefulme1.oci_cloud.yml site.yml
 #
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 
 # Authentication -- defaults to api_key using ~/.oci/config [DEFAULT].
 # Uncomment to override:

@@ -72,12 +72,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a volume group
-  oracle.oci.oci_volume_group:
+  stevefulme1.oci_cloud.oci_volume_group:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     display_name: "my-volume-group"
@@ -89,7 +89,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a volume group
-  oracle.oci.oci_volume_group:
+  stevefulme1.oci_cloud.oci_volume_group:
     volume_group_id: "ocid1.volumegroup.oc1..example"
     display_name: "renamed-volume-group"
     volume_ids:
@@ -99,7 +99,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a volume group
-  oracle.oci.oci_volume_group:
+  stevefulme1.oci_cloud.oci_volume_group:
     volume_group_id: "ocid1.volumegroup.oc1..example"
     state: absent
 """
@@ -121,16 +121,16 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     import oci

@@ -1,6 +1,6 @@
 ---
-namespace: oracle
-name: oci
+namespace: stevefulme1
+name: oci_cloud
 version: 1.1.0
 readme: README.md
 authors:

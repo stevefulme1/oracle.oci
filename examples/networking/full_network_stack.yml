@@ -30,7 +30,7 @@
   tasks:
     # ------------------------------------------------------------------ VCN
     - name: Create VCN
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ vcn_name }}"
         cidr_blocks:
@@ -42,7 +42,7 @@
 
     # --------------------------------------------------------- Gateways
     - name: Create Internet Gateway
-      oracle.oci.oci_internet_gateway:
+      stevefulme1.oci_cloud.oci_internet_gateway:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-igw"
@@ -52,7 +52,7 @@
       register: igw
 
     - name: Create NAT Gateway
-      oracle.oci.oci_nat_gateway:
+      stevefulme1.oci_cloud.oci_nat_gateway:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-natgw"
@@ -61,7 +61,7 @@
       register: natgw
 
     - name: Create Service Gateway
-      oracle.oci.oci_service_gateway:
+      stevefulme1.oci_cloud.oci_service_gateway:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-sgw"
@@ -73,7 +73,7 @@
 
     # -------------------------------------------------------- Route Tables
     - name: Create public route table
-      oracle.oci.oci_route_table:
+      stevefulme1.oci_cloud.oci_route_table:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-public-rt"
@@ -86,7 +86,7 @@
       register: public_rt
 
     - name: Create private route table
-      oracle.oci.oci_route_table:
+      stevefulme1.oci_cloud.oci_route_table:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-private-rt"
@@ -103,7 +103,7 @@
 
     # ----------------------------------------------------- Security Lists
     - name: Create public security list
-      oracle.oci.oci_security_list:
+      stevefulme1.oci_cloud.oci_security_list:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-public-sl"
@@ -133,7 +133,7 @@
       register: public_sl
 
     - name: Create private security list
-      oracle.oci.oci_security_list:
+      stevefulme1.oci_cloud.oci_security_list:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-private-sl"
@@ -158,7 +158,7 @@
 
     # ----------------------------------------------------------- Subnets
     - name: Create public subnet
-      oracle.oci.oci_subnet:
+      stevefulme1.oci_cloud.oci_subnet:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-public-subnet"
@@ -174,7 +174,7 @@
       register: public_subnet
 
     - name: Create private subnet
-      oracle.oci.oci_subnet:
+      stevefulme1.oci_cloud.oci_subnet:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-private-subnet"

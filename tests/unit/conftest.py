@@ -79,7 +79,7 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# 2.  Set up the ansible_collections.oracle.oci namespace package so that
+# 2.  Set up the ansible_collections.stevefulme1.oci_cloud namespace package so that
 #     collection imports work from a standalone checkout.
 # ---------------------------------------------------------------------------
 _collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
@@ -90,9 +90,9 @@ _namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.p
 if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
     sys.path.insert(0, _namespace_root)
 
-# When the repo is a standalone checkout (e.g. ~/oracle.oci), the namespace
+# When the repo is a standalone checkout (e.g. ~/stevefulme1.oci_cloud), the namespace
 # package does not exist on disk.  Build it synthetically.
-if "ansible_collections.oracle.oci" not in sys.modules:
+if "ansible_collections.stevefulme1.oci_cloud" not in sys.modules:
     for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
         if _pkg_name not in sys.modules:
             _pkg = types.ModuleType(_pkg_name)
@@ -100,10 +100,10 @@ if "ansible_collections.oracle.oci" not in sys.modules:
             _pkg.__package__ = _pkg_name
             sys.modules[_pkg_name] = _pkg
 
-    _oci_mod = types.ModuleType("ansible_collections.oracle.oci")
+    _oci_mod = types.ModuleType("ansible_collections.stevefulme1.oci_cloud")
     _oci_mod.__path__ = [_collection_root]
-    _oci_mod.__package__ = "ansible_collections.oracle.oci"
-    sys.modules["ansible_collections.oracle.oci"] = _oci_mod
+    _oci_mod.__package__ = "ansible_collections.stevefulme1.oci_cloud"
+    sys.modules["ansible_collections.stevefulme1.oci_cloud"] = _oci_mod
 
     sys.modules["ansible_collections"].oracle = sys.modules["ansible_collections.oracle"]
     sys.modules["ansible_collections.oracle"].oci = _oci_mod

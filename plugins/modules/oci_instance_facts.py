@@ -56,29 +56,29 @@ options:
       - TERMINATING
       - TERMINATED
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: List all instances in a compartment
-  oracle.oci.oci_instance_facts:
+  stevefulme1.oci_cloud.oci_instance_facts:
     compartment_id: "ocid1.compartment.oc1..example"
   register: result
 
 - name: Get a specific instance by ID
-  oracle.oci.oci_instance_facts:
+  stevefulme1.oci_cloud.oci_instance_facts:
     instance_id: "ocid1.instance.oc1.phx.example"
   register: result
 
 - name: List running instances in a specific availability domain
-  oracle.oci.oci_instance_facts:
+  stevefulme1.oci_cloud.oci_instance_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     lifecycle_state: "RUNNING"
   register: result
 
 - name: List instances filtered by display name
-  oracle.oci.oci_instance_facts:
+  stevefulme1.oci_cloud.oci_instance_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-instance"
   register: result
@@ -110,10 +110,10 @@ instances:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 try:
     import oci

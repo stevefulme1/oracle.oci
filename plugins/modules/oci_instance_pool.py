@@ -68,12 +68,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an instance pool
-  oracle.oci.oci_instance_pool:
+  stevefulme1.oci_cloud.oci_instance_pool:
     compartment_id: "ocid1.compartment.oc1..example"
     instance_configuration_id: "ocid1.instanceconfiguration.oc1.phx.example"
     size: 3
@@ -84,13 +84,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Scale an instance pool
-  oracle.oci.oci_instance_pool:
+  stevefulme1.oci_cloud.oci_instance_pool:
     pool_id: "ocid1.instancepool.oc1.phx.example"
     size: 5
     state: present
 
 - name: Terminate an instance pool
-  oracle.oci.oci_instance_pool:
+  stevefulme1.oci_cloud.oci_instance_pool:
     pool_id: "ocid1.instancepool.oc1.phx.example"
     state: absent
 """
@@ -110,14 +110,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_RUNNING,
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

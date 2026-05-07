@@ -63,12 +63,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an email notification subscription
-  oracle.oci.oci_notification_subscription:
+  stevefulme1.oci_cloud.oci_notification_subscription:
     compartment_id: "ocid1.compartment.oc1..example"
     topic_id: "ocid1.onstopic.oc1..example"
     protocol: EMAIL
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create an HTTPS notification subscription
-  oracle.oci.oci_notification_subscription:
+  stevefulme1.oci_cloud.oci_notification_subscription:
     compartment_id: "ocid1.compartment.oc1..example"
     topic_id: "ocid1.onstopic.oc1..example"
     protocol: HTTPS
@@ -84,7 +84,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a Slack notification subscription
-  oracle.oci.oci_notification_subscription:
+  stevefulme1.oci_cloud.oci_notification_subscription:
     compartment_id: "ocid1.compartment.oc1..example"
     topic_id: "ocid1.onstopic.oc1..example"
     protocol: SLACK
@@ -92,7 +92,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a subscription
-  oracle.oci.oci_notification_subscription:
+  stevefulme1.oci_cloud.oci_notification_subscription:
     subscription_id: "ocid1.onssubscription.oc1..example"
     state: absent
 """
@@ -128,9 +128,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

@@ -68,12 +68,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a capacity reservation
-  oracle.oci.oci_capacity_reservation:
+  stevefulme1.oci_cloud.oci_capacity_reservation:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     display_name: "my-capacity-reservation"
@@ -83,13 +83,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a capacity reservation
-  oracle.oci.oci_capacity_reservation:
+  stevefulme1.oci_cloud.oci_capacity_reservation:
     capacity_reservation_id: "ocid1.capacityreservation.oc1..example"
     display_name: "renamed-reservation"
     state: present
 
 - name: Delete a capacity reservation
-  oracle.oci.oci_capacity_reservation:
+  stevefulme1.oci_cloud.oci_capacity_reservation:
     capacity_reservation_id: "ocid1.capacityreservation.oc1..example"
     state: absent
 """
@@ -108,16 +108,16 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     import oci

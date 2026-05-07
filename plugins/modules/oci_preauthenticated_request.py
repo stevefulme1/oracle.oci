@@ -61,12 +61,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a pre-authenticated request for reading an object
-  oracle.oci.oci_preauthenticated_request:
+  stevefulme1.oci_cloud.oci_preauthenticated_request:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     name: "my-par"
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a pre-authenticated request for any object read
-  oracle.oci.oci_preauthenticated_request:
+  stevefulme1.oci_cloud.oci_preauthenticated_request:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     name: "bucket-par"
@@ -85,7 +85,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a pre-authenticated request
-  oracle.oci.oci_preauthenticated_request:
+  stevefulme1.oci_cloud.oci_preauthenticated_request:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     par_id: "example-par-id"
@@ -117,9 +117,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

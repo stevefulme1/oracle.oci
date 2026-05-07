@@ -1,4 +1,4 @@
-"""Nox sessions for oracle.oci Ansible collection."""
+"""Nox sessions for stevefulme1.oci_cloud Ansible collection."""
 
 import nox
 
@@ -25,7 +25,7 @@ def unit(session):
 
     # When checked out as ansible_collections/oracle/oci/, the workspace
     # root (three levels up) must be on PYTHONPATH so that imports like
-    # ``ansible_collections.oracle.oci.plugins...`` resolve.
+    # ``ansible_collections.stevefulme1.oci_cloud.plugins...`` resolve.
     import os
     cwd = os.path.abspath(".")
     namespace_root = os.path.abspath(os.path.join(cwd, os.pardir, os.pardir, os.pardir))

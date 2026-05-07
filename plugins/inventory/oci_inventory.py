@@ -26,7 +26,7 @@ options:
   plugin:
     description: Token that ensures this is a source file for the plugin.
     required: true
-    choices: ["oracle.oci.oci_inventory"]
+    choices: ["stevefulme1.oci_cloud.oci_inventory"]
   regions:
     description:
       - List of OCI region identifiers to query.
@@ -105,8 +105,8 @@ requirements:
 """
 
 EXAMPLES = r"""
-# Minimal inventory source (oracle.oci.yml):
-plugin: oracle.oci.oci_inventory
+# Minimal inventory source (stevefulme1.oci_cloud.yml):
+plugin: stevefulme1.oci_cloud.oci_inventory
 """
 
 import os
@@ -132,7 +132,7 @@ except ImportError:
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     """OCI dynamic inventory plugin for Ansible."""
 
-    NAME = "oracle.oci.oci_inventory"
+    NAME = "stevefulme1.oci_cloud.oci_inventory"
 
     def verify_file(self, path):
         """Accept only *.oci.yml / *.oci.yaml source files."""

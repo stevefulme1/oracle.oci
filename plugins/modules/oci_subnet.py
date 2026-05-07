@@ -71,12 +71,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a public subnet
-  oracle.oci.oci_subnet:
+  stevefulme1.oci_cloud.oci_subnet:
     compartment_id: "ocid1.compartment.oc1..example"
     vcn_id: "ocid1.vcn.oc1..example"
     cidr_block: "10.0.1.0/24"
@@ -85,7 +85,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a private subnet
-  oracle.oci.oci_subnet:
+  stevefulme1.oci_cloud.oci_subnet:
     compartment_id: "ocid1.compartment.oc1..example"
     vcn_id: "ocid1.vcn.oc1..example"
     cidr_block: "10.0.2.0/24"
@@ -94,7 +94,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a subnet
-  oracle.oci.oci_subnet:
+  stevefulme1.oci_cloud.oci_subnet:
     subnet_id: "ocid1.subnet.oc1..example"
     state: absent
 """
@@ -115,12 +115,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -148,7 +148,7 @@ class OciSubnet(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -175,7 +175,7 @@ class OciSubnet(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -202,7 +202,7 @@ class OciSubnet(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

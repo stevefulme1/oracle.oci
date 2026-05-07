@@ -82,12 +82,12 @@ options:
       - Defined tags for this resource.
     type: dict
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an AES-256 encryption key
-  oracle.oci.oci_key:
+  stevefulme1.oci_cloud.oci_key:
     compartment_id: ocid1.compartment.oc1..example
     display_name: my-aes-key
     management_endpoint: https://example-management.kms.us-ashburn-1.oraclecloud.com
@@ -98,7 +98,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create an RSA key for signing
-  oracle.oci.oci_key:
+  stevefulme1.oci_cloud.oci_key:
     compartment_id: ocid1.compartment.oc1..example
     display_name: my-rsa-key
     management_endpoint: https://example-management.kms.us-ashburn-1.oraclecloud.com
@@ -109,7 +109,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Disable and schedule key deletion
-  oracle.oci.oci_key:
+  stevefulme1.oci_cloud.oci_key:
     key_id: ocid1.key.oc1..example
     management_endpoint: https://example-management.kms.us-ashburn-1.oraclecloud.com
     state: absent
@@ -152,13 +152,13 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     get_oci_config,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

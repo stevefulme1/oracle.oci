@@ -50,25 +50,25 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a tag namespace
-  oracle.oci.oci_tag_namespace:
+  stevefulme1.oci_cloud.oci_tag_namespace:
     compartment_id: "ocid1.compartment.oc1..example"
     name: "CostCenter"
     description: "Tag namespace for cost center tracking"
     state: present
 
 - name: Retire a tag namespace
-  oracle.oci.oci_tag_namespace:
+  stevefulme1.oci_cloud.oci_tag_namespace:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     is_retired: true
     state: present
 
 - name: Delete a tag namespace
-  oracle.oci.oci_tag_namespace:
+  stevefulme1.oci_cloud.oci_tag_namespace:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     state: absent
 """
@@ -121,13 +121,13 @@ except ImportError:
     HAS_OCI_SDK = False
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_DELETED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

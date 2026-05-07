@@ -48,28 +48,28 @@ options:
       - DELETED
       - UPDATING
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: List all OKE clusters in a compartment
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
   register: result
 
 - name: Get a specific cluster by ID
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     cluster_id: "ocid1.cluster.oc1.phx.example"
   register: result
 
 - name: List active clusters in a compartment
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     lifecycle_state: "ACTIVE"
   register: result
 
 - name: List clusters filtered by name
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     name: "my-k8s-cluster"
   register: result
@@ -97,10 +97,10 @@ clusters:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 try:
     import oci

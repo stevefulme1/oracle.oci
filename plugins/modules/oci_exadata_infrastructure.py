@@ -86,7 +86,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -94,7 +94,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create an Exadata Cloud Infrastructure
-  oracle.oci.oci_exadata_infrastructure:
+  stevefulme1.oci_cloud.oci_exadata_infrastructure:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "My Exadata Infra"
     shape: "Exadata.X9M"
@@ -106,14 +106,14 @@ EXAMPLES = r"""
     state: present
 
 - name: Update an Exadata Cloud Infrastructure
-  oracle.oci.oci_exadata_infrastructure:
+  stevefulme1.oci_cloud.oci_exadata_infrastructure:
     exadata_infrastructure_id: "ocid1.exadatainfrastructure.oc1..example"
     compute_count: 4
     storage_count: 6
     state: present
 
 - name: Delete an Exadata Cloud Infrastructure
-  oracle.oci.oci_exadata_infrastructure:
+  stevefulme1.oci_cloud.oci_exadata_infrastructure:
     exadata_infrastructure_id: "ocid1.exadatainfrastructure.oc1..example"
     state: absent
 """
@@ -148,13 +148,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

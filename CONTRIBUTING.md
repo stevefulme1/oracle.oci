@@ -1,4 +1,4 @@
-# Contributing to oracle.oci
+# Contributing to stevefulme1.oci_cloud
 
 Thank you for your interest in contributing to the Oracle OCI Ansible
 collection. This document explains the process for contributing code,
@@ -21,7 +21,7 @@ reporting issues, and running tests.
 
    ```bash
    mkdir -p ansible_collections/oracle
-   git clone https://github.com/<your-fork>/oracle.oci.git ansible_collections/oracle/oci
+   git clone https://github.com/<your-fork>/stevefulme1.oci_cloud.git ansible_collections/oracle/oci
    cd ansible_collections/oracle/oci
    ```
 
@@ -79,7 +79,7 @@ PYTHONPATH=$(pwd)/../../.. pytest tests/unit/ -v --tb=short
 - [ ] yamllint passes
 - [ ] ansible-lint passes with `--strict`
 - [ ] New modules include `DOCUMENTATION`, `EXAMPLES`, and `RETURN` blocks
-- [ ] New modules extend `oracle.oci.oci_common` documentation fragment
+- [ ] New modules extend `stevefulme1.oci_cloud.oci_common` documentation fragment
 - [ ] New modules set `version_added: "X.Y.0"` to the next release version
 - [ ] CHANGELOG.md updated with changes
 
@@ -114,7 +114,7 @@ RETURN = r"""..."""
   keys), but **not** in the `DOCUMENTATION` block.
 - All modules must support `check_mode`.
 - All modules must be idempotent.
-- Use `extends_documentation_fragment: oracle.oci.oci_common`.
+- Use `extends_documentation_fragment: stevefulme1.oci_cloud.oci_common`.
 - List-type parameters must include `elements:` in the DOCUMENTATION block.
 
 ## Release Process

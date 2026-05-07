@@ -57,7 +57,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -65,14 +65,14 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a cloud migration
-  oracle.oci.oci_cloud_migration:
+  stevefulme1.oci_cloud.oci_cloud_migration:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-migration"
     description: "Migrating from on-prem"
     state: present
 
 - name: Delete a cloud migration
-  oracle.oci.oci_cloud_migration:
+  stevefulme1.oci_cloud.oci_cloud_migration:
     migration_id: "ocid1.migration.oc1..example"
     state: absent
 """
@@ -102,13 +102,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

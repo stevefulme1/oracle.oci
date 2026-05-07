@@ -70,12 +70,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a boot volume from a backup
-  oracle.oci.oci_boot_volume:
+  stevefulme1.oci_cloud.oci_boot_volume:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     display_name: "my-boot-volume"
@@ -87,13 +87,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update boot volume size
-  oracle.oci.oci_boot_volume:
+  stevefulme1.oci_cloud.oci_boot_volume:
     boot_volume_id: "ocid1.bootvolume.oc1.phx.example"
     size_in_gbs: 200
     state: present
 
 - name: Delete a boot volume
-  oracle.oci.oci_boot_volume:
+  stevefulme1.oci_cloud.oci_boot_volume:
     boot_volume_id: "ocid1.bootvolume.oc1.phx.example"
     state: absent
 """
@@ -114,14 +114,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

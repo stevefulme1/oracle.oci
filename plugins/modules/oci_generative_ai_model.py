@@ -66,7 +66,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -74,7 +74,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a Generative AI model (fine-tuned)
-  oracle.oci.oci_generative_ai_model:
+  stevefulme1.oci_cloud.oci_generative_ai_model:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-fine-tuned-model"
     base_model_id: "ocid1.generativeaimodel.oc1..example"
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a Generative AI model
-  oracle.oci.oci_generative_ai_model:
+  stevefulme1.oci_cloud.oci_generative_ai_model:
     model_id: "ocid1.generativeaimodel.oc1..example"
     state: absent
 """
@@ -114,13 +114,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

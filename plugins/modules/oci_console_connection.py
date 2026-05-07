@@ -41,24 +41,24 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an instance console connection
-  oracle.oci.oci_console_connection:
+  stevefulme1.oci_cloud.oci_console_connection:
     instance_id: "ocid1.instance.oc1.phx.example"
     public_key: "ssh-rsa AAAA..."
     state: present
   register: result
 
 - name: Delete an instance console connection
-  oracle.oci.oci_console_connection:
+  stevefulme1.oci_cloud.oci_console_connection:
     console_connection_id: "ocid1.instanceconsoleconnection.oc1.phx.example"
     state: absent
 
 - name: Create console connection and display connection strings
-  oracle.oci.oci_console_connection:
+  stevefulme1.oci_cloud.oci_console_connection:
     instance_id: "ocid1.instance.oc1.phx.example"
     public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
     state: present
@@ -90,14 +90,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_DELETED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

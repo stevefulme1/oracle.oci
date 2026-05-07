@@ -59,25 +59,25 @@ options:
     default: present
     choices: [present]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Read a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     action: read
     state: present
 
 - name: Attach a software source to a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     software_source_id: "ocid1.softwaresource.oc1..example"
     action: attach_software_source
     state: present
 
 - name: Detach a software source from a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     software_source_id: "ocid1.softwaresource.oc1..example"
     action: detach_software_source
@@ -112,9 +112,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

@@ -61,12 +61,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a network source
-  oracle.oci.oci_network_source:
+  stevefulme1.oci_cloud.oci_network_source:
     compartment_id: "ocid1.tenancy.oc1..example"
     name: "corporate-network"
     description: "Corporate office IPs"
@@ -76,7 +76,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a network source
-  oracle.oci.oci_network_source:
+  stevefulme1.oci_cloud.oci_network_source:
     network_source_id: "ocid1.networksource.oc1..example"
     description: "Updated corporate IPs"
     public_source_list:
@@ -84,7 +84,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a network source
-  oracle.oci.oci_network_source:
+  stevefulme1.oci_cloud.oci_network_source:
     network_source_id: "ocid1.networksource.oc1..example"
     state: absent
 """
@@ -125,12 +125,12 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

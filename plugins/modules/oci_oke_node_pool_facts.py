@@ -41,23 +41,23 @@ options:
       - Only used when listing node pools with I(compartment_id).
     type: str
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: List all node pools for a cluster
-  oracle.oci.oci_oke_node_pool_facts:
+  stevefulme1.oci_cloud.oci_oke_node_pool_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     cluster_id: "ocid1.cluster.oc1.phx.example"
   register: result
 
 - name: Get a specific node pool by ID
-  oracle.oci.oci_oke_node_pool_facts:
+  stevefulme1.oci_cloud.oci_oke_node_pool_facts:
     node_pool_id: "ocid1.nodepool.oc1.phx.example"
   register: result
 
 - name: List node pools filtered by name
-  oracle.oci.oci_oke_node_pool_facts:
+  stevefulme1.oci_cloud.oci_oke_node_pool_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     cluster_id: "ocid1.cluster.oc1.phx.example"
     name: "pool-1"
@@ -86,10 +86,10 @@ node_pools:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 try:
     import oci

@@ -48,18 +48,18 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a secondary private IP
-  oracle.oci.oci_private_ip:
+  stevefulme1.oci_cloud.oci_private_ip:
     vnic_id: "ocid1.vnic.oc1..example"
     display_name: "my-secondary-ip"
     state: present
 
 - name: Create a secondary private IP with a specific address
-  oracle.oci.oci_private_ip:
+  stevefulme1.oci_cloud.oci_private_ip:
     vnic_id: "ocid1.vnic.oc1..example"
     ip_address: "10.0.1.100"
     display_name: "specific-ip"
@@ -67,13 +67,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a private IP
-  oracle.oci.oci_private_ip:
+  stevefulme1.oci_cloud.oci_private_ip:
     private_ip_id: "ocid1.privateip.oc1..example"
     display_name: "updated-ip"
     state: present
 
 - name: Delete a secondary private IP
-  oracle.oci.oci_private_ip:
+  stevefulme1.oci_cloud.oci_private_ip:
     private_ip_id: "ocid1.privateip.oc1..example"
     state: absent
 """
@@ -93,10 +93,10 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient

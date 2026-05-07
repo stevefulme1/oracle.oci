@@ -47,23 +47,23 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Update a management agent display name
-  oracle.oci.oci_management_agent:
+  stevefulme1.oci_cloud.oci_management_agent:
     management_agent_id: "ocid1.managementagent.oc1..example"
     display_name: "prod-agent-01"
     state: present
 
 - name: Delete a management agent
-  oracle.oci.oci_management_agent:
+  stevefulme1.oci_cloud.oci_management_agent:
     management_agent_id: "ocid1.managementagent.oc1..example"
     state: absent
 
 - name: Read a management agent
-  oracle.oci.oci_management_agent:
+  stevefulme1.oci_cloud.oci_management_agent:
     management_agent_id: "ocid1.managementagent.oc1..example"
     state: present
 """
@@ -99,9 +99,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

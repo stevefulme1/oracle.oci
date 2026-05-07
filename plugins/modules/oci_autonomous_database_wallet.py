@@ -59,7 +59,7 @@ options:
             - ALL
         default: SINGLE
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -67,20 +67,20 @@ requirements:
 
 EXAMPLES = r"""
 - name: Download ADB wallet to local path
-  oracle.oci.oci_autonomous_database_wallet:
+  stevefulme1.oci_cloud.oci_autonomous_database_wallet:
     autonomous_database_id: "ocid1.autonomousdatabase.oc1..example"
     password: "WalletPass123#"
     dest: "/tmp/adb_wallet.zip"
 
 - name: Download wallet, overwriting if it already exists
-  oracle.oci.oci_autonomous_database_wallet:
+  stevefulme1.oci_cloud.oci_autonomous_database_wallet:
     autonomous_database_id: "ocid1.autonomousdatabase.oc1..example"
     password: "WalletPass123#"
     dest: "/opt/oracle/wallets/mydb_wallet.zip"
     force: true
 
 - name: Download wallet for all databases in the group
-  oracle.oci.oci_autonomous_database_wallet:
+  stevefulme1.oci_cloud.oci_autonomous_database_wallet:
     autonomous_database_id: "ocid1.autonomousdatabase.oc1..example"
     password: "WalletPass123#"
     dest: "/tmp/adb_wallet_all.zip"
@@ -112,11 +112,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
 )
 

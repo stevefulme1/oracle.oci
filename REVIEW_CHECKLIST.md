@@ -1,6 +1,6 @@
 # Pull Request Review Checklist
 
-Use this checklist when reviewing pull requests for the `oracle.oci`
+Use this checklist when reviewing pull requests for the `stevefulme1.oci_cloud`
 Ansible collection.
 
 ## General
@@ -22,7 +22,7 @@ Ansible collection.
 ## Module Standards
 
 - [ ] Module has `DOCUMENTATION`, `EXAMPLES`, and `RETURN` blocks
-- [ ] DOCUMENTATION includes `extends_documentation_fragment: oracle.oci.oci_common`
+- [ ] DOCUMENTATION includes `extends_documentation_fragment: stevefulme1.oci_cloud.oci_common`
 - [ ] DOCUMENTATION includes `version_added` set to the correct release
 - [ ] DOCUMENTATION includes `author: Oracle (@oracle)`
 - [ ] List-type parameters include `elements:` definition

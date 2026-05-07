@@ -96,7 +96,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -104,7 +104,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a full clone of an Autonomous Database
-  oracle.oci.oci_autonomous_database_clone:
+  stevefulme1.oci_cloud.oci_autonomous_database_clone:
     compartment_id: "ocid1.compartment.oc1..example"
     source_autonomous_database_id: "ocid1.autonomousdatabase.oc1..source"
     clone_type: FULL
@@ -116,7 +116,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a metadata-only clone
-  oracle.oci.oci_autonomous_database_clone:
+  stevefulme1.oci_cloud.oci_autonomous_database_clone:
     compartment_id: "ocid1.compartment.oc1..example"
     source_autonomous_database_id: "ocid1.autonomousdatabase.oc1..source"
     clone_type: METADATA
@@ -127,7 +127,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a cloned Autonomous Database
-  oracle.oci.oci_autonomous_database_clone:
+  stevefulme1.oci_cloud.oci_autonomous_database_clone:
     autonomous_database_id: "ocid1.autonomousdatabase.oc1..clone"
     state: absent
 """
@@ -159,13 +159,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

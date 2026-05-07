@@ -97,12 +97,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an HTTP listener
-  oracle.oci.oci_load_balancer_listener:
+  stevefulme1.oci_cloud.oci_load_balancer_listener:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     name: "http-listener"
     default_backend_set_name: "my-backend-set"
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create an HTTPS listener with SSL
-  oracle.oci.oci_load_balancer_listener:
+  stevefulme1.oci_cloud.oci_load_balancer_listener:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     name: "https-listener"
     default_backend_set_name: "my-backend-set"
@@ -123,7 +123,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update listener to use a different backend set
-  oracle.oci.oci_load_balancer_listener:
+  stevefulme1.oci_cloud.oci_load_balancer_listener:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     name: "http-listener"
     default_backend_set_name: "new-backend-set"
@@ -132,7 +132,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a listener
-  oracle.oci.oci_load_balancer_listener:
+  stevefulme1.oci_cloud.oci_load_balancer_listener:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     name: "http-listener"
     state: absent
@@ -152,13 +152,13 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     create_service_client,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     wait_for_work_request,
 )
 

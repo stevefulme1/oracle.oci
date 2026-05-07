@@ -1,6 +1,6 @@
 # Maintainers
 
-This file lists the maintainers of the `oracle.oci` Ansible collection.
+This file lists the maintainers of the `stevefulme1.oci_cloud` Ansible collection.
 
 ## Current Maintainers
 

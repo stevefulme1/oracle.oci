@@ -38,7 +38,7 @@
 
   tasks:
     - name: Create OKE cluster
-      oracle.oci.oci_oke_cluster:
+      stevefulme1.oci_cloud.oci_oke_cluster:
         compartment_id: "{{ compartment_id }}"
         name: "{{ cluster_name }}"
         vcn_id: "{{ vcn_id }}"
@@ -70,7 +70,7 @@
         ssh_public_key: "{{ lookup('file', ssh_public_key_file) }}"
 
     - name: Create node pool
-      oracle.oci.oci_oke_node_pool:
+      stevefulme1.oci_cloud.oci_oke_node_pool:
         compartment_id: "{{ compartment_id }}"
         cluster_id: "{{ cluster.cluster.id }}"
         name: "{{ node_pool_name }}"

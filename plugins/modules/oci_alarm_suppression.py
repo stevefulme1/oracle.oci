@@ -53,12 +53,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an alarm suppression for a maintenance window
-  oracle.oci.oci_alarm_suppression:
+  stevefulme1.oci_cloud.oci_alarm_suppression:
     alarm_id: "ocid1.alarm.oc1..example"
     display_name: "weekend-maintenance"
     time_suppress_from: "2026-04-11T22:00:00Z"
@@ -67,7 +67,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete an alarm suppression
-  oracle.oci.oci_alarm_suppression:
+  stevefulme1.oci_cloud.oci_alarm_suppression:
     alarm_suppression_id: "ocid1.alarmsuppression.oc1..example"
     state: absent
 """
@@ -103,9 +103,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

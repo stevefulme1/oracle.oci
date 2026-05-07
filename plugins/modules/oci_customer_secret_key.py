@@ -40,25 +40,25 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a customer secret key
-  oracle.oci.oci_customer_secret_key:
+  stevefulme1.oci_cloud.oci_customer_secret_key:
     user_id: "ocid1.user.oc1..example"
     display_name: "s3-access-key"
     state: present
 
 - name: Update a customer secret key
-  oracle.oci.oci_customer_secret_key:
+  stevefulme1.oci_cloud.oci_customer_secret_key:
     user_id: "ocid1.user.oc1..example"
     customer_secret_key_id: "ocid1.credential.oc1..example"
     display_name: "renamed-key"
     state: present
 
 - name: Delete a customer secret key
-  oracle.oci.oci_customer_secret_key:
+  stevefulme1.oci_cloud.oci_customer_secret_key:
     user_id: "ocid1.user.oc1..example"
     customer_secret_key_id: "ocid1.credential.oc1..example"
     state: absent
@@ -88,9 +88,9 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

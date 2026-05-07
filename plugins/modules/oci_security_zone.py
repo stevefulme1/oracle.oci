@@ -45,25 +45,25 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a security zone
-  oracle.oci.oci_security_zone:
+  stevefulme1.oci_cloud.oci_security_zone:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "prod-security-zone"
     security_zone_recipe_id: "ocid1.securityzonerecipe.oc1..example"
     state: present
 
 - name: Update a security zone
-  oracle.oci.oci_security_zone:
+  stevefulme1.oci_cloud.oci_security_zone:
     security_zone_id: "ocid1.securityzone.oc1..example"
     display_name: "renamed-zone"
     state: present
 
 - name: Delete a security zone
-  oracle.oci.oci_security_zone:
+  stevefulme1.oci_cloud.oci_security_zone:
     security_zone_id: "ocid1.securityzone.oc1..example"
     state: absent
 """
@@ -95,9 +95,9 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

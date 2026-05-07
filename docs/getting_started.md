@@ -1,6 +1,6 @@
-# Getting Started with oracle.oci
+# Getting Started with stevefulme1.oci_cloud
 
-This guide walks you through installing the `oracle.oci` Ansible collection and
+This guide walks you through installing the `stevefulme1.oci_cloud` Ansible collection and
 running your first playbook against Oracle Cloud Infrastructure.
 
 ## Prerequisites
@@ -22,7 +22,7 @@ pip install oci
 Install the collection from Ansible Galaxy:
 
 ```bash
-ansible-galaxy collection install oracle.oci
+ansible-galaxy collection install stevefulme1.oci_cloud
 ```
 
 Or install from a local tarball:
@@ -36,7 +36,7 @@ To pin a version in a `requirements.yml`:
 ```yaml
 ---
 collections:
-  - name: oracle.oci
+  - name: stevefulme1.oci_cloud
     version: ">=1.0.0"
 ```
 
@@ -82,7 +82,7 @@ export OCI_USER_KEY_FILE="~/.oci/oci_api_key.pem"
 When running on a compute instance inside OCI, pass `auth_type`:
 
 ```yaml
-- oracle.oci.oci_vcn:
+- stevefulme1.oci_cloud.oci_vcn:
     auth_type: instance_principal
     compartment_id: "{{ compartment_id }}"
     display_name: my-vcn
@@ -111,7 +111,7 @@ Save the following as `create_vcn.yml`:
 
   tasks:
     - name: Create VCN
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ vcn_name }}"
         cidr_blocks:

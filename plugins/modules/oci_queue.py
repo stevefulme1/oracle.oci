@@ -72,7 +72,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -80,14 +80,14 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a queue
-  oracle.oci.oci_queue:
+  stevefulme1.oci_cloud.oci_queue:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-queue"
     retention_in_seconds: 3600
     state: present
 
 - name: Delete a queue
-  oracle.oci.oci_queue:
+  stevefulme1.oci_cloud.oci_queue:
     queue_id: "ocid1.queue.oc1..example"
     state: absent
 """
@@ -117,13 +117,13 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

@@ -55,12 +55,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a public load balancer
-  oracle.oci.oci_load_balancer:
+  stevefulme1.oci_cloud.oci_load_balancer:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-lb"
     shape_name: "flexible"
@@ -71,7 +71,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a load balancer
-  oracle.oci.oci_load_balancer:
+  stevefulme1.oci_cloud.oci_load_balancer:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     state: absent
 """
@@ -91,10 +91,10 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.load_balancer import LoadBalancerClient
@@ -125,7 +125,7 @@ class OciLoadBalancer(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 
@@ -156,7 +156,7 @@ class OciLoadBalancer(OciResourceBase):
         return None
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 
@@ -180,7 +180,7 @@ class OciLoadBalancer(OciResourceBase):
         return self.client.get_load_balancer(resource.id).data
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 

@@ -54,26 +54,26 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a remote peering connection
-  oracle.oci.oci_remote_peering_connection:
+  stevefulme1.oci_cloud.oci_remote_peering_connection:
     compartment_id: "ocid1.compartment.oc1..example"
     drg_id: "ocid1.drg.oc1..example"
     display_name: "my-rpc"
     state: present
 
 - name: Connect to a peer RPC in another region
-  oracle.oci.oci_remote_peering_connection:
+  stevefulme1.oci_cloud.oci_remote_peering_connection:
     remote_peering_connection_id: "ocid1.remotepeeringconnection.oc1..example"
     peer_id: "ocid1.remotepeeringconnection.oc1..peer"
     peer_region_name: "us-ashburn-1"
     state: present
 
 - name: Delete a remote peering connection
-  oracle.oci.oci_remote_peering_connection:
+  stevefulme1.oci_cloud.oci_remote_peering_connection:
     remote_peering_connection_id: "ocid1.remotepeeringconnection.oc1..example"
     state: absent
 """
@@ -94,12 +94,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -131,7 +131,7 @@ class OciRemotePeeringConnection(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -165,7 +165,7 @@ class OciRemotePeeringConnection(OciResourceBase):
         return resource
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -199,7 +199,7 @@ class OciRemotePeeringConnection(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

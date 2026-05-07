@@ -66,7 +66,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -74,14 +74,14 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a container registry
-  oracle.oci.oci_container_registry:
+  stevefulme1.oci_cloud.oci_container_registry:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-container-repo"
     is_public: false
     state: present
 
 - name: Delete a container registry
-  oracle.oci.oci_container_registry:
+  stevefulme1.oci_cloud.oci_container_registry:
     repository_id: "ocid1.containerrepo.oc1..example"
     state: absent
 """
@@ -111,11 +111,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
 )
 

@@ -51,12 +51,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a Capture Filter
-  oracle.oci.oci_capture_filter:
+  stevefulme1.oci_cloud.oci_capture_filter:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-capture-filter"
     filter_type: VTAP
@@ -66,13 +66,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a Capture Filter
-  oracle.oci.oci_capture_filter:
+  stevefulme1.oci_cloud.oci_capture_filter:
     capture_filter_id: "ocid1.capturefilter.oc1..example"
     display_name: "updated-filter"
     state: present
 
 - name: Delete a Capture Filter
-  oracle.oci.oci_capture_filter:
+  stevefulme1.oci_cloud.oci_capture_filter:
     capture_filter_id: "ocid1.capturefilter.oc1..example"
     state: absent
 """
@@ -92,12 +92,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -128,7 +128,7 @@ class OciCaptureFilter(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -150,7 +150,7 @@ class OciCaptureFilter(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -175,7 +175,7 @@ class OciCaptureFilter(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
