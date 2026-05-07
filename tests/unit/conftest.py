@@ -93,7 +93,7 @@ if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _name
 # When the repo is a standalone checkout (e.g. ~/stevefulme1.oci_cloud), the namespace
 # package does not exist on disk.  Build it synthetically.
 if "ansible_collections.stevefulme1.oci_cloud" not in sys.modules:
-    for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
+    for _pkg_name in ("ansible_collections", "ansible_collections.stevefulme1"):
         if _pkg_name not in sys.modules:
             _pkg = types.ModuleType(_pkg_name)
             _pkg.__path__ = []
@@ -105,8 +105,8 @@ if "ansible_collections.stevefulme1.oci_cloud" not in sys.modules:
     _oci_mod.__package__ = "ansible_collections.stevefulme1.oci_cloud"
     sys.modules["ansible_collections.stevefulme1.oci_cloud"] = _oci_mod
 
-    sys.modules["ansible_collections"].oracle = sys.modules["ansible_collections.oracle"]
-    sys.modules["ansible_collections.oracle"].oci = _oci_mod
+    sys.modules["ansible_collections"].stevefulme1 = sys.modules["ansible_collections.stevefulme1"]
+    sys.modules["ansible_collections.stevefulme1"].oci_cloud = _oci_mod
 
 
 @pytest.fixture
