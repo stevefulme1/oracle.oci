@@ -3,6 +3,19 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_wait
+short_description: Waiter and retry utilities for OCI API operations
+description:
+  - Provides wait_for_resource to poll an OCI resource until it reaches a target
+    lifecycle state, with configurable timeout and failure state detection.
+  - Includes wait_for_work_request for tracking OCI async work requests, and
+    call_with_retry for exponential backoff retries on transient API errors.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 import time
 
 try:

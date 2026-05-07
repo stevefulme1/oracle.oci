@@ -3,6 +3,20 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_resource
+short_description: Base class for OCI resource management modules
+description:
+  - Provides OciResourceBase, an abstract base class that implements the
+    standard create/update/delete lifecycle for OCI resources with built-in
+    check mode support, tag comparison, and change detection.
+  - Subclasses override get_resource, create_resource, update_resource, and
+    delete_resource to manage specific OCI resource types.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 

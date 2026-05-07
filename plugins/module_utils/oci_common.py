@@ -3,6 +3,19 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_common
+short_description: Shared OCI argument specs and lifecycle constants
+description:
+  - Defines OCI_COMMON_ARGS, the common argument spec shared by all OCI modules,
+    covering authentication, region, wait behavior, and tagging parameters.
+  - Provides lifecycle state constants and frozen sets (WAIT_STATES, READY_STATES,
+    DEAD_STATES) used for resource state management and polling.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 
 OCI_COMMON_ARGS = dict(
     config_file_location=dict(type="str", default="~/.oci/config"),

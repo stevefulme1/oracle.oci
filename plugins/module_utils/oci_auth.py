@@ -3,6 +3,21 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_auth
+short_description: OCI authentication and service client creation
+description:
+  - Provides helpers for authenticating to Oracle Cloud Infrastructure using
+    multiple auth methods including API key, instance principal, resource
+    principal, and session token.
+  - Exports get_oci_config to build OCI config dicts from module params or
+    environment variables, and create_service_client to instantiate any OCI
+    SDK client with the appropriate signer.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 import os
 
 try:
