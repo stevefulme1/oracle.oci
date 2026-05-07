@@ -8,8 +8,8 @@ on:
     branches: [main]
 
 env:
-  NAMESPACE: oracle
-  COLLECTION: oci
+  NAMESPACE: stevefulme1
+  COLLECTION: oci_cloud
 
 jobs:
   ansible-lint:
