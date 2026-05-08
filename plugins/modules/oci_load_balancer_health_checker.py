@@ -146,6 +146,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     create_service_client,
@@ -164,25 +165,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(obj):
-    """Convert an OCI SDK object to a serializable dict."""
-    if obj is None:
-        return {}
-    if hasattr(obj, "__dict__"):
-        result = {}
-        for key, value in obj.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(item) if hasattr(item, "__dict__") else item for item in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return obj
 
 
 def get_health_checker(client, load_balancer_id, backend_set_name):

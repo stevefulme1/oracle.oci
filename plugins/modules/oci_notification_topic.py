@@ -108,6 +108,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     create_service_client,
@@ -127,23 +128,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_topic(client, topic_id):

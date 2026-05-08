@@ -111,6 +111,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
@@ -128,18 +129,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        result[key] = value
-    return result
 
 
 def get_resource(client, resource_id):

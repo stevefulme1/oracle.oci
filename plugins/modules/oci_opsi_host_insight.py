@@ -15,7 +15,7 @@ short_description: Manage a Host Insight resource in Oracle Cloud Infrastructure
 description:
     - This module allows the user to create, update and delete a Host Insight resource in Oracle Cloud Infrastructure
     - For I(state=present), creates a new Host Insight.
-version_added: "2.0.0"
+version_added: "2.1.0"
 author: Oracle (@oracle)
 options:
     compartment_id:
@@ -121,6 +121,7 @@ host_insight:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
+    from oci.exceptions import ServiceError
     from oci.opsi import OperationsInsightsClient
     from oci.opsi.models import CreateHostInsightDetails, UpdateHostInsightDetails
 
@@ -132,6 +133,7 @@ from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common i
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
@@ -153,29 +155,11 @@ def get_module_args():
     )
 
 
-def to_dict(resource):
-    if resource is None:
-        return {}
-    if hasattr(resource, "__dict__"):
-        result = {}
-        for key, value in resource.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return resource
-
-
 def get_resource(client, module):
     try:
         return call_with_retry(client.get_host_insight, host_insight_id=module.params["host_insight_id"])
-    except Exception as e:
-        if "NotAuthorizedOrNotFound" in str(e) or "404" in str(e):
+    except ServiceError as e:
+        if e.status == 404:
             return None
         raise
 
@@ -195,7 +179,7 @@ def find_resource(client, module):
                         client.get_host_insight,
                         host_insight_id=insight.id
                     )
-    except Exception:
+    except ServiceError:
         pass
     return None
 
@@ -209,7 +193,7 @@ def create_resource(client, module):
         defined_tags=module.params.get("defined_tags"),
     )
     result = call_with_retry(client.create_host_insight, create_host_insight_details=create_details)
-    resource = wait_for_resource(client.get_host_insight, result.data.id, READY_STATES, module)
+    resource = wait_for_resource(module, client.get_host_insight, result.data.id, READY_STATES)
     return resource
 
 
@@ -224,10 +208,7 @@ def update_resource(client, module):
         update_host_insight_details=update_details
     )
     resource = wait_for_resource(
-        client.get_host_insight,
-        module.params["host_insight_id"],
-        READY_STATES,
-        module
+        module, client.get_host_insight, module.params["host_insight_id"], READY_STATES
     )
     return resource
 
@@ -238,10 +219,7 @@ def delete_resource(client, module):
         host_insight_id=module.params["host_insight_id"]
     )
     wait_for_resource(
-        client.get_host_insight,
-        module.params["host_insight_id"],
-        DEAD_STATES,
-        module
+        module, client.get_host_insight, module.params["host_insight_id"], DEAD_STATES
     )
 
 

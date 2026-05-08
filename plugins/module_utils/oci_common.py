@@ -67,3 +67,22 @@ DEAD_STATES = frozenset({
     LIFECYCLE_DELETED,
     LIFECYCLE_TERMINATED,
 })
+
+
+def to_dict(resource):
+    """Convert an OCI resource object to a plain dictionary."""
+    if resource is None:
+        return {}
+    if hasattr(resource, "__dict__"):
+        result = {}
+        for key, value in resource.__dict__.items():
+            if key.startswith("_"):
+                continue
+            if isinstance(value, list):
+                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
+            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
+                result[key] = to_dict(value)
+            else:
+                result[key] = value
+        return result
+    return resource

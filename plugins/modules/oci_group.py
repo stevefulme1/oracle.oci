@@ -116,6 +116,7 @@ from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common i
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_DELETED,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
@@ -242,18 +243,6 @@ def needs_update(module, resource):
     if defined_tags is not None and defined_tags != getattr(resource, "defined_tags", None):
         return True
     return False
-
-
-def to_dict(resource):
-    """Convert an OCI resource to a plain dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        result[key] = value
-    return result
 
 
 def main():

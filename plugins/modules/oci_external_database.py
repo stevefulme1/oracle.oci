@@ -185,6 +185,7 @@ from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common i
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
@@ -211,25 +212,6 @@ def get_module_args():
     )
     module_args.update(OCI_COMMON_ARGS)
     return module_args
-
-
-def to_dict(resource):
-    """Convert OCI SDK object to a serializable dict."""
-    if resource is None:
-        return {}
-    if hasattr(resource, "__dict__"):
-        result = {}
-        for key, value in resource.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return resource
 
 
 def get_external_database_connector(client, connector_id):

@@ -15,7 +15,7 @@ short_description: Manage an Optimizer Profile resource in Oracle Cloud Infrastr
 description:
     - This module allows the user to create, update and delete an Optimizer Profile resource in OCI
     - For I(state=present), creates a new Optimizer Profile.
-version_added: "2.0.0"
+version_added: "2.1.0"
 author: Oracle (@oracle)
 options:
     compartment_id:
@@ -140,6 +140,7 @@ profile:
 from ansible.module_utils.basic import AnsibleModule
 
 try:
+    from oci.exceptions import ServiceError
     from oci.optimizer import OptimizerClient
     from oci.optimizer.models import CreateProfileDetails, UpdateProfileDetails
 
@@ -151,6 +152,7 @@ from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common i
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
@@ -172,29 +174,11 @@ def get_module_args():
     )
 
 
-def to_dict(resource):
-    if resource is None:
-        return {}
-    if hasattr(resource, "__dict__"):
-        result = {}
-        for key, value in resource.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return resource
-
-
 def get_resource(client, module):
     try:
         return call_with_retry(client.get_profile, profile_id=module.params["profile_id"])
-    except Exception as e:
-        if "NotAuthorizedOrNotFound" in str(e) or "404" in str(e):
+    except ServiceError as e:
+        if e.status == 404:
             return None
         raise
 
@@ -209,7 +193,7 @@ def find_resource(client, module):
         for profile in profiles:
             if profile.display_name == display_name and profile.lifecycle_state not in DEAD_STATES:
                 return call_with_retry(client.get_profile, profile_id=profile.id)
-    except Exception:
+    except ServiceError:
         pass
     return None
 
@@ -224,7 +208,7 @@ def create_resource(client, module):
         target_tags=module.params.get("target_tags"),
     )
     result = call_with_retry(client.create_profile, create_profile_details=create_details)
-    resource = wait_for_resource(client.get_profile, result.data.id, READY_STATES, module)
+    resource = wait_for_resource(module, client.get_profile, result.data.id, READY_STATES)
     return resource
 
 
@@ -238,13 +222,13 @@ def update_resource(client, module):
         profile_id=module.params["profile_id"],
         update_profile_details=update_details
     )
-    resource = wait_for_resource(client.get_profile, module.params["profile_id"], READY_STATES, module)
+    resource = wait_for_resource(module, client.get_profile, module.params["profile_id"], READY_STATES)
     return resource
 
 
 def delete_resource(client, module):
     call_with_retry(client.delete_profile, profile_id=module.params["profile_id"])
-    wait_for_resource(client.get_profile, module.params["profile_id"], DEAD_STATES, module)
+    wait_for_resource(module, client.get_profile, module.params["profile_id"], DEAD_STATES)
 
 
 def needs_update(resource, module):

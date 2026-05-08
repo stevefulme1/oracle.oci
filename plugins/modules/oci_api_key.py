@@ -100,6 +100,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
+    to_dict,
 )
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
@@ -158,18 +159,6 @@ def delete_resource(client, module, resource):
     """Delete an API key."""
     user_id = module.params["user_id"]
     call_with_retry(client.delete_api_key, user_id, resource.fingerprint)
-
-
-def to_dict(resource):
-    """Convert an OCI resource to a plain dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        result[key] = value
-    return result
 
 
 def main():
