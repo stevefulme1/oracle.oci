@@ -125,7 +125,7 @@ if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _name
 
 # Try importing; if it fails, build the namespace synthetically.
 try:
-    import ansible_collections.oracle.oci  # noqa: F401
+    import ansible_collections.oracle.oci  # noqa: F401  # pylint: disable=unused-import
 except (ImportError, ModuleNotFoundError):
     for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
         if _pkg_name not in sys.modules:
