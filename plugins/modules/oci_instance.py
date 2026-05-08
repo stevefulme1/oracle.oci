@@ -63,6 +63,32 @@ options:
       - Custom metadata key/value pairs for the instance.
       - Common keys include C(ssh_authorized_keys) and C(user_data).
     type: dict
+  source_details:
+    description:
+      - Details for creating an instance from an image or boot volume.
+    type: dict
+    suboptions:
+      source_type:
+        description: The source type for the instance.
+        type: str
+      image_id:
+        description: The OCID of the image used to boot the instance.
+        type: str
+      boot_volume_size_in_gbs:
+        description: The size of the boot volume in GBs.
+        type: int
+  platform_config:
+    description:
+      - Platform configuration options for the instance.
+    type: dict
+    suboptions:
+      type:
+        description: The type of platform configuration.
+        type: str
+      windows_license_type:
+        description: The type of Windows license for the instance.
+        type: str
+        choices: [OCI_PROVIDED, BYOL]
   instance_id:
     description:
       - The OCID of the instance. Required for update and delete operations.
