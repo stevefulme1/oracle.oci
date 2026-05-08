@@ -52,7 +52,6 @@ options:
         description:
             - IDCS access token for the blockchain platform.
         type: str
-        no_log: true
     state:
         description:
             - The desired state of the blockchain platform.

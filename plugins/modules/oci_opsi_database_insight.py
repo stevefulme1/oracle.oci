@@ -37,16 +37,6 @@ options:
         description:
             - Database resource type.
         type: str
-    freeform_tags:
-        description:
-            - Simple key-value pair that is applied without any predefined name, type or scope.
-            - This parameter is updatable.
-        type: dict
-    defined_tags:
-        description:
-            - Defined tags for this resource.
-            - This parameter is updatable.
-        type: dict
     database_insight_id:
         description:
             - The OCID of the Database Insight.
@@ -63,11 +53,8 @@ options:
         required: false
         default: 'present'
         choices: ["present", "absent"]
-extends_documentation_fragment: [
-    stevefulme1.oci_cloud.oracle,
-    stevefulme1.oci_cloud.oracle_creatable_resource,
-    stevefulme1.oci_cloud.oracle_wait_options
-]
+extends_documentation_fragment:
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = """
@@ -170,8 +157,6 @@ def get_module_args():
         ),
         database_id=dict(type="str"),
         database_resource_type=dict(type="str"),
-        freeform_tags=dict(type="dict"),
-        defined_tags=dict(type="dict"),
         database_insight_id=dict(type="str", aliases=["id"]),
         state=dict(type="str", default="present", choices=["present", "absent"]),
     )

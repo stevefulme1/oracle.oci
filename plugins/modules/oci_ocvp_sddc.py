@@ -143,7 +143,7 @@ def get_module_args():
         sddc_id=dict(type="str"),
         display_name=dict(type="str"),
         vmware_software_version=dict(type="str"),
-        ssh_authorized_keys=dict(type="str"),
+        ssh_authorized_keys=dict(type="str", no_log=True),
         compute_availability_domain=dict(type="str"),
         esxi_hosts_count=dict(type="int"),
         provisioning_subnet_id=dict(type="str"),

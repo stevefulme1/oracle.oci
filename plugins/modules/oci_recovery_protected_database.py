@@ -60,7 +60,6 @@ options:
         description:
             - The password for the protected database.
         type: str
-        no_log: true
     recovery_service_subnets:
         description:
             - A list of recovery service subnets associated with the protected database.

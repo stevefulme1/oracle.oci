@@ -49,11 +49,8 @@ options:
         required: false
         default: 'present'
         choices: ["present", "absent"]
-extends_documentation_fragment: [
-    stevefulme1.oci_cloud.oracle,
-    stevefulme1.oci_cloud.oracle_creatable_resource,
-    stevefulme1.oci_cloud.oracle_wait_options
-]
+extends_documentation_fragment:
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = """

@@ -39,7 +39,6 @@ options:
             - IDCS access token for authentication.
             - Required when creating a new governance instance.
         type: str
-        no_log: true
     governance_instance_type:
         description:
             - The type of the governance instance.
