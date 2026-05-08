@@ -203,8 +203,8 @@ def find_resource(client, module):
     try:
         insights = call_with_retry(client.list_host_insights, compartment_id=compartment_id).data
         for insight in insights:
-            if (management_agent_id and hasattr(insight, "management_agent_id") and
-                    insight.management_agent_id == management_agent_id):
+            has_agent = hasattr(insight, "management_agent_id")
+            if management_agent_id and has_agent and insight.management_agent_id == management_agent_id:
                 if insight.lifecycle_state not in DEAD_STATES:
                     return call_with_retry(
                         client.get_host_insight,

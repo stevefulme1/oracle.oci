@@ -212,8 +212,7 @@ def find_resource(client, module):
     try:
         insights = call_with_retry(client.list_database_insights, compartment_id=compartment_id).data
         for insight in insights:
-            if (database_id and hasattr(insight, "database_id") and
-                    insight.database_id == database_id):
+            if database_id and hasattr(insight, "database_id") and insight.database_id == database_id:
                 if insight.lifecycle_state not in DEAD_STATES:
                     return call_with_retry(
                         client.get_database_insight,

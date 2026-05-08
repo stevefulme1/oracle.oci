@@ -246,11 +246,11 @@ def delete_resource(client, module):
 
 
 def needs_update(resource, module):
-    if (module.params.get("display_name") and
-            resource.data.display_name != module.params["display_name"]):
+    desired_name = module.params.get("display_name")
+    if desired_name and resource.data.display_name != desired_name:
         return True
-    if (module.params.get("description") is not None and
-            resource.data.description != module.params["description"]):
+    desired_desc = module.params.get("description")
+    if desired_desc is not None and resource.data.description != desired_desc:
         return True
     return False
 
