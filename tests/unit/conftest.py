@@ -56,7 +56,7 @@ except ImportError:
     _oci.core = _oci_core
 
     class _OciModelsModule(types.ModuleType):
-        """Auto-creates simple data classes for any oci.core.models.* access."""
+        """Auto-creates simple data classes for any oci.*.models.* access."""
         def __getattr__(self, name):
             # Dynamically create a class that stores **kwargs as attributes.
             cls = type(name, (), {"__init__": lambda self, **kw: self.__dict__.update(kw)})
@@ -66,6 +66,33 @@ except ImportError:
     _oci_core_models = _OciModelsModule("oci.core.models")
     _oci_core.models = _oci_core_models
 
+    # oci.object_storage
+    _oci_object_storage = types.ModuleType("oci.object_storage")
+    _oci_object_storage.__path__ = []
+    _oci_object_storage.ObjectStorageClient = MagicMock
+    _oci.object_storage = _oci_object_storage
+
+    _oci_object_storage_models = _OciModelsModule("oci.object_storage.models")
+    _oci_object_storage.models = _oci_object_storage_models
+
+    # oci.identity
+    _oci_identity = types.ModuleType("oci.identity")
+    _oci_identity.__path__ = []
+    _oci_identity.IdentityClient = MagicMock
+    _oci.identity = _oci_identity
+
+    _oci_identity_models = _OciModelsModule("oci.identity.models")
+    _oci_identity.models = _oci_identity_models
+
+    # oci.load_balancer
+    _oci_load_balancer = types.ModuleType("oci.load_balancer")
+    _oci_load_balancer.__path__ = []
+    _oci_load_balancer.LoadBalancerClient = MagicMock
+    _oci.load_balancer = _oci_load_balancer
+
+    _oci_load_balancer_models = _OciModelsModule("oci.load_balancer.models")
+    _oci_load_balancer.models = _oci_load_balancer_models
+
     for _name, _mod in [
         ("oci", _oci),
         ("oci.exceptions", _oci_exceptions),
@@ -74,6 +101,12 @@ except ImportError:
         ("oci.auth.signers", _oci_auth_signers),
         ("oci.core", _oci_core),
         ("oci.core.models", _oci_core_models),
+        ("oci.object_storage", _oci_object_storage),
+        ("oci.object_storage.models", _oci_object_storage_models),
+        ("oci.identity", _oci_identity),
+        ("oci.identity.models", _oci_identity_models),
+        ("oci.load_balancer", _oci_load_balancer),
+        ("oci.load_balancer.models", _oci_load_balancer_models),
     ]:
         sys.modules[_name] = _mod
 
