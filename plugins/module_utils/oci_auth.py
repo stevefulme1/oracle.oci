@@ -52,8 +52,8 @@ def get_oci_config(module):
         "tenancy": "OCI_TENANCY_ID",
         "user": "OCI_USER_ID",
         "region": "OCI_REGION",
-        "fingerprint": "OCI_FINGERPRINT",
-        "key_file": "OCI_KEY_FILE",
+        "fingerprint": "OCI_USER_FINGERPRINT",
+        "key_file": "OCI_USER_KEY_FILE",
     }
     param_map = {
         "tenancy": "tenancy",
@@ -69,7 +69,7 @@ def get_oci_config(module):
         if value:
             config[config_key] = value
 
-    pass_phrase = module.params.get("api_user_key_pass_phrase")
+    pass_phrase = module.params.get("api_user_key_pass_phrase") or os.environ.get("OCI_USER_KEY_PASS_PHRASE")
     if pass_phrase:
         config["pass_phrase"] = pass_phrase
 

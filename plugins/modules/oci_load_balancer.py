@@ -43,6 +43,12 @@ options:
             - Whether the load balancer has a public or private IP address.
         type: bool
         default: false
+    is_delete_protection_enabled:
+        description:
+            - Whether delete protection is enabled for the load balancer.
+            - When enabled, the load balancer cannot be deleted.
+        type: bool
+        default: false
     load_balancer_id:
         description:
             - The OCID of the load balancer.
@@ -130,7 +136,7 @@ class OciLoadBalancer(OciResourceBase):
         )
 
         freeform_tags, defined_tags = self.get_tags()
-        details = CreateLoadBalancerDetails(
+        create_kwargs = dict(
             compartment_id=self.module.params["compartment_id"],
             display_name=self.module.params["display_name"],
             shape_name=self.module.params["shape_name"],
@@ -139,6 +145,9 @@ class OciLoadBalancer(OciResourceBase):
             freeform_tags=freeform_tags,
             defined_tags=defined_tags,
         )
+        if self.module.params.get("is_delete_protection_enabled") is not None:
+            create_kwargs["is_delete_protection_enabled"] = self.module.params["is_delete_protection_enabled"]
+        details = CreateLoadBalancerDetails(**create_kwargs)
         response = self.client.create_load_balancer(details)
 
         if self.module.params.get("wait", True):
@@ -201,6 +210,7 @@ def main():
         shape_name=dict(type="str"),
         subnet_ids=dict(type="list", elements="str"),
         is_private=dict(type="bool", default=False),
+        is_delete_protection_enabled=dict(type="bool", default=False),
         load_balancer_id=dict(type="str"),
         state=dict(type="str", default="present", choices=["present", "absent"]),
     )
