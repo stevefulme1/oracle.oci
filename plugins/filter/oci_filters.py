@@ -17,6 +17,7 @@ author:
   - Oracle (@oracle)
 """
 
+
 class FilterModule(object):
     def filters(self):
         return {"override": self.override_filter}
