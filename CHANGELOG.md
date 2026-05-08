@@ -6,6 +6,95 @@ in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-05-08
+
+### Added
+
+25 new modules covering all remaining OCI service areas for complete platform coverage.
+
+#### Modules -- VMware Solution (OCVP)
+
+- `oci_ocvp_sddc` -- Manage VMware Software-Defined Data Centers
+- `oci_ocvp_esxi_host` -- Manage VMware ESXi hosts
+
+#### Modules -- Blockchain
+
+- `oci_blockchain_platform` -- Manage Blockchain Platforms
+
+#### Modules -- Java Management
+
+- `oci_jms_fleet` -- Manage Java Management Service fleets
+
+#### Modules -- Operations Insights
+
+- `oci_opsi_database_insight` -- Manage database insights
+- `oci_opsi_host_insight` -- Manage host insights
+
+#### Modules -- Dashboard Service
+
+- `oci_dashboard_group` -- Manage dashboard groups
+- `oci_dashboard` -- Manage dashboards
+
+#### Modules -- Cloud Advisor
+
+- `oci_optimizer_profile` -- Manage optimizer profiles
+
+#### Modules -- Web Application Security
+
+- `oci_waas_policy` -- Manage WAAS policies
+- `oci_waa_web_app_acceleration` -- Manage Web App Acceleration
+
+#### Modules -- Media Services
+
+- `oci_media_workflow` -- Manage media workflows
+- `oci_media_stream_distribution_channel` -- Manage stream distribution channels
+
+#### Modules -- Database Recovery
+
+- `oci_recovery_protected_database` -- Manage protected databases
+- `oci_recovery_protection_policy` -- Manage protection policies
+
+#### Modules -- Process Automation
+
+- `oci_opa_instance` -- Manage Process Automation instances
+
+#### Modules -- Visual Builder Studio
+
+- `oci_vbs_instance` -- Manage Visual Builder Studio instances
+
+#### Modules -- Roving Edge
+
+- `oci_rover_cluster` -- Manage Roving Edge clusters
+- `oci_rover_node` -- Manage Roving Edge nodes
+
+#### Modules -- License Manager
+
+- `oci_license_manager_product_license` -- Manage product licenses
+
+#### Modules -- Application Dependency Management
+
+- `oci_adm_knowledge_base` -- Manage ADM knowledge bases
+
+#### Modules -- Fusion Applications
+
+- `oci_fusion_environment` -- Manage Fusion environments
+
+#### Modules -- Lockbox
+
+- `oci_lockbox` -- Manage Lockbox access controls
+
+#### Modules -- Data Transfer Service
+
+- `oci_dts_transfer_job` -- Manage data transfer jobs
+
+#### Modules -- Marketplace
+
+- `oci_marketplace_accepted_agreement` -- Manage accepted marketplace agreements
+
+#### Modules -- Access Governance
+
+- `oci_access_governance_instance` -- Manage Access Governance instances
+
 ## [2.0.0] - 2026-05-08
 
 ### Added
