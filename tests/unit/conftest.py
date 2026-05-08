@@ -113,19 +113,20 @@ except ImportError:
 
 # ---------------------------------------------------------------------------
 # 2.  Set up the ansible_collections.oracle.oci namespace package so that
-#     collection imports work from a standalone checkout.
+#     collection imports work from a standalone checkout or CI.
 # ---------------------------------------------------------------------------
 _collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 
 # When the repo is checked out inside an ansible_collections/oracle/oci/
-# directory tree, the grandparent already provides the namespace package.
+# directory tree (e.g. CI), the grandparent provides the namespace package.
 _namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.pardir))
 if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
     sys.path.insert(0, _namespace_root)
 
-# When the repo is a standalone checkout (e.g. ~/oracle.oci), the namespace
-# package does not exist on disk.  Build it synthetically.
-if "ansible_collections.oracle.oci" not in sys.modules:
+# Try importing; if it fails, build the namespace synthetically.
+try:
+    import ansible_collections.oracle.oci  # noqa: F401
+except (ImportError, ModuleNotFoundError):
     for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
         if _pkg_name not in sys.modules:
             _pkg = types.ModuleType(_pkg_name)
