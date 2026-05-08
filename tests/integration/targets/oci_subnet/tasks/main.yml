@@ -1,6 +1,6 @@
 ---
 - name: Create a subnet
-  stevefulme1.oci_cloud.oci_subnet:
+  oracle.oci.oci_subnet:
     compartment_id: "{{ oci_subnet_compartment_id }}"
     vcn_id: "{{ oci_subnet_vcn_id }}"
     cidr_block: "{{ oci_subnet_cidr_block }}"
@@ -24,7 +24,7 @@
     test_subnet_id: "{{ create_result.resource.id }}"
 
 - name: Create same subnet again (idempotency check)
-  stevefulme1.oci_cloud.oci_subnet:
+  oracle.oci.oci_subnet:
     compartment_id: "{{ oci_subnet_compartment_id }}"
     vcn_id: "{{ oci_subnet_vcn_id }}"
     cidr_block: "{{ oci_subnet_cidr_block }}"
@@ -39,7 +39,7 @@
       - idempotent_result is not changed
 
 - name: Update subnet display_name
-  stevefulme1.oci_cloud.oci_subnet:
+  oracle.oci.oci_subnet:
     compartment_id: "{{ oci_subnet_compartment_id }}"
     vcn_id: "{{ oci_subnet_vcn_id }}"
     cidr_block: "{{ oci_subnet_cidr_block }}"
@@ -55,7 +55,7 @@
       - update_result.resource.display_name == oci_subnet_updated_display_name
 
 - name: Delete the subnet
-  stevefulme1.oci_cloud.oci_subnet:
+  oracle.oci.oci_subnet:
     subnet_id: "{{ test_subnet_id }}"
     state: absent
   register: delete_result
@@ -66,7 +66,7 @@
       - delete_result is changed
 
 - name: Delete subnet again (already gone)
-  stevefulme1.oci_cloud.oci_subnet:
+  oracle.oci.oci_subnet:
     subnet_id: "{{ test_subnet_id }}"
     state: absent
   register: delete_again_result

@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 env:
-  NAMESPACE: stevefulme1
-  COLLECTION: oci_cloud
+  NAMESPACE: oracle
+  COLLECTION: oci
 
 jobs:
   ansible-lint:
@@ -158,7 +158,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
     needs: unit
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4

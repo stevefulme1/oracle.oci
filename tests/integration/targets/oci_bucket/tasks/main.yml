@@ -1,6 +1,6 @@
 ---
 - name: Create a bucket
-  stevefulme1.oci_cloud.oci_bucket:
+  oracle.oci.oci_bucket:
     namespace_name: "{{ oci_bucket_namespace_name }}"
     name: "{{ oci_bucket_name }}"
     compartment_id: "{{ oci_bucket_compartment_id }}"
@@ -18,7 +18,7 @@
       - create_result.resource.storage_tier == oci_bucket_storage_tier
 
 - name: Create same bucket again (idempotency check)
-  stevefulme1.oci_cloud.oci_bucket:
+  oracle.oci.oci_bucket:
     namespace_name: "{{ oci_bucket_namespace_name }}"
     name: "{{ oci_bucket_name }}"
     compartment_id: "{{ oci_bucket_compartment_id }}"
@@ -33,7 +33,7 @@
       - idempotent_result is not changed
 
 - name: Update bucket public access
-  stevefulme1.oci_cloud.oci_bucket:
+  oracle.oci.oci_bucket:
     namespace_name: "{{ oci_bucket_namespace_name }}"
     name: "{{ oci_bucket_name }}"
     compartment_id: "{{ oci_bucket_compartment_id }}"
@@ -48,7 +48,7 @@
       - update_result.resource.public_access_type == "ObjectRead"
 
 - name: Delete the bucket
-  stevefulme1.oci_cloud.oci_bucket:
+  oracle.oci.oci_bucket:
     namespace_name: "{{ oci_bucket_namespace_name }}"
     name: "{{ oci_bucket_name }}"
     state: absent
@@ -60,7 +60,7 @@
       - delete_result is changed
 
 - name: Delete bucket again (already gone)
-  stevefulme1.oci_cloud.oci_bucket:
+  oracle.oci.oci_bucket:
     namespace_name: "{{ oci_bucket_namespace_name }}"
     name: "{{ oci_bucket_name }}"
     state: absent
