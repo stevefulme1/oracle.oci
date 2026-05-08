@@ -6,6 +6,60 @@ in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-05-08
+
+### Added
+
+20 new modules completing the AI/ML suite and adding Disaster Recovery and Redis support.
+
+#### Modules -- AI Anomaly Detection
+
+- `oci_ai_anomaly_detection_data_asset` -- Manage anomaly detection data assets
+- `oci_ai_anomaly_detection_model` -- Manage anomaly detection trained models
+- `oci_ai_anomaly_detection_private_endpoint` -- Manage anomaly detection private endpoints
+
+#### Modules -- AI Document Understanding
+
+- `oci_ai_document_project` -- Manage document understanding projects
+- `oci_ai_document_model` -- Manage document understanding models
+- `oci_ai_document_processor_job` -- Manage document processor jobs
+
+#### Modules -- AI Language
+
+- `oci_ai_language_model` -- Manage AI Language models
+- `oci_ai_language_endpoint` -- Manage AI Language endpoints
+
+#### Modules -- AI Vision
+
+- `oci_ai_vision_model` -- Manage AI Vision models
+- `oci_ai_vision_image_job` -- Manage AI Vision image analysis jobs
+- `oci_ai_vision_document_job` -- Manage AI Vision document analysis jobs
+
+#### Modules -- Data Science
+
+- `oci_data_science_job` -- Manage Data Science jobs
+- `oci_data_science_job_run` -- Manage Data Science job runs
+- `oci_data_science_pipeline` -- Manage Data Science pipelines
+- `oci_data_science_pipeline_run` -- Manage Data Science pipeline runs
+- `oci_data_science_model_version_set` -- Manage Data Science model version sets
+
+#### Modules -- Generative AI
+
+- `oci_generative_ai_dedicated_ai_cluster` -- Manage dedicated AI clusters
+
+#### Modules -- Disaster Recovery
+
+- `oci_disaster_recovery_protection_group` -- Manage DR protection groups
+- `oci_disaster_recovery_plan` -- Manage DR plans
+
+#### Modules -- Cache (Redis)
+
+- `oci_redis_cluster` -- Manage OCI Cache (Redis) clusters
+
+### Changed
+
+- Upstream fixes from oracle/oci-ansible-collection (override filter, inventory lifecycle filtering, boot volume idempotency, load balancer delete protection, auth env vars)
+
 ## [1.1.0] - 2026-04-11
 
 ### Added
