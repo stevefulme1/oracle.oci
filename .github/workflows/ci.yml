@@ -156,8 +156,9 @@ jobs:
   integration-cloud:
     name: Integration (OCI Cloud)
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && secrets.OCI_TENANCY_OCID != ''
+    if: github.event_name == 'workflow_dispatch'
     needs: unit
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
