@@ -44,8 +44,6 @@ options:
             - Filter results by vcn id.
             - Only used when listing with I(compartment_id).
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

@@ -29,8 +29,6 @@ options:
             - The OCID of a specific instance console connection to retrieve.
             - When specified, returns a single resource instead of a list.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
