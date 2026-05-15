@@ -83,7 +83,6 @@ try:
         to_dict,
     )
 except ImportError:
-    from ansible.module_utils.basic import missing_required_lib
     OCI_COMMON_ARGS = {}
 
 
@@ -92,12 +91,12 @@ def list_resources(client, module):
     compartment_id = module.params["compartment_id"]
     kwargs = {}
 
-        if module.params.get("display_name"):
-            kwargs["display_name"] = module.params["display_name"]
-        if module.params.get("lifecycle_state"):
-            kwargs["lifecycle_state"] = module.params["lifecycle_state"]
-        if module.params.get("availability_domain"):
-            kwargs["availability_domain"] = module.params["availability_domain"]
+    if module.params.get("display_name"):
+        kwargs["display_name"] = module.params["display_name"]
+    if module.params.get("lifecycle_state"):
+        kwargs["lifecycle_state"] = module.params["lifecycle_state"]
+    if module.params.get("availability_domain"):
+        kwargs["availability_domain"] = module.params["availability_domain"]
     try:
         response = oci.pagination.list_call_get_all_results(
             client.list_db_systems,

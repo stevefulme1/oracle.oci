@@ -78,7 +78,6 @@ try:
         to_dict,
     )
 except ImportError:
-    from ansible.module_utils.basic import missing_required_lib
     OCI_COMMON_ARGS = {}
 
 
@@ -87,10 +86,10 @@ def list_resources(client, module):
     compartment_id = module.params["compartment_id"]
     kwargs = {}
 
-        if module.params.get("name"):
-            kwargs["name"] = module.params["name"]
-        if module.params.get("lifecycle_state"):
-            kwargs["lifecycle_state"] = module.params["lifecycle_state"]
+    if module.params.get("name"):
+        kwargs["name"] = module.params["name"]
+    if module.params.get("lifecycle_state"):
+        kwargs["lifecycle_state"] = module.params["lifecycle_state"]
     try:
         response = oci.pagination.list_call_get_all_results(
             client.list_compartments,
@@ -117,7 +116,6 @@ def get_resource(client, module):
 def main():
     module_args = dict(
         compartment_id=dict(type="str"),
-        compartment_id=dict(type="str"),
         name=dict(type="str"),
         lifecycle_state=dict(type="str"),
     )
@@ -126,9 +124,6 @@ def main():
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
-        required_one_of=[
-            ("compartment_id", "compartment_id"),
-        ],
     )
 
     if not HAS_OCI_SDK:

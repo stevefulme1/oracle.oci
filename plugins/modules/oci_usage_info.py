@@ -41,37 +41,18 @@ usage_summarys:
     elements: dict
 """
 
-try:
-    import oci.usage_api
-    HAS_OCI_SDK = True
-except ImportError:
-    HAS_OCI_SDK = False
-
 from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
-        OCI_COMMON_ARGS,
-        create_service_client,
-        to_dict,
-    )
-except ImportError:
-    OCI_COMMON_ARGS = {}
 
 
 def main():
     module_args = dict(
         compartment_id=dict(type="str"),
     )
-    module_args.update(OCI_COMMON_ARGS)
 
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
     )
-
-    if not HAS_OCI_SDK:
-        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
 
     module.fail_json(msg="oci_usage_info module is a stub. Full implementation requires OCI SDK integration.")
 

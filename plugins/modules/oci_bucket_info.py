@@ -68,7 +68,6 @@ try:
         to_dict,
     )
 except ImportError:
-    from ansible.module_utils.basic import missing_required_lib
     OCI_COMMON_ARGS = {}
 
 

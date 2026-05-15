@@ -36,10 +36,6 @@ options:
             - The OCID of the sender.
             - Required for update and delete operations.
         type: str
-    compartment_id:
-        description:
-            - Compartment Id for the sender.
-        type: str
     email_address:
         description:
             - Email Address for the sender.
@@ -67,22 +63,7 @@ sender:
     type: dict
 """
 
-try:
-    import oci.email
-    HAS_OCI_SDK = True
-except ImportError:
-    HAS_OCI_SDK = False
-
 from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
-        OCI_COMMON_ARGS,
-        create_service_client,
-        to_dict,
-    )
-except ImportError:
-    OCI_COMMON_ARGS = {}
 
 
 def main():
@@ -90,18 +71,13 @@ def main():
         state=dict(type="str", default="present", choices=["present", "absent"]),
         compartment_id=dict(type="str"),
         sender_id=dict(type="str"),
-        compartment_id=dict(type="str"),
         email_address=dict(type="str"),
     )
-    module_args.update(OCI_COMMON_ARGS)
 
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
     )
-
-    if not HAS_OCI_SDK:
-        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
 
     module.fail_json(msg="oci_email_sender module is a stub. Full implementation requires OCI SDK integration.")
 

@@ -36,10 +36,6 @@ options:
             - The OCID of the container scan target.
             - Required for update and delete operations.
         type: str
-    compartment_id:
-        description:
-            - Compartment Id for the container scan target.
-        type: str
     display_name:
         description:
             - Display Name for the container scan target.
@@ -75,22 +71,7 @@ container_scan_target:
     type: dict
 """
 
-try:
-    import oci.vulnerability_scanning
-    HAS_OCI_SDK = True
-except ImportError:
-    HAS_OCI_SDK = False
-
 from ansible.module_utils.basic import AnsibleModule
-
-try:
-    from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
-        OCI_COMMON_ARGS,
-        create_service_client,
-        to_dict,
-    )
-except ImportError:
-    OCI_COMMON_ARGS = {}
 
 
 def main():
@@ -98,22 +79,18 @@ def main():
         state=dict(type="str", default="present", choices=["present", "absent"]),
         compartment_id=dict(type="str"),
         container_scan_target_id=dict(type="str"),
-        compartment_id=dict(type="str"),
         display_name=dict(type="str"),
         container_scan_recipe_id=dict(type="str"),
         target_registry=dict(type="str"),
     )
-    module_args.update(OCI_COMMON_ARGS)
 
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
     )
 
-    if not HAS_OCI_SDK:
-        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
-
-    module.fail_json(msg="oci_container_scan_target module is a stub. Full implementation requires OCI SDK integration.")
+    module.fail_json(
+        msg="oci_container_scan_target module is a stub. Full implementation requires OCI SDK integration.")
 
 
 if __name__ == "__main__":
