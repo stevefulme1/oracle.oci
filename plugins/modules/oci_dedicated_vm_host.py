@@ -52,8 +52,6 @@ options:
         description:
             - Fault Domain for the dedicated vm host.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

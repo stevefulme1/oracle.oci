@@ -40,8 +40,6 @@ options:
         description:
             - Email Address for the sender.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

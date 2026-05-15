@@ -44,8 +44,6 @@ options:
         description:
             - Attached Vcn Id for the resolver.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

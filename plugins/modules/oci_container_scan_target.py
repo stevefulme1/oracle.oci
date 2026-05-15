@@ -48,8 +48,6 @@ options:
         description:
             - Target Registry for the container scan target.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

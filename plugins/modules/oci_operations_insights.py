@@ -48,8 +48,6 @@ options:
         description:
             - Storage Allocated In Gbs for the operations insights warehouse.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

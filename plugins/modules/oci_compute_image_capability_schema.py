@@ -52,8 +52,6 @@ options:
         description:
             - Schema Data for the compute image capability schema.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

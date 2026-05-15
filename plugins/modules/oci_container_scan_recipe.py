@@ -44,8 +44,6 @@ options:
         description:
             - Scan Settings for the container scan recipe.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

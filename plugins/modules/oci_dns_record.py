@@ -56,8 +56,6 @@ options:
         description:
             - Ttl for the dns record.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

@@ -52,8 +52,6 @@ options:
         description:
             - Hosts for the virtual service.
         type: str
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
