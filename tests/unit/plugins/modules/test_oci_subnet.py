@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_subnet module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_subnet module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_subnet"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_subnet(
@@ -76,7 +76,7 @@ class TestOciSubnetCreate:
         module.params = subnet_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         oci_subnet = OciSubnet(module)
         result = oci_subnet.create_resource()
 
@@ -104,7 +104,7 @@ class TestOciSubnetCreate:
         module.params = subnet_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         oci_subnet = OciSubnet(module)
         oci_subnet.create_resource()
 
@@ -137,7 +137,7 @@ class TestOciSubnetDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         resource = _build_subnet()
 
         oci_subnet = OciSubnet(module)
@@ -171,7 +171,7 @@ class TestOciSubnetDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         oci_subnet = OciSubnet(module)
         result = oci_subnet.get_resource()
         assert result is None
@@ -204,7 +204,7 @@ class TestOciSubnetUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         resource = _build_subnet(display_name="old-name")
 
         oci_subnet = OciSubnet(module)
@@ -238,7 +238,7 @@ class TestOciSubnetIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         resource = _build_subnet(display_name="test-subnet")
 
         oci_subnet = OciSubnet(module)
@@ -264,7 +264,7 @@ class TestOciSubnetIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_subnet import OciSubnet
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_subnet import OciSubnet
         resource = _build_subnet(display_name="old-name")
 
         oci_subnet = OciSubnet(module)

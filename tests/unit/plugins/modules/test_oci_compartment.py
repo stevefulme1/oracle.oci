@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_compartment module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_compartment module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_compartment"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment"
 
 
 def _build_compartment(
@@ -62,7 +62,7 @@ class TestOciCompartmentCreate:
         module = MagicMock()
         module.params = compartment_create_args
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import create_resource
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import create_resource
         result = create_resource(mock_client, module)
 
         mock_call_retry.assert_called_once()
@@ -87,7 +87,7 @@ class TestOciCompartmentCreate:
         module = MagicMock()
         module.params = compartment_create_args
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import create_resource
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import create_resource
         create_resource(mock_client, module)
 
         create_details = mock_call_retry.call_args[0][1]
@@ -107,7 +107,7 @@ class TestOciCompartmentDelete:
         module = MagicMock()
         module.params = module_args
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import delete_resource
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import delete_resource
         delete_resource(mock_client, module, resource)
 
         mock_call_retry.assert_called_once()
@@ -156,7 +156,7 @@ class TestOciCompartmentUpdate:
 
         resource = _build_compartment(name="old-name")
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import update_resource
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import update_resource
         result = update_resource(mock_client, module, resource)
 
         mock_call_retry.assert_called_once()
@@ -181,7 +181,7 @@ class TestOciCompartmentIdempotent:
 
         resource = _build_compartment(name="test-compartment", description="Test compartment for unit tests")
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import needs_update
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import needs_update
         assert not needs_update(module, resource)
 
     def test_change_needed_when_name_differs(self, module_args):
@@ -198,5 +198,5 @@ class TestOciCompartmentIdempotent:
 
         resource = _build_compartment(name="old-name")
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_compartment import needs_update
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_compartment import needs_update
         assert needs_update(module, resource)

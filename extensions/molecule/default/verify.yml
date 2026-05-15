@@ -6,7 +6,7 @@
     oci_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
   tasks:
     - name: List VCNs in compartment
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         compartment_id: "{{ oci_compartment_id }}"
         state: present
       register: vcn_check

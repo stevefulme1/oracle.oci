@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_bucket module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_bucket module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_bucket"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_bucket(
@@ -64,7 +64,7 @@ class TestOciBucketCreate:
         module.params = bucket_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
         result = oci_bucket.create_resource()
 
@@ -91,7 +91,7 @@ class TestOciBucketCreate:
         module.params = bucket_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
         oci_bucket.create_resource()
 
@@ -121,7 +121,7 @@ class TestOciBucketDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket()
 
         oci_bucket = OciBucket(module)
@@ -153,7 +153,7 @@ class TestOciBucketDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
         result = oci_bucket.get_resource()
         assert result is None
@@ -185,7 +185,7 @@ class TestOciBucketUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket(public_access_type="NoPublicAccess")
 
         oci_bucket = OciBucket(module)
@@ -216,7 +216,7 @@ class TestOciBucketIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket(public_access_type="NoPublicAccess")
 
         oci_bucket = OciBucket(module)

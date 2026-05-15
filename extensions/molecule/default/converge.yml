@@ -17,7 +17,7 @@
           - hostname_result.rc == 0
 
     - name: Create a VCN for module testing
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         compartment_id: "{{ oci_compartment_id }}"
         cidr_blocks:
           - "10.200.0.0/16"
@@ -33,7 +33,7 @@
           - vcn_result.resource.lifecycle_state == "AVAILABLE"
 
     - name: Create a subnet in the VCN
-      oracle.oci.oci_subnet:
+      stevefulme1.oci_cloud.oci_subnet:
         compartment_id: "{{ oci_compartment_id }}"
         vcn_id: "{{ vcn_result.resource.id }}"
         cidr_block: "10.200.1.0/24"
@@ -50,11 +50,11 @@
           - subnet_result.resource.lifecycle_state == "AVAILABLE"
 
     - name: Clean up subnet
-      oracle.oci.oci_subnet:
+      stevefulme1.oci_cloud.oci_subnet:
         subnet_id: "{{ subnet_result.resource.id }}"
         state: absent
 
     - name: Clean up VCN
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         vcn_id: "{{ vcn_result.resource.id }}"
         state: absent

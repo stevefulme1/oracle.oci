@@ -1,6 +1,6 @@
 ---
 - name: Create a security list
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     compartment_id: "{{ oci_security_list_compartment_id }}"
     vcn_id: "{{ oci_security_list_vcn_id }}"
     display_name: "{{ oci_security_list_display_name }}"
@@ -24,7 +24,7 @@
     test_security_list_id: "{{ create_result.resource.id }}"
 
 - name: Create same security list again (idempotency check)
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     compartment_id: "{{ oci_security_list_compartment_id }}"
     vcn_id: "{{ oci_security_list_vcn_id }}"
     security_list_id: "{{ test_security_list_id }}"
@@ -40,7 +40,7 @@
       - idempotent_result is not changed
 
 - name: Update security list display_name
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     compartment_id: "{{ oci_security_list_compartment_id }}"
     vcn_id: "{{ oci_security_list_vcn_id }}"
     security_list_id: "{{ test_security_list_id }}"
@@ -57,7 +57,7 @@
       - update_result.resource.display_name == oci_security_list_updated_display_name
 
 - name: Delete the security list
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     security_list_id: "{{ test_security_list_id }}"
     state: absent
   register: delete_result
@@ -68,7 +68,7 @@
       - delete_result is changed
 
 - name: Delete security list again (already gone)
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     security_list_id: "{{ test_security_list_id }}"
     state: absent
   register: delete_again_result

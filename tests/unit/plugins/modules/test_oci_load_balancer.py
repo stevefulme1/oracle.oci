@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_load_balancer module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_load_balancer module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_load_balancer"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_load_balancer(
@@ -74,7 +74,7 @@ class TestOciLoadBalancerCreate:
         module.params = lb_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
         result = oci_lb.create_resource()
 
@@ -106,7 +106,7 @@ class TestOciLoadBalancerCreate:
         module.params = lb_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
         oci_lb.create_resource()
 
@@ -142,7 +142,7 @@ class TestOciLoadBalancerDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer()
 
         oci_lb = OciLoadBalancer(module)
@@ -175,7 +175,7 @@ class TestOciLoadBalancerDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
         result = oci_lb.get_resource()
         assert result is None
@@ -211,7 +211,7 @@ class TestOciLoadBalancerUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="old-name")
 
         oci_lb = OciLoadBalancer(module)
@@ -243,7 +243,7 @@ class TestOciLoadBalancerIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="test-lb")
 
         oci_lb = OciLoadBalancer(module)
@@ -268,7 +268,7 @@ class TestOciLoadBalancerIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="old-name")
 
         oci_lb = OciLoadBalancer(module)

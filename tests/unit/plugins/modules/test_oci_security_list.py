@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_security_list module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_security_list module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_security_list"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_security_list(
@@ -84,7 +84,7 @@ class TestOciSecurityListCreate:
         module.params = security_list_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
         result = oci_sl.create_resource()
 
@@ -111,7 +111,7 @@ class TestOciSecurityListCreate:
         module.params = security_list_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
         oci_sl.create_resource()
 
@@ -146,7 +146,7 @@ class TestOciSecurityListDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list()
 
         oci_sl = OciSecurityList(module)
@@ -179,7 +179,7 @@ class TestOciSecurityListDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
         result = oci_sl.get_resource()
         assert result is None
@@ -211,7 +211,7 @@ class TestOciSecurityListUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="old-name")
 
         oci_sl = OciSecurityList(module)
@@ -244,7 +244,7 @@ class TestOciSecurityListIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="test-security-list")
 
         oci_sl = OciSecurityList(module)
@@ -269,7 +269,7 @@ class TestOciSecurityListIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="old-name")
 
         oci_sl = OciSecurityList(module)
