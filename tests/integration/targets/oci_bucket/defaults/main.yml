@@ -1,0 +1,7 @@
+---
+oci_bucket_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+oci_bucket_namespace_name: "{{ lookup('env', 'OCI_NAMESPACE_NAME') }}"
+oci_bucket_name: "ansible-integration-test-bucket"
+oci_bucket_updated_name: "ansible-integration-test-bucket-updated"
+oci_bucket_public_access_type: "NoPublicAccess"
+oci_bucket_storage_tier: "Standard"

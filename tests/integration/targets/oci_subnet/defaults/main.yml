@@ -1,0 +1,8 @@
+---
+oci_subnet_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+oci_subnet_vcn_id: "{{ lookup('env', 'OCI_VCN_ID') }}"
+oci_subnet_availability_domain: "{{ lookup('env', 'OCI_AVAILABILITY_DOMAIN') | default('Uocm:PHX-AD-1', true) }}"
+oci_subnet_cidr_block: "10.0.10.0/24"
+oci_subnet_display_name: "ansible-integration-test-subnet"
+oci_subnet_updated_display_name: "ansible-integration-test-subnet-updated"
+oci_subnet_dns_label: "ansibletestsub"

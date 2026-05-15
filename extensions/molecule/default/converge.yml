@@ -1,0 +1,60 @@
+---
+- name: Converge -- run key OCI modules against provisioned instance
+  hosts: all
+  gather_facts: false
+  vars:
+    oci_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+    oci_availability_domain: "{{ lookup('env', 'OCI_AVAILABILITY_DOMAIN') | default('Uocm:PHX-AD-1', true) }}"
+  tasks:
+    - name: Gather instance facts via whoami-style check
+      ansible.builtin.command: uname -n
+      register: hostname_result
+      changed_when: false
+
+    - name: Verify instance is reachable
+      ansible.builtin.assert:
+        that:
+          - hostname_result.rc == 0
+
+    - name: Create a VCN for module testing
+      stevefulme1.oci_cloud.oci_vcn:
+        compartment_id: "{{ oci_compartment_id }}"
+        cidr_blocks:
+          - "10.200.0.0/16"
+        display_name: "molecule-test-vcn"
+        dns_label: "moltest"
+        state: present
+      register: vcn_result
+
+    - name: Verify VCN creation
+      ansible.builtin.assert:
+        that:
+          - vcn_result is changed
+          - vcn_result.resource.lifecycle_state == "AVAILABLE"
+
+    - name: Create a subnet in the VCN
+      stevefulme1.oci_cloud.oci_subnet:
+        compartment_id: "{{ oci_compartment_id }}"
+        vcn_id: "{{ vcn_result.resource.id }}"
+        cidr_block: "10.200.1.0/24"
+        display_name: "molecule-test-subnet"
+        dns_label: "molsub"
+        availability_domain: "{{ oci_availability_domain }}"
+        state: present
+      register: subnet_result
+
+    - name: Verify subnet creation
+      ansible.builtin.assert:
+        that:
+          - subnet_result is changed
+          - subnet_result.resource.lifecycle_state == "AVAILABLE"
+
+    - name: Clean up subnet
+      stevefulme1.oci_cloud.oci_subnet:
+        subnet_id: "{{ subnet_result.resource.id }}"
+        state: absent
+
+    - name: Clean up VCN
+      stevefulme1.oci_cloud.oci_vcn:
+        vcn_id: "{{ vcn_result.resource.id }}"
+        state: absent

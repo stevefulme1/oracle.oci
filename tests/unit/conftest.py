@@ -56,7 +56,7 @@ except ImportError:
     _oci.core = _oci_core
 
     class _OciModelsModule(types.ModuleType):
-        """Auto-creates simple data classes for any oci.core.models.* access."""
+        """Auto-creates simple data classes for any oci.*.models.* access."""
         def __getattr__(self, name):
             # Dynamically create a class that stores **kwargs as attributes.
             cls = type(name, (), {"__init__": lambda self, **kw: self.__dict__.update(kw)})
@@ -66,6 +66,33 @@ except ImportError:
     _oci_core_models = _OciModelsModule("oci.core.models")
     _oci_core.models = _oci_core_models
 
+    # oci.object_storage
+    _oci_object_storage = types.ModuleType("oci.object_storage")
+    _oci_object_storage.__path__ = []
+    _oci_object_storage.ObjectStorageClient = MagicMock
+    _oci.object_storage = _oci_object_storage
+
+    _oci_object_storage_models = _OciModelsModule("oci.object_storage.models")
+    _oci_object_storage.models = _oci_object_storage_models
+
+    # oci.identity
+    _oci_identity = types.ModuleType("oci.identity")
+    _oci_identity.__path__ = []
+    _oci_identity.IdentityClient = MagicMock
+    _oci.identity = _oci_identity
+
+    _oci_identity_models = _OciModelsModule("oci.identity.models")
+    _oci_identity.models = _oci_identity_models
+
+    # oci.load_balancer
+    _oci_load_balancer = types.ModuleType("oci.load_balancer")
+    _oci_load_balancer.__path__ = []
+    _oci_load_balancer.LoadBalancerClient = MagicMock
+    _oci.load_balancer = _oci_load_balancer
+
+    _oci_load_balancer_models = _OciModelsModule("oci.load_balancer.models")
+    _oci_load_balancer.models = _oci_load_balancer_models
+
     for _name, _mod in [
         ("oci", _oci),
         ("oci.exceptions", _oci_exceptions),
@@ -74,25 +101,29 @@ except ImportError:
         ("oci.auth.signers", _oci_auth_signers),
         ("oci.core", _oci_core),
         ("oci.core.models", _oci_core_models),
+        ("oci.object_storage", _oci_object_storage),
+        ("oci.object_storage.models", _oci_object_storage_models),
+        ("oci.identity", _oci_identity),
+        ("oci.identity.models", _oci_identity_models),
+        ("oci.load_balancer", _oci_load_balancer),
+        ("oci.load_balancer.models", _oci_load_balancer_models),
     ]:
         sys.modules[_name] = _mod
 
 
 # ---------------------------------------------------------------------------
 # 2.  Set up the ansible_collections.stevefulme1.oci_cloud namespace package so that
-#     collection imports work from a standalone checkout.
+#     collection imports work from a standalone checkout or CI.
 # ---------------------------------------------------------------------------
 _collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 
-# When the repo is checked out inside an ansible_collections/oracle/oci/
-# directory tree, the grandparent already provides the namespace package.
 _namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.pardir))
 if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
     sys.path.insert(0, _namespace_root)
 
-# When the repo is a standalone checkout (e.g. ~/stevefulme1.oci_cloud), the namespace
-# package does not exist on disk.  Build it synthetically.
-if "ansible_collections.stevefulme1.oci_cloud" not in sys.modules:
+try:
+    import ansible_collections.stevefulme1.oci_cloud  # noqa: F401  # pylint: disable=unused-import
+except (ImportError, ModuleNotFoundError):
     for _pkg_name in ("ansible_collections", "ansible_collections.stevefulme1"):
         if _pkg_name not in sys.modules:
             _pkg = types.ModuleType(_pkg_name)

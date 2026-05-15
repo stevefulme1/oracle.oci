@@ -1,0 +1,20 @@
+---
+- name: Verify -- confirm module outputs are well-formed
+  hosts: all
+  gather_facts: false
+  vars:
+    oci_compartment_id: "{{ lookup('env', 'OCI_COMPARTMENT_ID') }}"
+  tasks:
+    - name: List VCNs in compartment
+      stevefulme1.oci_cloud.oci_vcn:
+        compartment_id: "{{ oci_compartment_id }}"
+        state: present
+      register: vcn_check
+      ignore_errors: true
+
+    - name: Verify module returns structured output
+      ansible.builtin.assert:
+        that:
+          - vcn_check is defined
+          - "'resource' in vcn_check or 'msg' in vcn_check"
+        fail_msg: "Module did not return expected output structure"

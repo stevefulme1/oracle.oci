@@ -1,0 +1,72 @@
+---
+- name: Create a bucket
+  stevefulme1.oci_cloud.oci_bucket:
+    namespace_name: "{{ oci_bucket_namespace_name }}"
+    name: "{{ oci_bucket_name }}"
+    compartment_id: "{{ oci_bucket_compartment_id }}"
+    public_access_type: "{{ oci_bucket_public_access_type }}"
+    storage_tier: "{{ oci_bucket_storage_tier }}"
+    state: present
+  register: create_result
+
+- name: Verify bucket was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_bucket_name
+      - create_result.resource.public_access_type == oci_bucket_public_access_type
+      - create_result.resource.storage_tier == oci_bucket_storage_tier
+
+- name: Create same bucket again (idempotency check)
+  stevefulme1.oci_cloud.oci_bucket:
+    namespace_name: "{{ oci_bucket_namespace_name }}"
+    name: "{{ oci_bucket_name }}"
+    compartment_id: "{{ oci_bucket_compartment_id }}"
+    public_access_type: "{{ oci_bucket_public_access_type }}"
+    storage_tier: "{{ oci_bucket_storage_tier }}"
+    state: present
+  register: idempotent_result
+
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+
+- name: Update bucket public access
+  stevefulme1.oci_cloud.oci_bucket:
+    namespace_name: "{{ oci_bucket_namespace_name }}"
+    name: "{{ oci_bucket_name }}"
+    compartment_id: "{{ oci_bucket_compartment_id }}"
+    public_access_type: "ObjectRead"
+    state: present
+  register: update_result
+
+- name: Verify bucket was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.public_access_type == "ObjectRead"
+
+- name: Delete the bucket
+  stevefulme1.oci_cloud.oci_bucket:
+    namespace_name: "{{ oci_bucket_namespace_name }}"
+    name: "{{ oci_bucket_name }}"
+    state: absent
+  register: delete_result
+
+- name: Verify bucket was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+
+- name: Delete bucket again (already gone)
+  stevefulme1.oci_cloud.oci_bucket:
+    namespace_name: "{{ oci_bucket_namespace_name }}"
+    name: "{{ oci_bucket_name }}"
+    state: absent
+  register: delete_again_result
+
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

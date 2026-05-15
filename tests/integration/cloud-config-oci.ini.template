@@ -1,0 +1,39 @@
+# OCI Cloud Configuration for ansible-test integration
+#
+# Copy this file to cloud-config-oci.ini and populate with your
+# OCI tenancy details.  All values can also be supplied via
+# environment variables of the same name.
+#
+# See docs/testing.md for instructions on setting up an OCI Always
+# Free tier account for integration testing.
+
+[default]
+# Tenancy OCID (root compartment)
+OCI_TENANCY_OCID=ocid1.tenancy.oc1..REPLACE_ME
+
+# User OCID for API key authentication
+OCI_USER_OCID=ocid1.user.oc1..REPLACE_ME
+
+# Fingerprint of the API signing key
+OCI_FINGERPRINT=aa:bb:cc:dd:ee:ff:00:11:22:33:44:55:66:77:88:99
+
+# Path to the PEM private key file
+OCI_PRIVATE_KEY=/path/to/oci_api_key.pem
+
+# Compartment OCID for test resources
+OCI_COMPARTMENT_ID=ocid1.compartment.oc1..REPLACE_ME
+
+# Availability domain (e.g. Uocm:PHX-AD-1)
+OCI_AVAILABILITY_DOMAIN=Uocm:PHX-AD-1
+
+# Image OCID (Oracle Linux 9 in your region)
+OCI_IMAGE_ID=ocid1.image.oc1.phx.REPLACE_ME
+
+# Subnet OCID for compute instances
+OCI_SUBNET_ID=ocid1.subnet.oc1.phx.REPLACE_ME
+
+# VCN OCID for networking tests
+OCI_VCN_ID=ocid1.vcn.oc1..REPLACE_ME
+
+# Object Storage namespace (tenancy-level)
+OCI_NAMESPACE_NAME=REPLACE_ME

@@ -1,0 +1,34 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: oci
+  key_file: ${OCI_PRIVATE_KEY:-~/.oci/oci_api_key.pem}
+  region: ${OCI_REGION:-us-phoenix-1}
+  compartment_id: ${OCI_COMPARTMENT_ID}
+  availability_domain: ${OCI_AVAILABILITY_DOMAIN:-Uocm:PHX-AD-1}
+
+platforms:
+  - name: oci-test-instance
+    shape: VM.Standard.E2.1.Micro
+    image_id: ${OCI_IMAGE_ID}
+    subnet_id: ${OCI_SUBNET_ID}
+    assign_public_ip: true
+    ssh_user: opc
+    freeform_tags:
+      purpose: molecule-test
+      collection: oracle.oci
+
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_COLLECTIONS_PATH: "${MOLECULE_PROJECT_DIRECTORY}/../../.."
+  inventory:
+    host_vars:
+      oci-test-instance:
+        ansible_user: opc
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+verifier:
+  name: ansible
