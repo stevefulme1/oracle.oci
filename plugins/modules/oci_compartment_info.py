@@ -13,7 +13,7 @@ module: oci_compartment_info
 short_description: Retrieve information about OCI compartments
 description:
     - Retrieve details about one or more compartments in Oracle Cloud Infrastructure.
-    - Use I(compartment_id) to get a single resource, or I(compartment_id) to list resources.
+    - Use I(compartment_id) to get a single compartment or list compartments.
     - This is a read-only module that does not modify any resources.
 version_added: "2.2.0"
 author:
@@ -21,14 +21,11 @@ author:
 options:
     compartment_id:
         description:
-            - The OCID of the compartment to list resources from.
-            - Required when listing resources.
+            - The OCID of the compartment.
+            - When used alone, retrieves a single compartment.
+            - Also serves as the parent compartment when listing sub-compartments.
         type: str
-    compartment_id:
-        description:
-            - The OCID of a specific compartment to retrieve.
-            - When specified, returns a single resource instead of a list.
-        type: str
+        required: true
     name:
         description:
             - Filter results by name.
