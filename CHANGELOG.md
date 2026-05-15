@@ -6,6 +6,81 @@ in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-05-15
+
+### Added
+
+132 new modules bringing the total from 203 to 335. Every CRUD module now has a
+matching `_info` counterpart, and new service coverage matches AWS/Azure collection parity.
+
+#### Info Modules (110 new)
+
+Read-only facts modules for every existing resource type. Each accepts
+`compartment_id` to list resources or a resource-specific OCID to get a single item.
+
+- Compute: `oci_instance_info`, `oci_image_info`, `oci_boot_volume_info`, `oci_volume_info`, `oci_volume_backup_info`, `oci_volume_group_info`, `oci_vnic_attachment_info`, `oci_volume_attachment_info`, `oci_console_connection_info`, `oci_capacity_reservation_info`, `oci_instance_pool_info`, `oci_cluster_network_info`, `oci_autoscaling_configuration_info`
+- Networking: `oci_vcn_info`, `oci_subnet_info`, `oci_security_list_info`, `oci_route_table_info`, `oci_internet_gateway_info`, `oci_nat_gateway_info`, `oci_service_gateway_info`, `oci_drg_info`, `oci_dhcp_options_info`, `oci_nsg_info`, `oci_local_peering_gateway_info`, `oci_remote_peering_connection_info`, `oci_public_ip_info`, `oci_private_ip_info`, `oci_cross_connect_info`, `oci_fastconnect_info`, `oci_ipsec_connection_info`, `oci_network_firewall_info`, `oci_network_load_balancer_info`, `oci_vtap_info`, `oci_capture_filter_info`
+- Load Balancer: `oci_load_balancer_info`
+- IAM: `oci_compartment_info`, `oci_user_info`, `oci_group_info`, `oci_policy_info`, `oci_dynamic_group_info`, `oci_identity_domain_info`, `oci_tag_namespace_info`
+- Database: `oci_db_system_info`, `oci_db_home_info`, `oci_db_backup_info`, `oci_autonomous_database_info`, `oci_exadata_infrastructure_info`, `oci_vm_cluster_info`, `oci_pluggable_database_info`, `oci_external_database_info`, `oci_mysql_db_system_info`, `oci_postgresql_db_system_info`, `oci_nosql_table_info`, `oci_redis_cluster_info`, `oci_opensearch_cluster_info`
+- Object Storage: `oci_bucket_info`
+- Container: `oci_container_instance_info`, `oci_container_registry_info`
+- Functions: `oci_functions_application_info`, `oci_functions_function_info`
+- DNS: `oci_dns_zone_info`
+- File Storage: `oci_file_system_info`, `oci_mount_target_info`, `oci_export_set_info`, `oci_snapshot_info`
+- Vault/KMS: `oci_vault_info`, `oci_key_info`, `oci_vault_secret_info`
+- Monitoring: `oci_alarm_info`, `oci_events_rule_info`, `oci_notification_topic_info`, `oci_notification_subscription_info`, `oci_log_group_info`, `oci_log_info`, `oci_streaming_info`
+- DevOps: `oci_devops_project_info`, `oci_devops_repository_info`, `oci_devops_build_pipeline_info`, `oci_devops_deploy_pipeline_info`
+- Resource Manager: `oci_resource_manager_stack_info`
+- API Gateway: `oci_api_gateway_info`, `oci_api_gateway_deployment_info`
+- Data Science: `oci_data_science_project_info`, `oci_data_science_notebook_info`, `oci_data_science_model_info`, `oci_data_science_model_deployment_info`, `oci_data_science_pipeline_info`, `oci_data_science_job_info`
+- Generative AI: `oci_generative_ai_model_info`, `oci_generative_ai_endpoint_info`, `oci_generative_ai_dedicated_ai_cluster_info`
+- Security: `oci_bastion_info`, `oci_certificate_info`, `oci_cloud_guard_info`, `oci_vulnerability_scan_info`, `oci_waf_info`, `oci_security_zone_info`
+- Analytics: `oci_analytics_instance_info`, `oci_big_data_service_info`, `oci_data_catalog_info`, `oci_data_flow_application_info`, `oci_data_integration_workspace_info`
+- Disaster Recovery: `oci_disaster_recovery_plan_info`, `oci_disaster_recovery_protection_group_info`
+- Misc: `oci_budget_info`, `oci_quota_info`, `oci_email_delivery_info`, `oci_health_check_info`, `oci_queue_info`, `oci_service_connector_info`
+
+#### New Service Modules (12 CRUD + 10 info-only)
+
+AWS/Azure parity coverage for services not previously in the collection:
+
+- `oci_dedicated_vm_host` -- Manage dedicated VM hosts for isolated compute
+- `oci_instance_configuration` -- Manage instance configurations for pools
+- `oci_compute_image_capability_schema` -- Manage image capability schemas
+- `oci_dns_record` -- Manage DNS records in zones
+- `oci_dns_resolver` -- Manage DNS resolvers
+- `oci_email_sender` -- Manage approved email senders
+- `oci_email_dkim` -- Manage DKIM signing keys
+- `oci_service_mesh` -- Manage service meshes
+- `oci_service_mesh_virtual_service` -- Manage virtual services in meshes
+- `oci_operations_insights` -- Manage Operations Insights warehouses
+- `oci_container_scan_recipe` -- Manage container scan recipes
+- `oci_container_scan_target` -- Manage container scan targets
+- `oci_region_info` -- List available regions
+- `oci_availability_domain_info` -- List availability domains
+- `oci_fault_domain_info` -- List fault domains
+- `oci_shape_info` -- List compute shapes
+- `oci_service_info` -- List available services
+- `oci_tenancy_info` -- Get tenancy details
+- `oci_limits_info` -- List service limits
+- `oci_usage_info` -- Query cost and usage data
+- `oci_cloud_advisor_recommendation_info` -- List optimization recommendations
+- `oci_announcements_info` -- List platform announcements
+
+### Changed
+
+- Version bumped to 3.0.0 (major: new module surface area)
+
+## [2.2.0] - 2026-05-15
+
+### Added
+
+- Comprehensive test suite with unit tests for bucket, compartment, load balancer, security list, and subnet modules
+
+### Fixed
+
+- Namespace references updated from oracle.oci to stevefulme1.oci_cloud across all tests and playbooks
+
 ## [2.1.0] - 2026-05-08
 
 ### Added

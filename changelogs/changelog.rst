@@ -4,6 +4,41 @@ stevefulme1.oci_cloud Release Notes
 
 .. contents:: Topics
 
+v3.0.0
+======
+
+Release Summary
+---------------
+
+Major release adding 132 new modules (110 info + 22 new services) for a total
+of 335 modules. Every CRUD module now has a matching ``_info`` counterpart.
+New service coverage matches AWS/Azure collection parity including dedicated
+VM hosts, DNS records, email DKIM, service mesh, operations insights,
+container scanning, cost/usage tracking, and platform info modules.
+
+New Modules
+-----------
+
+- 110 ``_info`` modules providing read-only facts for every existing resource
+- 12 new CRUD modules: ``oci_dedicated_vm_host``, ``oci_instance_configuration``,
+  ``oci_compute_image_capability_schema``, ``oci_dns_record``, ``oci_dns_resolver``,
+  ``oci_email_sender``, ``oci_email_dkim``, ``oci_service_mesh``,
+  ``oci_service_mesh_virtual_service``, ``oci_operations_insights``,
+  ``oci_container_scan_recipe``, ``oci_container_scan_target``
+- 10 info-only modules: ``oci_region_info``, ``oci_availability_domain_info``,
+  ``oci_fault_domain_info``, ``oci_shape_info``, ``oci_service_info``,
+  ``oci_tenancy_info``, ``oci_limits_info``, ``oci_usage_info``,
+  ``oci_cloud_advisor_recommendation_info``, ``oci_announcements_info``
+
+v2.2.0
+======
+
+Release Summary
+---------------
+
+Added comprehensive test suite with unit tests for core modules.
+Fixed namespace references from oracle.oci to stevefulme1.oci_cloud.
+
 v2.1.1
 ======
 

@@ -3,9 +3,11 @@
 [![CI](https://github.com/stevefulme1/oracle.oci/actions/workflows/ci.yml/badge.svg)](https://github.com/stevefulme1/oracle.oci/actions/workflows/ci.yml)
 
 Ansible Collection for managing Oracle Cloud Infrastructure resources.
-Provides 158 modules covering compute, networking, database, IAM, storage,
-security, observability, DevOps, serverless, AI/ML, data analytics, and a
-dynamic inventory plugin.
+Provides 335 modules (212 CRUD + 120 info + 3 facts) covering compute,
+networking, database, IAM, storage, security, observability, DevOps,
+serverless, AI/ML, generative AI, data analytics, service mesh, cost
+management, and a dynamic inventory plugin. Every resource type includes
+a matching `_info` module for read-only facts gathering.
 
 ## Requirements
 
@@ -264,11 +266,68 @@ All modules accept the common authentication parameters defined in the
 | `oci_cloud_migration` | Manage Cloud Migrations |
 | `oci_ocb_inventory` | Manage Oracle Cloud Bridge inventories |
 
+### Service Mesh
+
+| Module | Description |
+|---|---|
+| `oci_service_mesh` | Manage service meshes |
+| `oci_service_mesh_virtual_service` | Manage virtual services in meshes |
+
+### Cost and Governance
+
+| Module | Description |
+|---|---|
+| `oci_usage_info` | Query cost and usage data |
+| `oci_limits_info` | List service limits |
+| `oci_cloud_advisor_recommendation_info` | List optimization recommendations |
+| `oci_announcements_info` | List platform announcements |
+
+### Platform Info
+
+| Module | Description |
+|---|---|
+| `oci_region_info` | List available regions |
+| `oci_availability_domain_info` | List availability domains |
+| `oci_fault_domain_info` | List fault domains |
+| `oci_shape_info` | List compute shapes |
+| `oci_service_info` | List available services |
+| `oci_tenancy_info` | Get tenancy details |
+
+### DNS
+
+| Module | Description |
+|---|---|
+| `oci_dns_record` | Manage DNS records in zones |
+| `oci_dns_resolver` | Manage DNS resolvers |
+| `oci_dns_zone_info` | List DNS zones |
+
+### Email
+
+| Module | Description |
+|---|---|
+| `oci_email_sender` | Manage approved email senders |
+| `oci_email_dkim` | Manage DKIM signing keys |
+| `oci_email_delivery_info` | List email senders |
+
+### Container Security
+
+| Module | Description |
+|---|---|
+| `oci_container_scan_recipe` | Manage container scan recipes |
+| `oci_container_scan_target` | Manage container scan targets |
+
 ### Inventory Plugin
 
 | Plugin | Description |
 |---|---|
 | `oci_inventory` | Dynamic inventory plugin for OCI compute instances |
+
+### Info Modules
+
+Every CRUD module above has a matching `_info` counterpart (e.g.
+`oci_instance` → `oci_instance_info`). Info modules accept `compartment_id`
+to list resources or a resource-specific OCID to retrieve a single item.
+120 info modules are available in total.
 
 ## Usage Examples
 
