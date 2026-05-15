@@ -112,35 +112,32 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# 2.  Set up the ansible_collections.oracle.oci namespace package so that
+# 2.  Set up the ansible_collections.stevefulme1.oci_cloud namespace package so that
 #     collection imports work from a standalone checkout or CI.
 # ---------------------------------------------------------------------------
 _collection_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir))
 
-# When the repo is checked out inside an ansible_collections/oracle/oci/
-# directory tree (e.g. CI), the grandparent provides the namespace package.
 _namespace_root = os.path.abspath(os.path.join(_collection_root, os.pardir, os.pardir))
 if os.path.isdir(os.path.join(_namespace_root, "ansible_collections")) and _namespace_root not in sys.path:
     sys.path.insert(0, _namespace_root)
 
-# Try importing; if it fails, build the namespace synthetically.
 try:
-    import ansible_collections.oracle.oci  # noqa: F401  # pylint: disable=unused-import
+    import ansible_collections.stevefulme1.oci_cloud  # noqa: F401  # pylint: disable=unused-import
 except (ImportError, ModuleNotFoundError):
-    for _pkg_name in ("ansible_collections", "ansible_collections.oracle"):
+    for _pkg_name in ("ansible_collections", "ansible_collections.stevefulme1"):
         if _pkg_name not in sys.modules:
             _pkg = types.ModuleType(_pkg_name)
             _pkg.__path__ = []
             _pkg.__package__ = _pkg_name
             sys.modules[_pkg_name] = _pkg
 
-    _oci_mod = types.ModuleType("ansible_collections.oracle.oci")
+    _oci_mod = types.ModuleType("ansible_collections.stevefulme1.oci_cloud")
     _oci_mod.__path__ = [_collection_root]
-    _oci_mod.__package__ = "ansible_collections.oracle.oci"
-    sys.modules["ansible_collections.oracle.oci"] = _oci_mod
+    _oci_mod.__package__ = "ansible_collections.stevefulme1.oci_cloud"
+    sys.modules["ansible_collections.stevefulme1.oci_cloud"] = _oci_mod
 
-    sys.modules["ansible_collections"].oracle = sys.modules["ansible_collections.oracle"]
-    sys.modules["ansible_collections.oracle"].oci = _oci_mod
+    sys.modules["ansible_collections"].stevefulme1 = sys.modules["ansible_collections.stevefulme1"]
+    sys.modules["ansible_collections.stevefulme1"].oci_cloud = _oci_mod
 
 
 @pytest.fixture

@@ -57,12 +57,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a security list allowing SSH and HTTPS ingress
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     compartment_id: "ocid1.compartment.oc1..example"
     vcn_id: "ocid1.vcn.oc1..example"
     display_name: "web-seclist"
@@ -85,7 +85,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a security list
-  oracle.oci.oci_security_list:
+  stevefulme1.oci_cloud.oci_security_list:
     security_list_id: "ocid1.securitylist.oc1..example"
     state: absent
 """
@@ -104,12 +104,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -223,7 +223,7 @@ class OciSecurityList(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -250,7 +250,7 @@ class OciSecurityList(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -281,7 +281,7 @@ class OciSecurityList(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

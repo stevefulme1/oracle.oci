@@ -1,6 +1,6 @@
 # Code of Conduct
 
-The `oracle.oci` Ansible collection follows the
+The `stevefulme1.oci_cloud` Ansible collection follows the
 [Ansible Community Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
 
 ## Summary

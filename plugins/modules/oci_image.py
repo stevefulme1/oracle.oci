@@ -44,25 +44,25 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a custom image from an instance
-  oracle.oci.oci_image:
+  stevefulme1.oci_cloud.oci_image:
     compartment_id: "ocid1.compartment.oc1..example"
     instance_id: "ocid1.instance.oc1.phx.example"
     display_name: "my-custom-image"
     state: present
 
 - name: Update image display name
-  oracle.oci.oci_image:
+  stevefulme1.oci_cloud.oci_image:
     image_id: "ocid1.image.oc1.phx.example"
     display_name: "renamed-image"
     state: present
 
 - name: Delete a custom image
-  oracle.oci.oci_image:
+  stevefulme1.oci_cloud.oci_image:
     image_id: "ocid1.image.oc1.phx.example"
     state: absent
 """
@@ -83,14 +83,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_DELETED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )

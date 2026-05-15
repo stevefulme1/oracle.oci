@@ -54,12 +54,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an IPSec connection
-  oracle.oci.oci_ipsec_connection:
+  stevefulme1.oci_cloud.oci_ipsec_connection:
     compartment_id: "ocid1.compartment.oc1..example"
     drg_id: "ocid1.drg.oc1..example"
     cpe_id: "ocid1.cpe.oc1..example"
@@ -69,13 +69,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update an IPSec connection
-  oracle.oci.oci_ipsec_connection:
+  stevefulme1.oci_cloud.oci_ipsec_connection:
     ipsc_id: "ocid1.ipsecconnection.oc1..example"
     display_name: "updated-ipsec"
     state: present
 
 - name: Delete an IPSec connection
-  oracle.oci.oci_ipsec_connection:
+  stevefulme1.oci_cloud.oci_ipsec_connection:
     ipsc_id: "ocid1.ipsecconnection.oc1..example"
     state: absent
 """
@@ -96,12 +96,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -129,7 +129,7 @@ class OciIpsecConnection(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -152,7 +152,7 @@ class OciIpsecConnection(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -177,7 +177,7 @@ class OciIpsecConnection(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

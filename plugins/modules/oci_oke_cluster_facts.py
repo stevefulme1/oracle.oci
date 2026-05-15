@@ -48,28 +48,28 @@ options:
       - DELETED
       - UPDATING
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: List all OKE clusters in a compartment
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
   register: result
 
 - name: Get a specific cluster by ID
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     cluster_id: "ocid1.cluster.oc1.phx.example"
   register: result
 
 - name: List active clusters in a compartment
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     lifecycle_state: "ACTIVE"
   register: result
 
 - name: List clusters filtered by name
-  oracle.oci.oci_oke_cluster_facts:
+  stevefulme1.oci_cloud.oci_oke_cluster_facts:
     compartment_id: "ocid1.compartment.oc1..example"
     name: "my-k8s-cluster"
   register: result
@@ -97,38 +97,17 @@ clusters:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
+    to_dict,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 try:
     import oci
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource object to a serializable dict."""
-    if resource is None:
-        return {}
-    if hasattr(resource, "__dict__"):
-        result = {}
-        for key, value in resource.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-                result[key] = to_dict(value)
-            elif isinstance(value, list):
-                result[key] = [
-                    to_dict(item) if hasattr(item, "__dict__") else item
-                    for item in value
-                ]
-            else:
-                result[key] = value
-        return result
-    return resource
 
 
 def list_clusters(client, module):

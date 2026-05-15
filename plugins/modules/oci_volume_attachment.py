@@ -60,12 +60,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Attach a volume using paravirtualized
-  oracle.oci.oci_volume_attachment:
+  stevefulme1.oci_cloud.oci_volume_attachment:
     instance_id: "ocid1.instance.oc1..example"
     volume_id: "ocid1.volume.oc1..example"
     type: paravirtualized
@@ -73,7 +73,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Attach a volume using iSCSI
-  oracle.oci.oci_volume_attachment:
+  stevefulme1.oci_cloud.oci_volume_attachment:
     instance_id: "ocid1.instance.oc1..example"
     volume_id: "ocid1.volume.oc1..example"
     type: iscsi
@@ -82,7 +82,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Detach a volume
-  oracle.oci.oci_volume_attachment:
+  stevefulme1.oci_cloud.oci_volume_attachment:
     volume_attachment_id: "ocid1.volumeattachment.oc1..example"
     state: absent
 """
@@ -103,16 +103,16 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     import oci

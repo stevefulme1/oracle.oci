@@ -33,7 +33,7 @@
 
   tasks:
     - name: Create Autonomous Database
-      oracle.oci.oci_autonomous_database:
+      stevefulme1.oci_cloud.oci_autonomous_database:
         compartment_id: "{{ compartment_id }}"
         db_name: "{{ db_name }}"
         display_name: "{{ display_name }}"
@@ -64,7 +64,7 @@
         mode: "0700"
 
     - name: Download ADB wallet
-      oracle.oci.oci_autonomous_database_wallet:
+      stevefulme1.oci_cloud.oci_autonomous_database_wallet:
         autonomous_database_id: "{{ adb.autonomous_database.id }}"
         password: "{{ wallet_password }}"
         dest: "{{ wallet_dir }}/wallet_{{ db_name }}.zip"
@@ -76,7 +76,7 @@
         msg: "Wallet saved to {{ wallet_dir }}/wallet_{{ db_name }}.zip"
 
     - name: Create IAM policy for ADB access
-      oracle.oci.oci_policy:
+      stevefulme1.oci_cloud.oci_policy:
         compartment_id: "{{ compartment_id }}"
         name: "adb-{{ db_name }}-policy"
         description: "Allow {{ iam_group_name }} to manage ADB {{ display_name }}"

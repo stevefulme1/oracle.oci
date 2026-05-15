@@ -73,12 +73,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Add a backend to a backend set
-  oracle.oci.oci_load_balancer_backend:
+  stevefulme1.oci_cloud.oci_load_balancer_backend:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     backend_set_name: "my-backend-set"
     ip_address: "10.0.0.3"
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update backend weight
-  oracle.oci.oci_load_balancer_backend:
+  stevefulme1.oci_cloud.oci_load_balancer_backend:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     backend_set_name: "my-backend-set"
     ip_address: "10.0.0.3"
@@ -96,7 +96,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Drain a backend server
-  oracle.oci.oci_load_balancer_backend:
+  stevefulme1.oci_cloud.oci_load_balancer_backend:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     backend_set_name: "my-backend-set"
     ip_address: "10.0.0.3"
@@ -105,7 +105,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Remove a backend from a backend set
-  oracle.oci.oci_load_balancer_backend:
+  stevefulme1.oci_cloud.oci_load_balancer_backend:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     backend_set_name: "my-backend-set"
     ip_address: "10.0.0.3"
@@ -130,13 +130,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
+    to_dict,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (
     create_service_client,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     wait_for_work_request,
 )
 
@@ -151,25 +152,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(obj):
-    """Convert an OCI SDK object to a serializable dict."""
-    if obj is None:
-        return {}
-    if hasattr(obj, "__dict__"):
-        result = {}
-        for key, value in obj.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(item) if hasattr(item, "__dict__") else item for item in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return obj
 
 
 def backend_name(module):

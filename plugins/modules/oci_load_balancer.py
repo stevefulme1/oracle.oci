@@ -43,6 +43,12 @@ options:
             - Whether the load balancer has a public or private IP address.
         type: bool
         default: false
+    is_delete_protection_enabled:
+        description:
+            - Whether delete protection is enabled for the load balancer.
+            - When enabled, the load balancer cannot be deleted.
+        type: bool
+        default: false
     load_balancer_id:
         description:
             - The OCID of the load balancer.
@@ -55,12 +61,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a public load balancer
-  oracle.oci.oci_load_balancer:
+  stevefulme1.oci_cloud.oci_load_balancer:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-lb"
     shape_name: "flexible"
@@ -71,7 +77,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete a load balancer
-  oracle.oci.oci_load_balancer:
+  stevefulme1.oci_cloud.oci_load_balancer:
     load_balancer_id: "ocid1.loadbalancer.oc1..example"
     state: absent
 """
@@ -91,10 +97,10 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.load_balancer import LoadBalancerClient
@@ -125,12 +131,12 @@ class OciLoadBalancer(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 
         freeform_tags, defined_tags = self.get_tags()
-        details = CreateLoadBalancerDetails(
+        create_kwargs = dict(
             compartment_id=self.module.params["compartment_id"],
             display_name=self.module.params["display_name"],
             shape_name=self.module.params["shape_name"],
@@ -139,6 +145,9 @@ class OciLoadBalancer(OciResourceBase):
             freeform_tags=freeform_tags,
             defined_tags=defined_tags,
         )
+        if self.module.params.get("is_delete_protection_enabled") is not None:
+            create_kwargs["is_delete_protection_enabled"] = self.module.params["is_delete_protection_enabled"]
+        details = CreateLoadBalancerDetails(**create_kwargs)
         response = self.client.create_load_balancer(details)
 
         if self.module.params.get("wait", True):
@@ -156,7 +165,7 @@ class OciLoadBalancer(OciResourceBase):
         return None
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 
@@ -180,7 +189,7 @@ class OciLoadBalancer(OciResourceBase):
         return self.client.get_load_balancer(resource.id).data
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_work_request,
         )
 
@@ -201,6 +210,7 @@ def main():
         shape_name=dict(type="str"),
         subnet_ids=dict(type="list", elements="str"),
         is_private=dict(type="bool", default=False),
+        is_delete_protection_enabled=dict(type="bool", default=False),
         load_balancer_id=dict(type="str"),
         state=dict(type="str", default="present", choices=["present", "absent"]),
     )

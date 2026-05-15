@@ -1,8 +1,76 @@
 ==============================
-oracle.oci Release Notes
+stevefulme1.oci_cloud Release Notes
 ==============================
 
 .. contents:: Topics
+
+v2.1.1
+======
+
+Release Summary
+---------------
+
+Bug fix release addressing runtime crashes in 6 modules, incorrect
+``version_added`` metadata, and code quality improvements across all modules.
+
+Bugfixes
+--------
+
+- oci_dashboard, oci_dashboard_group, oci_jms_fleet, oci_optimizer_profile,
+  oci_opsi_database_insight, oci_opsi_host_insight - Fixed
+  ``wait_for_resource`` argument order that caused runtime crashes.
+- oci_disaster_recovery_plan, oci_redis_cluster, and 26 other v2.1.0 modules -
+  Corrected ``version_added`` from ``"2.0.0"`` to ``"2.1.0"``.
+- Six modules - Replaced broad ``except Exception`` with specific
+  ``ServiceError`` handling for proper 404 detection.
+
+Minor Changes
+-------------
+
+- oci_common - Centralized ``to_dict()`` helper into shared module utils,
+  removing 156 duplicate local definitions across all modules.
+
+v2.1.0
+======
+
+Release Summary
+---------------
+
+Added 28 new modules covering Access Governance, ADM, Blockchain, Cache
+(Redis), Disaster Recovery, OCVP (VMware), Operations Insights, OPA,
+Optimizer, JMS, and Recovery Service.
+
+New Modules
+-----------
+
+- oci_access_governance_instance - Manage Access Governance instances
+- oci_adm_knowledge_base - Manage ADM knowledge bases
+- oci_blockchain_platform - Manage Blockchain Platforms
+- oci_dashboard - Manage Management Dashboard dashboards
+- oci_dashboard_group - Manage Management Dashboard groups
+- oci_disaster_recovery_plan - Manage Disaster Recovery plans
+- oci_disaster_recovery_protection_group - Manage DR protection groups
+- oci_generative_ai_dedicated_ai_cluster - Manage Generative AI clusters
+- oci_jms_fleet - Manage Java Management Service fleets
+- oci_license_manager_product_license - Manage product licenses
+- oci_lockbox - Manage Lockbox resources
+- oci_marketplace_accepted_agreement - Manage Marketplace agreements
+- oci_media_stream_distribution_channel - Manage Media Stream channels
+- oci_media_workflow - Manage Media Flow workflows
+- oci_ocvp_esxi_host - Manage OCVP ESXi hosts
+- oci_ocvp_sddc - Manage OCVP SDDCs
+- oci_opa_instance - Manage OPA instances
+- oci_optimizer_profile - Manage Cloud Advisor optimizer profiles
+- oci_opsi_database_insight - Manage OPSI database insights
+- oci_opsi_host_insight - Manage OPSI host insights
+- oci_recovery_protected_database - Manage Recovery protected databases
+- oci_recovery_protection_policy - Manage Recovery protection policies
+- oci_redis_cluster - Manage OCI Cache (Redis) clusters
+- oci_rover_cluster - Manage Rover clusters
+- oci_rover_node - Manage Rover nodes
+- oci_vbs_instance - Manage Visual Builder Studio instances
+- oci_waa_web_app_acceleration - Manage Web App Acceleration instances
+- oci_fusion_environment - Manage Fusion Applications environments
 
 v1.1.0
 ======
@@ -175,7 +243,7 @@ v1.0.0
 Release Summary
 ---------------
 
-Initial release of the ``oracle.oci`` Ansible collection with 56 modules
+Initial release of the ``stevefulme1.oci_cloud`` Ansible collection with 56 modules
 and a dynamic inventory plugin for Oracle Cloud Infrastructure.
 
 New Modules

@@ -29,7 +29,7 @@
   tasks:
     # ------------------------------------------------------------ Vault
     - name: Create vault
-      oracle.oci.oci_vault:
+      stevefulme1.oci_cloud.oci_vault:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ vault_name }}"
         vault_type: "{{ vault_type }}"
@@ -48,7 +48,7 @@
 
     # -------------------------------------------------------------- Key
     - name: Create encryption key
-      oracle.oci.oci_key:
+      stevefulme1.oci_cloud.oci_key:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ key_name }}"
         management_endpoint: "{{ vault.resource.management_endpoint }}"
@@ -74,7 +74,7 @@
         secret_base64: "{{ secret_value | b64encode }}"
 
     - name: Store secret in vault
-      oracle.oci.oci_vault_secret:
+      stevefulme1.oci_cloud.oci_vault_secret:
         compartment_id: "{{ compartment_id }}"
         vault_id: "{{ vault.vault.id }}"
         secret_name: "{{ secret_name }}"

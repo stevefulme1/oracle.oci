@@ -55,25 +55,25 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "custom-detector-recipe"
     source_detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     state: present
 
 - name: Update a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     display_name: "renamed-detector-recipe"
     state: present
 
 - name: Delete a detector recipe
-  oracle.oci.oci_cloud_guard_detector_recipe:
+  stevefulme1.oci_cloud.oci_cloud_guard_detector_recipe:
     detector_recipe_id: "ocid1.cloudguarddetectorrecipe.oc1..example"
     state: absent
 """
@@ -108,9 +108,12 @@ resource:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -125,23 +128,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_resource(client, resource_id):

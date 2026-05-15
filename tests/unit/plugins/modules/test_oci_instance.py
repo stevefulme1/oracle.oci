@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_instance module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_instance module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_instance"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_instance(
@@ -77,7 +77,7 @@ class TestOciInstanceArgValidation:
         module.check_mode = False
         module.fail_json = MagicMock()
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         oci_inst = OciInstance(module)
 
         # get_resource returns None when instance_id is None
@@ -110,7 +110,7 @@ class TestOciInstanceCreate:
             status=404, code="NotFound", message="not found", headers={},
         )
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
 
         module = MagicMock()
         module.params = instance_create_args
@@ -146,7 +146,7 @@ class TestOciInstanceCreate:
         module.params = instance_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         oci_inst = OciInstance(module)
         oci_inst.create_resource()
 
@@ -182,7 +182,7 @@ class TestOciInstanceDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         resource = _build_instance()
 
         oci_inst = OciInstance(module)
@@ -226,7 +226,7 @@ class TestOciInstanceUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         resource = _build_instance(display_name="old-name")
 
         oci_inst = OciInstance(module)
@@ -264,7 +264,7 @@ class TestOciInstanceIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         oci_inst = OciInstance(module)
 
         assert not oci_inst.needs_update(existing)
@@ -293,7 +293,7 @@ class TestOciInstanceIdempotent:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_instance import OciInstance
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_instance import OciInstance
         oci_inst = OciInstance(module)
 
         assert oci_inst.needs_update(existing)

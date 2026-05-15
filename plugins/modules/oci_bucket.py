@@ -58,12 +58,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a bucket
-  oracle.oci.oci_bucket:
+  stevefulme1.oci_cloud.oci_bucket:
     compartment_id: "ocid1.compartment.oc1..example"
     namespace_name: "mynamespace"
     name: "my-bucket"
@@ -72,14 +72,14 @@ EXAMPLES = r"""
     state: present
 
 - name: Enable versioning on a bucket
-  oracle.oci.oci_bucket:
+  stevefulme1.oci_cloud.oci_bucket:
     namespace_name: "mynamespace"
     name: "my-bucket"
     versioning: Enabled
     state: present
 
 - name: Delete a bucket
-  oracle.oci.oci_bucket:
+  stevefulme1.oci_cloud.oci_bucket:
     namespace_name: "mynamespace"
     name: "my-bucket"
     state: absent
@@ -100,9 +100,9 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     import oci

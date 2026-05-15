@@ -1,6 +1,6 @@
 ---
 - name: Create a VCN
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ oci_vcn_compartment_id }}"
     cidr_blocks: "{{ oci_vcn_cidr_blocks }}"
     display_name: "{{ oci_vcn_display_name }}"
@@ -22,7 +22,7 @@
     test_vcn_id: "{{ create_result.resource.id }}"
 
 - name: Create same VCN again (idempotency check)
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ oci_vcn_compartment_id }}"
     cidr_blocks: "{{ oci_vcn_cidr_blocks }}"
     vcn_id: "{{ test_vcn_id }}"
@@ -36,7 +36,7 @@
       - idempotent_result is not changed
 
 - name: Update VCN display_name
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ oci_vcn_compartment_id }}"
     cidr_blocks: "{{ oci_vcn_cidr_blocks }}"
     vcn_id: "{{ test_vcn_id }}"
@@ -51,7 +51,7 @@
       - update_result.resource.display_name == oci_vcn_updated_display_name
 
 - name: Delete the VCN
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     vcn_id: "{{ test_vcn_id }}"
     state: absent
   register: delete_result
@@ -62,7 +62,7 @@
       - delete_result is changed
 
 - name: Delete VCN again (already gone)
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     vcn_id: "{{ test_vcn_id }}"
     state: absent
   register: delete_again_result

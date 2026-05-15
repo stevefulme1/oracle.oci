@@ -68,12 +68,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a file system export
-  oracle.oci.oci_export:
+  stevefulme1.oci_cloud.oci_export:
     export_set_id: "ocid1.exportset.oc1..example"
     file_system_id: "ocid1.filesystem.oc1..example"
     path: "/shared"
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update export options
-  oracle.oci.oci_export:
+  stevefulme1.oci_cloud.oci_export:
     export_id: "ocid1.export.oc1..example"
     export_options:
       - source: "10.0.0.0/8"
@@ -95,7 +95,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete an export
-  oracle.oci.oci_export:
+  stevefulme1.oci_cloud.oci_export:
     export_id: "ocid1.export.oc1..example"
     state: absent
 """
@@ -115,16 +115,16 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     import oci

@@ -73,19 +73,19 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a simple tag definition
-  oracle.oci.oci_tag:
+  stevefulme1.oci_cloud.oci_tag:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     name: "Environment"
     description: "Environment tag (dev, staging, prod)"
     state: present
 
 - name: Create a tag with enum validator
-  oracle.oci.oci_tag:
+  stevefulme1.oci_cloud.oci_tag:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     name: "Environment"
     description: "Environment tag"
@@ -98,7 +98,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a cost-tracking tag
-  oracle.oci.oci_tag:
+  stevefulme1.oci_cloud.oci_tag:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     name: "CostCenter"
     description: "Cost center code"
@@ -106,14 +106,14 @@ EXAMPLES = r"""
     state: present
 
 - name: Retire a tag definition
-  oracle.oci.oci_tag:
+  stevefulme1.oci_cloud.oci_tag:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     tag_id: "ocid1.tagdefinition.oc1..example"
     is_retired: true
     state: present
 
 - name: Delete a tag definition
-  oracle.oci.oci_tag:
+  stevefulme1.oci_cloud.oci_tag:
     tag_namespace_id: "ocid1.tagnamespace.oc1..example"
     tag_id: "ocid1.tagdefinition.oc1..example"
     state: absent
@@ -175,13 +175,14 @@ except ImportError:
     HAS_OCI_SDK = False
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_DELETED,
+    to_dict,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -372,25 +373,6 @@ def needs_update(module, resource):
     if defined_tags is not None and defined_tags != getattr(resource, "defined_tags", None):
         return True
     return False
-
-
-def to_dict(resource):
-    """Convert an OCI resource to a plain dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            sub = {}
-            for k, v in value.__dict__.items():
-                if not k.startswith("_"):
-                    sub[k] = v
-            result[key] = sub
-        else:
-            result[key] = value
-    return result
 
 
 def main():

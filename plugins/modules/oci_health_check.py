@@ -84,12 +84,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an HTTP health check
-  oracle.oci.oci_health_check:
+  stevefulme1.oci_cloud.oci_health_check:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "web-health-check"
     targets:
@@ -103,13 +103,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Disable a health check
-  oracle.oci.oci_health_check:
+  stevefulme1.oci_cloud.oci_health_check:
     monitor_id: "ocid1.httpmonitor.oc1..example"
     is_enabled: false
     state: present
 
 - name: Delete a health check
-  oracle.oci.oci_health_check:
+  stevefulme1.oci_cloud.oci_health_check:
     monitor_id: "ocid1.httpmonitor.oc1..example"
     state: absent
 """
@@ -145,9 +145,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci
@@ -159,23 +162,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_monitor(client, monitor_id):

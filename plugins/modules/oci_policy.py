@@ -52,12 +52,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a policy
-  oracle.oci.oci_policy:
+  stevefulme1.oci_cloud.oci_policy:
     compartment_id: "ocid1.tenancy.oc1..example"
     name: "dev-policy"
     description: "Allow developers to manage dev compartment"
@@ -67,14 +67,14 @@ EXAMPLES = r"""
     state: present
 
 - name: Update policy statements
-  oracle.oci.oci_policy:
+  stevefulme1.oci_cloud.oci_policy:
     policy_id: "ocid1.policy.oc1..example"
     statements:
       - "Allow group developers to manage all-resources in compartment dev"
     state: present
 
 - name: Delete a policy
-  oracle.oci.oci_policy:
+  stevefulme1.oci_cloud.oci_policy:
     policy_id: "ocid1.policy.oc1..example"
     state: absent
 """
@@ -128,13 +128,14 @@ except ImportError:
     HAS_OCI_SDK = False
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_DELETED,
+    to_dict,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -262,18 +263,6 @@ def needs_update(module, resource):
     if defined_tags is not None and defined_tags != getattr(resource, "defined_tags", None):
         return True
     return False
-
-
-def to_dict(resource):
-    """Convert an OCI resource to a plain dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        result[key] = value
-    return result
 
 
 def main():

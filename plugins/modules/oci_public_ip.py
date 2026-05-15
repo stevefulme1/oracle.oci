@@ -50,19 +50,19 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a reserved public IP
-  oracle.oci.oci_public_ip:
+  stevefulme1.oci_cloud.oci_public_ip:
     compartment_id: "ocid1.compartment.oc1..example"
     lifetime: "RESERVED"
     display_name: "my-reserved-ip"
     state: present
 
 - name: Create an ephemeral public IP assigned to a private IP
-  oracle.oci.oci_public_ip:
+  stevefulme1.oci_cloud.oci_public_ip:
     compartment_id: "ocid1.compartment.oc1..example"
     lifetime: "EPHEMERAL"
     private_ip_id: "ocid1.privateip.oc1..example"
@@ -70,13 +70,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Assign a reserved public IP to a private IP
-  oracle.oci.oci_public_ip:
+  stevefulme1.oci_cloud.oci_public_ip:
     public_ip_id: "ocid1.publicip.oc1..example"
     private_ip_id: "ocid1.privateip.oc1..example"
     state: present
 
 - name: Delete a public IP
-  oracle.oci.oci_public_ip:
+  stevefulme1.oci_cloud.oci_public_ip:
     public_ip_id: "ocid1.publicip.oc1..example"
     state: absent
 """
@@ -97,12 +97,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -130,7 +130,7 @@ class OciPublicIp(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -152,7 +152,7 @@ class OciPublicIp(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -177,7 +177,7 @@ class OciPublicIp(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

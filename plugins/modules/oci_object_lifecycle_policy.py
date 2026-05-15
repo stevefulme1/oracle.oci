@@ -69,12 +69,12 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Set a lifecycle policy to archive objects after 30 days
-  oracle.oci.oci_object_lifecycle_policy:
+  stevefulme1.oci_cloud.oci_object_lifecycle_policy:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     items:
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete lifecycle policy
-  oracle.oci.oci_object_lifecycle_policy:
+  stevefulme1.oci_cloud.oci_object_lifecycle_policy:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     state: absent
@@ -106,9 +106,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci
@@ -121,23 +124,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_lifecycle_policy(client, namespace_name, bucket_name):

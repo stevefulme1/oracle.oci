@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.oci_vcn module."""
+"""Unit tests for stevefulme1.oci_cloud.oci_vcn module."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -8,10 +8,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 
-MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_vcn"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+MODULE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_vcn(
@@ -70,7 +70,7 @@ class TestOciVcnCreate:
         module.params = vcn_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         oci_vcn = OciVcn(module)
         result = oci_vcn.create_resource()
 
@@ -97,7 +97,7 @@ class TestOciVcnCreate:
         module.params = vcn_create_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         oci_vcn = OciVcn(module)
         oci_vcn.create_resource()
 
@@ -128,7 +128,7 @@ class TestOciVcnDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         resource = _build_vcn()
 
         oci_vcn = OciVcn(module)
@@ -160,7 +160,7 @@ class TestOciVcnDelete:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         oci_vcn = OciVcn(module)
         result = oci_vcn.get_resource()
         assert result is None
@@ -191,7 +191,7 @@ class TestOciVcnUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         resource = _build_vcn(display_name="old-name")
 
         oci_vcn = OciVcn(module)
@@ -219,7 +219,7 @@ class TestOciVcnUpdate:
         module.params = module_args
         module.check_mode = False
 
-        from ansible_collections.oracle.oci.plugins.modules.oci_vcn import OciVcn
+        from ansible_collections.stevefulme1.oci_cloud.plugins.modules.oci_vcn import OciVcn
         resource = _build_vcn(display_name="same-name")
 
         oci_vcn = OciVcn(module)

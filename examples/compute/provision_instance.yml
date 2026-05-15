@@ -33,7 +33,7 @@
     # ---- Networking ----
 
     - name: Create VCN
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         compartment_id: "{{ compartment_id }}"
         display_name: "{{ vcn_name }}"
         cidr_blocks:
@@ -44,7 +44,7 @@
       register: vcn
 
     - name: Create internet gateway
-      oracle.oci.oci_internet_gateway:
+      stevefulme1.oci_cloud.oci_internet_gateway:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-igw"
@@ -54,7 +54,7 @@
       register: igw
 
     - name: Create route table with internet route
-      oracle.oci.oci_route_table:
+      stevefulme1.oci_cloud.oci_route_table:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-public-rt"
@@ -67,7 +67,7 @@
       register: route_table
 
     - name: Create security list allowing SSH and ICMP
-      oracle.oci.oci_security_list:
+      stevefulme1.oci_cloud.oci_security_list:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ vcn_name }}-public-sl"
@@ -91,7 +91,7 @@
       register: security_list
 
     - name: Create public subnet
-      oracle.oci.oci_subnet:
+      stevefulme1.oci_cloud.oci_subnet:
         compartment_id: "{{ compartment_id }}"
         vcn_id: "{{ vcn.vcn.id }}"
         display_name: "{{ subnet_name }}"
@@ -113,7 +113,7 @@
         ssh_public_key: "{{ lookup('file', ssh_public_key_file) }}"
 
     - name: Launch compute instance
-      oracle.oci.oci_instance:
+      stevefulme1.oci_cloud.oci_instance:
         compartment_id: "{{ compartment_id }}"
         availability_domain: "{{ availability_domain }}"
         display_name: "{{ instance_name }}"

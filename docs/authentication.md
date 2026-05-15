@@ -1,6 +1,6 @@
 # Authentication Guide
 
-The `oracle.oci` collection supports five authentication methods. Every module
+The `stevefulme1.oci_cloud` collection supports five authentication methods. Every module
 accepts the `auth_type` parameter to select the method. When omitted, the
 default is `api_key`.
 
@@ -37,7 +37,7 @@ key_file=~/.oci/oci_api_key.pem
 
 ```yaml
 - name: Create a VCN using API key auth (default)
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ compartment_id }}"
     display_name: demo-vcn
     cidr_blocks:
@@ -49,7 +49,7 @@ key_file=~/.oci/oci_api_key.pem
 
 ```yaml
 - name: Create a VCN using a named profile
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     auth_type: api_key
     config_file_location: ~/.oci/config
     config_profile_name: PROD
@@ -77,7 +77,7 @@ export OCI_USER_KEY_FILE="/home/user/.oci/oci_api_key.pem"
 
 ```yaml
 - name: Create a VCN using env-var credentials
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     auth_type: api_key          # env vars are picked up automatically
     compartment_id: "{{ compartment_id }}"
     display_name: env-vcn
@@ -111,7 +111,7 @@ instance must belong to a dynamic group with the appropriate IAM policies.
 
 ```yaml
 - name: Create a VCN using instance principal
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     auth_type: instance_principal
     compartment_id: "{{ compartment_id }}"
     display_name: ip-vcn
@@ -140,7 +140,7 @@ Allow dynamic-group my-functions to manage all-resources in compartment my-compa
 
 ```yaml
 - name: Create a VCN using resource principal
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     auth_type: resource_principal
     compartment_id: "{{ compartment_id }}"
     display_name: rp-vcn
@@ -178,7 +178,7 @@ security_token_file=/home/user/.oci/sessions/DEFAULT/token
 
 ```yaml
 - name: Create a VCN using session token auth
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     auth_type: security_token
     config_file_location: ~/.oci/config
     config_profile_name: DEFAULT
@@ -223,7 +223,7 @@ For maximum flexibility, define auth settings as variables:
 
   tasks:
     - name: Create VCN
-      oracle.oci.oci_vcn:
+      stevefulme1.oci_cloud.oci_vcn:
         auth_type: "{{ oci_auth_type }}"
         config_file_location: "{{ oci_config_file }}"
         config_profile_name: "{{ oci_config_profile }}"

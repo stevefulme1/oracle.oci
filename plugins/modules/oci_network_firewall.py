@@ -53,12 +53,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a Network Firewall
-  oracle.oci.oci_network_firewall:
+  stevefulme1.oci_cloud.oci_network_firewall:
     compartment_id: "ocid1.compartment.oc1..example"
     subnet_id: "ocid1.subnet.oc1..example"
     network_firewall_policy_id: "ocid1.networkfirewallpolicy.oc1..example"
@@ -67,13 +67,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a Network Firewall
-  oracle.oci.oci_network_firewall:
+  stevefulme1.oci_cloud.oci_network_firewall:
     network_firewall_id: "ocid1.networkfirewall.oc1..example"
     display_name: "updated-firewall"
     state: present
 
 - name: Delete a Network Firewall
-  oracle.oci.oci_network_firewall:
+  stevefulme1.oci_cloud.oci_network_firewall:
     network_firewall_id: "ocid1.networkfirewall.oc1..example"
     state: absent
 """
@@ -95,12 +95,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.network_firewall import NetworkFirewallClient
@@ -131,7 +131,7 @@ class OciNetworkFirewall(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -154,7 +154,7 @@ class OciNetworkFirewall(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -179,7 +179,7 @@ class OciNetworkFirewall(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

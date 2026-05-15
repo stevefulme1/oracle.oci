@@ -3,6 +3,21 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_auth
+short_description: OCI authentication and service client creation
+description:
+  - Provides helpers for authenticating to Oracle Cloud Infrastructure using
+    multiple auth methods including API key, instance principal, resource
+    principal, and session token.
+  - Exports get_oci_config to build OCI config dicts from module params or
+    environment variables, and create_service_client to instantiate any OCI
+    SDK client with the appropriate signer.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 import os
 
 try:
@@ -37,8 +52,8 @@ def get_oci_config(module):
         "tenancy": "OCI_TENANCY_ID",
         "user": "OCI_USER_ID",
         "region": "OCI_REGION",
-        "fingerprint": "OCI_FINGERPRINT",
-        "key_file": "OCI_KEY_FILE",
+        "fingerprint": "OCI_USER_FINGERPRINT",
+        "key_file": "OCI_USER_KEY_FILE",
     }
     param_map = {
         "tenancy": "tenancy",
@@ -54,7 +69,7 @@ def get_oci_config(module):
         if value:
             config[config_key] = value
 
-    pass_phrase = module.params.get("api_user_key_pass_phrase")
+    pass_phrase = module.params.get("api_user_key_pass_phrase") or os.environ.get("OCI_USER_KEY_PASS_PHRASE")
     if pass_phrase:
         config["pass_phrase"] = pass_phrase
 

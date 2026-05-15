@@ -51,25 +51,25 @@ options:
     default: present
     choices: [present, absent]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a snapshot
-  oracle.oci.oci_snapshot:
+  stevefulme1.oci_cloud.oci_snapshot:
     file_system_id: "ocid1.filesystem.oc1..example"
     name: "daily-snapshot-2026-04-10"
     state: present
 
 - name: Create a snapshot with expiration
-  oracle.oci.oci_snapshot:
+  stevefulme1.oci_cloud.oci_snapshot:
     file_system_id: "ocid1.filesystem.oc1..example"
     name: "temp-snapshot"
     expiration_time: "2026-05-10T00:00:00Z"
     state: present
 
 - name: Delete a snapshot
-  oracle.oci.oci_snapshot:
+  stevefulme1.oci_cloud.oci_snapshot:
     snapshot_id: "ocid1.snapshot.oc1..example"
     state: absent
 """
@@ -102,9 +102,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -119,23 +122,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_snapshot(client, snapshot_id):

@@ -63,6 +63,32 @@ options:
       - Custom metadata key/value pairs for the instance.
       - Common keys include C(ssh_authorized_keys) and C(user_data).
     type: dict
+  source_details:
+    description:
+      - Details for creating an instance from an image or boot volume.
+    type: dict
+    suboptions:
+      source_type:
+        description: The source type for the instance.
+        type: str
+      image_id:
+        description: The OCID of the image used to boot the instance.
+        type: str
+      boot_volume_size_in_gbs:
+        description: The size of the boot volume in GBs.
+        type: int
+  platform_config:
+    description:
+      - Platform configuration options for the instance.
+    type: dict
+    suboptions:
+      type:
+        description: The type of platform configuration.
+        type: str
+      windows_license_type:
+        description: The type of Windows license for the instance.
+        type: str
+        choices: [OCI_PROVIDED, BYOL]
   instance_id:
     description:
       - The OCID of the instance. Required for update and delete operations.
@@ -74,12 +100,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Launch a compute instance
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     shape: "VM.Standard.E4.Flex"
@@ -94,7 +120,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Update instance display name
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:PHX-AD-1"
     shape: "VM.Standard.E4.Flex"
@@ -105,7 +131,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Terminate a compute instance
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     instance_id: "ocid1.instance.oc1.phx.example"
     state: absent
 """
@@ -126,14 +152,14 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_RUNNING,
     LIFECYCLE_TERMINATED,
     LIFECYCLE_FAILED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -169,9 +195,10 @@ class OciInstance(OciResourceBase):
 
     def create_resource(self):
         params = self.module.params
-        source_details = oci.core.models.InstanceSourceViaImageDetails(
-            image_id=params["image_id"],
-        )
+        source_kwargs = dict(image_id=params["image_id"])
+        if params.get("source_details") and params["source_details"].get("boot_volume_size_in_gbs"):
+            source_kwargs["boot_volume_size_in_gbs"] = params["source_details"]["boot_volume_size_in_gbs"]
+        source_details = oci.core.models.InstanceSourceViaImageDetails(**source_kwargs)
         create_vnic_details = oci.core.models.CreateVnicDetails(
             subnet_id=params["subnet_id"],
         )
@@ -196,6 +223,16 @@ class OciInstance(OciResourceBase):
                 ocpus=sc.get("ocpus"),
                 memory_in_gbs=sc.get("memory_in_gbs"),
             )
+
+        if params.get("platform_config"):
+            pc = params["platform_config"]
+            pc_kwargs = {}
+            if pc.get("type"):
+                pc_kwargs["type"] = pc["type"]
+            if pc.get("windows_license_type"):
+                pc_kwargs["windows_license_type"] = pc["windows_license_type"]
+            if pc_kwargs:
+                kwargs["platform_config"] = oci.core.models.PlatformConfig(**pc_kwargs)
 
         freeform_tags, defined_tags = self.get_tags()
         if freeform_tags:
@@ -269,6 +306,21 @@ class OciInstance(OciResourceBase):
                 target_states={LIFECYCLE_TERMINATED},
             )
 
+    def needs_update(self, resource) -> bool:
+        """Override to skip boot_volume_size_in_gbs comparison when not provided."""
+        # First check standard updatable attributes
+        if super().needs_update(resource):
+            return True
+        # Check source_details only if the user explicitly provided boot_volume_size_in_gbs
+        user_source = self.module.params.get("source_details")
+        if user_source and user_source.get("boot_volume_size_in_gbs") is not None:
+            current_source = getattr(resource, "source_details", None)
+            if current_source:
+                current_bvs = getattr(current_source, "boot_volume_size_in_gbs", None)
+                if current_bvs != user_source["boot_volume_size_in_gbs"]:
+                    return True
+        return False
+
     def _updatable_attributes(self):
         return ["display_name", "shape", "metadata"]
 
@@ -289,6 +341,21 @@ def main():
             ),
         ),
         metadata=dict(type="dict"),
+        source_details=dict(
+            type="dict",
+            options=dict(
+                source_type=dict(type="str"),
+                image_id=dict(type="str"),
+                boot_volume_size_in_gbs=dict(type="int"),
+            ),
+        ),
+        platform_config=dict(
+            type="dict",
+            options=dict(
+                type=dict(type="str"),
+                windows_license_type=dict(type="str", choices=["OCI_PROVIDED", "BYOL"]),
+            ),
+        ),
         instance_id=dict(type="str"),
         state=dict(type="str", default="present", choices=["present", "absent"]),
     )

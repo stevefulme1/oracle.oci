@@ -3,6 +3,19 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+DOCUMENTATION = r"""
+---
+module_utils: oci_common
+short_description: Shared OCI argument specs and lifecycle constants
+description:
+  - Defines OCI_COMMON_ARGS, the common argument spec shared by all OCI modules,
+    covering authentication, region, wait behavior, and tagging parameters.
+  - Provides lifecycle state constants and frozen sets (WAIT_STATES, READY_STATES,
+    DEAD_STATES) used for resource state management and polling.
+author:
+  - Steve Fulmer (@stevefulme1)
+"""
+
 
 OCI_COMMON_ARGS = dict(
     config_file_location=dict(type="str", default="~/.oci/config"),
@@ -54,3 +67,22 @@ DEAD_STATES = frozenset({
     LIFECYCLE_DELETED,
     LIFECYCLE_TERMINATED,
 })
+
+
+def to_dict(resource):
+    """Convert an OCI resource object to a plain dictionary."""
+    if resource is None:
+        return {}
+    if hasattr(resource, "__dict__"):
+        result = {}
+        for key, value in resource.__dict__.items():
+            if key.startswith("_"):
+                continue
+            if isinstance(value, list):
+                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
+            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
+                result[key] = to_dict(value)
+            else:
+                result[key] = value
+        return result
+    return resource

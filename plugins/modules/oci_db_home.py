@@ -93,7 +93,7 @@ options:
         type: int
         default: 1200
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -101,7 +101,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Create a Database Home on a DB System
-  oracle.oci.oci_db_home:
+  stevefulme1.oci_cloud.oci_db_home:
     db_system_id: "ocid1.dbsystem.oc1..example"
     display_name: "My DB Home"
     db_version: "19.0.0.0"
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Create a Database Home on a VM Cluster
-  oracle.oci.oci_db_home:
+  stevefulme1.oci_cloud.oci_db_home:
     vm_cluster_id: "ocid1.vmcluster.oc1..example"
     display_name: "My VM DB Home"
     db_version: "19.0.0.0"
@@ -122,13 +122,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a Database Home display name
-  oracle.oci.oci_db_home:
+  stevefulme1.oci_cloud.oci_db_home:
     db_home_id: "ocid1.dbhome.oc1..example"
     display_name: "Updated DB Home"
     state: present
 
 - name: Delete a Database Home
-  oracle.oci.oci_db_home:
+  stevefulme1.oci_cloud.oci_db_home:
     db_home_id: "ocid1.dbhome.oc1..example"
     state: absent
 """
@@ -162,13 +162,14 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     DEAD_STATES,
     READY_STATES,
+    to_dict,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_resource,
 )
@@ -193,25 +194,6 @@ def get_module_args():
     )
     module_args.update(OCI_COMMON_ARGS)
     return module_args
-
-
-def to_dict(resource):
-    """Convert OCI SDK object to a serializable dict."""
-    if resource is None:
-        return {}
-    if hasattr(resource, "__dict__"):
-        result = {}
-        for key, value in resource.__dict__.items():
-            if key.startswith("_"):
-                continue
-            if isinstance(value, list):
-                result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-            elif hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, dict)):
-                result[key] = to_dict(value)
-            else:
-                result[key] = value
-        return result
-    return resource
 
 
 def get_db_home(client, db_home_id):

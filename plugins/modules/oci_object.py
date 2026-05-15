@@ -60,12 +60,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Upload a file to Object Storage
-  oracle.oci.oci_object:
+  stevefulme1.oci_cloud.oci_object:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     object_name: "data/myfile.txt"
@@ -74,7 +74,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Download an object to local file
-  oracle.oci.oci_object:
+  stevefulme1.oci_cloud.oci_object:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     object_name: "data/myfile.txt"
@@ -82,7 +82,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Delete an object
-  oracle.oci.oci_object:
+  stevefulme1.oci_cloud.oci_object:
     namespace_name: "mynamespace"
     bucket_name: "my-bucket"
     object_name: "data/myfile.txt"
@@ -106,9 +106,9 @@ import os
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci

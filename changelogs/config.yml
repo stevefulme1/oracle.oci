@@ -7,7 +7,7 @@ changelog_filename_template: CHANGELOG.rst
 changelog_filename_version_depth: 0
 mention_ancestor: true
 trivial_section_name: trivial
-title: oracle.oci
+title: stevefulme1.oci_cloud
 sections:
   - - major_changes
     - Major Changes

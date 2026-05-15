@@ -18,7 +18,7 @@ dynamic inventory plugin.
 ## Installation
 
 ```bash
-ansible-galaxy collection install oracle.oci
+ansible-galaxy collection install stevefulme1.oci_cloud
 ```
 
 Install the Python dependency:
@@ -38,7 +38,7 @@ Configure OCI credentials using one of the following methods:
 5. **Session token**: Set `auth_type: session_token`
 
 All modules accept the common authentication parameters defined in the
-`oracle.oci.oci_common` documentation fragment.
+`stevefulme1.oci_cloud.oci_common` documentation fragment.
 
 ## Modules
 
@@ -276,7 +276,7 @@ All modules accept the common authentication parameters defined in the
 
 ```yaml
 - name: Launch a compute instance
-  oracle.oci.oci_instance:
+  stevefulme1.oci_cloud.oci_instance:
     compartment_id: "ocid1.compartment.oc1..example"
     availability_domain: "Uocm:US-ASHBURN-AD-1"
     display_name: "my-instance"
@@ -296,7 +296,7 @@ All modules accept the common authentication parameters defined in the
 
 ```yaml
 - name: Create a VCN
-  oracle.oci.oci_vcn:
+  stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-vcn"
     cidr_blocks:
@@ -305,7 +305,7 @@ All modules accept the common authentication parameters defined in the
   register: vcn
 
 - name: Create a subnet
-  oracle.oci.oci_subnet:
+  stevefulme1.oci_cloud.oci_subnet:
     compartment_id: "ocid1.compartment.oc1..example"
     vcn_id: "{{ vcn.resource.id }}"
     display_name: "my-subnet"
@@ -318,7 +318,7 @@ All modules accept the common authentication parameters defined in the
 Create an inventory file `oci.yml`:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:

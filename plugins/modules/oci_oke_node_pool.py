@@ -77,12 +77,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an OKE node pool
-  oracle.oci.oci_oke_node_pool:
+  stevefulme1.oci_cloud.oci_oke_node_pool:
     compartment_id: "ocid1.compartment.oc1..example"
     cluster_id: "ocid1.cluster.oc1.phx.example"
     name: "pool-1"
@@ -97,13 +97,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Scale a node pool
-  oracle.oci.oci_oke_node_pool:
+  stevefulme1.oci_cloud.oci_oke_node_pool:
     node_pool_id: "ocid1.nodepool.oc1.phx.example"
     size: 5
     state: present
 
 - name: Delete a node pool
-  oracle.oci.oci_oke_node_pool:
+  stevefulme1.oci_cloud.oci_oke_node_pool:
     node_pool_id: "ocid1.nodepool.oc1.phx.example"
     state: absent
 """
@@ -125,12 +125,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_DELETED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_work_request,
 )

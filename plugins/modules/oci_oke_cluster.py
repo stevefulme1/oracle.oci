@@ -81,12 +81,12 @@ options:
     choices: [present, absent]
     default: present
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create an OKE cluster
-  oracle.oci.oci_oke_cluster:
+  stevefulme1.oci_cloud.oci_oke_cluster:
     compartment_id: "ocid1.compartment.oc1..example"
     name: "my-k8s-cluster"
     vcn_id: "ocid1.vcn.oc1.phx.example"
@@ -100,13 +100,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update cluster Kubernetes version
-  oracle.oci.oci_oke_cluster:
+  stevefulme1.oci_cloud.oci_oke_cluster:
     cluster_id: "ocid1.cluster.oc1.phx.example"
     kubernetes_version: "v1.29.1"
     state: present
 
 - name: Delete an OKE cluster
-  oracle.oci.oci_oke_cluster:
+  stevefulme1.oci_cloud.oci_oke_cluster:
     cluster_id: "ocid1.cluster.oc1.phx.example"
     state: absent
 """
@@ -127,12 +127,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_DELETED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
     call_with_retry,
     wait_for_work_request,
 )

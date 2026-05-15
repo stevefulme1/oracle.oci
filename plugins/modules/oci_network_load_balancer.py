@@ -61,12 +61,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a network load balancer
-  oracle.oci.oci_network_load_balancer:
+  stevefulme1.oci_cloud.oci_network_load_balancer:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-nlb"
     subnet_id: "ocid1.subnet.oc1..example"
@@ -74,13 +74,13 @@ EXAMPLES = r"""
     state: present
 
 - name: Update a network load balancer
-  oracle.oci.oci_network_load_balancer:
+  stevefulme1.oci_cloud.oci_network_load_balancer:
     network_load_balancer_id: "ocid1.networkloadbalancer.oc1..example"
     display_name: "updated-nlb"
     state: present
 
 - name: Delete a network load balancer
-  oracle.oci.oci_network_load_balancer:
+  stevefulme1.oci_cloud.oci_network_load_balancer:
     network_load_balancer_id: "ocid1.networkloadbalancer.oc1..example"
     state: absent
 """
@@ -101,12 +101,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_ACTIVE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.network_load_balancer import NetworkLoadBalancerClient
@@ -137,7 +137,7 @@ class OciNetworkLoadBalancer(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -162,7 +162,7 @@ class OciNetworkLoadBalancer(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -191,7 +191,7 @@ class OciNetworkLoadBalancer(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

@@ -1,6 +1,6 @@
 # Dynamic Inventory Plugin Guide
 
-The `oracle.oci.oci_inventory` plugin discovers compute instances in your OCI
+The `stevefulme1.oci_cloud.oci_inventory` plugin discovers compute instances in your OCI
 tenancy and builds an Ansible inventory automatically.
 
 ## Requirements
@@ -17,7 +17,7 @@ The inventory plugin is activated by a YAML file whose name ends in
 
 ```yaml
 # inventory.oci.yml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -43,7 +43,7 @@ ansible -i inventory.oci.yml all -m ping
 The plugin supports the same `auth_type` values as the modules:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 auth_type: instance_principal
 regions:
   - us-ashburn-1
@@ -54,7 +54,7 @@ compartments:
 Or with a named profile:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 config_file: ~/.oci/config
 config_profile: PROD
 regions:
@@ -66,7 +66,7 @@ regions:
 Limit discovery to specific compartments:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -81,7 +81,7 @@ compartments:
 Return only instances that match specific freeform tags:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -95,7 +95,7 @@ filters:
 ## Filtering by Defined Tags
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -111,7 +111,7 @@ filters:
 Only return running instances:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -125,7 +125,7 @@ filters:
 Control how hosts are grouped in the inventory:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
   - us-phoenix-1
@@ -146,7 +146,7 @@ groups_from:
 ### Custom Group Names with Keyed Groups
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -182,7 +182,7 @@ The plugin sets several host variables automatically:
 ### Preferring Public IP
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 hostname_format: public_ip
 ```
 
@@ -193,7 +193,7 @@ Options: `private_ip` (default), `public_ip`, `display_name`.
 Enable caching to avoid repeated API calls:
 
 ```yaml
-plugin: oracle.oci.oci_inventory
+plugin: stevefulme1.oci_cloud.oci_inventory
 regions:
   - us-ashburn-1
 compartments:
@@ -239,5 +239,5 @@ inventory = inventory.oci.yml
 
 ## Complete Example
 
-See [examples/inventory/oracle.oci.yml](../examples/inventory/oracle.oci.yml)
+See [examples/inventory/stevefulme1.oci_cloud.yml](../examples/inventory/stevefulme1.oci_cloud.yml)
 for a ready-to-use configuration.

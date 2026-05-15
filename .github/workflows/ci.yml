@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 env:
-  NAMESPACE: oracle
-  COLLECTION: oci
+  NAMESPACE: stevefulme1
+  COLLECTION: oci_cloud
 
 jobs:
   ansible-lint:

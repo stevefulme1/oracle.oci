@@ -47,12 +47,12 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Add security rules to an NSG
-  oracle.oci.oci_nsg_rule:
+  stevefulme1.oci_cloud.oci_nsg_rule:
     nsg_id: "ocid1.networksecuritygroup.oc1..example"
     security_rules:
       - direction: INGRESS
@@ -72,7 +72,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Replace all rules (purge unmatched)
-  oracle.oci.oci_nsg_rule:
+  stevefulme1.oci_cloud.oci_nsg_rule:
     nsg_id: "ocid1.networksecuritygroup.oc1..example"
     security_rules:
       - direction: INGRESS
@@ -87,7 +87,7 @@ EXAMPLES = r"""
     state: present
 
 - name: Remove all security rules from an NSG
-  oracle.oci.oci_nsg_rule:
+  stevefulme1.oci_cloud.oci_nsg_rule:
     nsg_id: "ocid1.networksecuritygroup.oc1..example"
     state: absent
 """
@@ -109,8 +109,8 @@ security_rules:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import OCI_COMMON_ARGS
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
 
 try:
     from oci.core import VirtualNetworkClient

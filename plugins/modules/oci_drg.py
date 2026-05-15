@@ -40,24 +40,24 @@ options:
         default: present
         choices: [present, absent]
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Create a DRG
-  oracle.oci.oci_drg:
+  stevefulme1.oci_cloud.oci_drg:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "my-drg"
     state: present
 
 - name: Update a DRG display name
-  oracle.oci.oci_drg:
+  stevefulme1.oci_cloud.oci_drg:
     drg_id: "ocid1.drg.oc1..example"
     display_name: "updated-drg"
     state: present
 
 - name: Delete a DRG
-  oracle.oci.oci_drg:
+  stevefulme1.oci_cloud.oci_drg:
     drg_id: "ocid1.drg.oc1..example"
     state: absent
 """
@@ -76,12 +76,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
     LIFECYCLE_AVAILABLE,
     LIFECYCLE_TERMINATED,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_resource import OciResourceBase
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource import OciResourceBase
 
 try:
     from oci.core import VirtualNetworkClient
@@ -109,7 +109,7 @@ class OciDrg(OciResourceBase):
             raise
 
     def create_resource(self):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -129,7 +129,7 @@ class OciDrg(OciResourceBase):
         )
 
     def update_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 
@@ -152,7 +152,7 @@ class OciDrg(OciResourceBase):
         )
 
     def delete_resource(self, resource):
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import (
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
             wait_for_resource,
         )
 

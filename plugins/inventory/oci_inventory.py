@@ -26,7 +26,7 @@ options:
   plugin:
     description: Token that ensures this is a source file for the plugin.
     required: true
-    choices: ["oracle.oci.oci_inventory"]
+    choices: ["stevefulme1.oci_cloud.oci_inventory"]
   regions:
     description:
       - List of OCI region identifiers to query.
@@ -41,6 +41,17 @@ options:
     type: list
     elements: str
     default: []
+  fetch_compute_hosts:
+    description:
+      - When C(true), compute instances are fetched.
+    type: bool
+    default: true
+  fetch_only_running_hosts:
+    description:
+      - When false, compute instances in any lifecycle state are fetched (not just RUNNING).
+      - Only applies when C(fetch_compute_hosts) is true.
+    type: bool
+    default: true
   fetch_db_hosts:
     description:
       - When C(true), include Oracle Database system hosts (DB nodes) in the
@@ -105,8 +116,8 @@ requirements:
 """
 
 EXAMPLES = r"""
-# Minimal inventory source (oracle.oci.yml):
-plugin: oracle.oci.oci_inventory
+# Minimal inventory source (stevefulme1.oci_cloud.yml):
+plugin: stevefulme1.oci_cloud.oci_inventory
 """
 
 import os
@@ -132,7 +143,7 @@ except ImportError:
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     """OCI dynamic inventory plugin for Ansible."""
 
-    NAME = "oracle.oci.oci_inventory"
+    NAME = "stevefulme1.oci_cloud.oci_inventory"
 
     def verify_file(self, path):
         """Accept only *.oci.yml / *.oci.yaml source files."""
@@ -349,6 +360,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.inventory.add_host(hostname, group=group)
 
     # ------------------------------------------------------------------
+    # Lifecycle state helpers
+    # ------------------------------------------------------------------
+
+    def _fetch_only_running_hosts(self):
+        if self.get_option("fetch_only_running_hosts") is None:
+            return True
+        return self.get_option("fetch_only_running_hosts")
+
+    # ------------------------------------------------------------------
     # Compute instance collection
     # ------------------------------------------------------------------
 
@@ -362,10 +382,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             for compartment_id in compartments:
                 try:
+                    list_kwargs = dict()
+                    if self._fetch_only_running_hosts():
+                        list_kwargs["lifecycle_state"] = "RUNNING"
                     instances = oci.pagination.list_call_get_all_results(
                         compute.list_instances,
                         compartment_id,
-                        lifecycle_state="RUNNING",
+                        **list_kwargs,
                     ).data
                 except oci.exceptions.ServiceError as exc:
                     self.display.warning(

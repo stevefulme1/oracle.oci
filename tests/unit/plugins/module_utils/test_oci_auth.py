@@ -1,4 +1,4 @@
-"""Unit tests for oracle.oci.plugins.module_utils.oci_auth."""
+"""Unit tests for stevefulme1.oci_cloud.plugins.module_utils.oci_auth."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -7,7 +7,7 @@ import os
 from unittest.mock import MagicMock, patch
 
 
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
 
 
 class TestGetOciConfig:
@@ -38,7 +38,7 @@ class TestGetOciConfig:
         }
 
         with patch("os.path.isfile", return_value=True):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
             config = get_oci_config(module)
 
         mock_oci.config.from_file.assert_called_once()
@@ -76,7 +76,7 @@ class TestGetOciConfig:
 
         with patch("os.path.isfile", return_value=True), \
              patch.dict(os.environ, env_overrides, clear=False):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
             config = get_oci_config(module)
 
         assert config["region"] == "eu-frankfurt-1"
@@ -103,7 +103,7 @@ class TestGetOciConfig:
         }
 
         with patch("os.path.isfile", return_value=True):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
             config = get_oci_config(module)
 
         assert config["region"] == "ap-tokyo-1"
@@ -118,7 +118,7 @@ class TestGetOciConfig:
             "config_profile_name": None,
         }
 
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
         config = get_oci_config(module)
         assert config == {"auth_type": "instance_principal"}
 
@@ -131,7 +131,7 @@ class TestGetOciConfig:
             "config_profile_name": None,
         }
 
-        from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+        from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
         config = get_oci_config(module)
         assert config == {"auth_type": "resource_principal"}
 
@@ -155,7 +155,7 @@ class TestCreateServiceClient:
 
         # Patch HAS_OCI_SDK to True
         with patch(f"{AUTH_PATH}.HAS_OCI_SDK", True):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
             client = create_service_client(module, mock_client_class)
 
         mock_oci.auth.signers.InstancePrincipalsSecurityTokenSigner.assert_called_once()
@@ -176,7 +176,7 @@ class TestCreateServiceClient:
         module.params = {"auth_type": "resource_principal"}
 
         with patch(f"{AUTH_PATH}.HAS_OCI_SDK", True):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
             client = create_service_client(module, mock_client_class)
 
         mock_oci.auth.signers.get_resource_principals_signer.assert_called_once()
@@ -214,7 +214,7 @@ class TestCreateServiceClient:
 
         with patch(f"{AUTH_PATH}.HAS_OCI_SDK", True), \
              patch("os.path.isfile", return_value=True):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
             client = create_service_client(module, mock_client_class)
 
         mock_oci.config.validate_config.assert_called_once()
@@ -227,7 +227,7 @@ class TestCreateServiceClient:
         module.params = {"auth_type": "api_key"}
 
         with patch(f"{AUTH_PATH}.HAS_OCI_SDK", False):
-            from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
+            from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
             create_service_client(module, mock_client_class)
 
         module.fail_json.assert_called_once()

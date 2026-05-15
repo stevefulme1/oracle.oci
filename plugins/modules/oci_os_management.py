@@ -59,25 +59,25 @@ options:
     default: present
     choices: [present]
 extends_documentation_fragment:
-  - oracle.oci.oci_common
+  - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
 - name: Read a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     action: read
     state: present
 
 - name: Attach a software source to a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     software_source_id: "ocid1.softwaresource.oc1..example"
     action: attach_software_source
     state: present
 
 - name: Detach a software source from a managed instance
-  oracle.oci.oci_os_management:
+  stevefulme1.oci_cloud.oci_os_management:
     managed_instance_id: "ocid1.instance.oc1..example"
     software_source_id: "ocid1.softwaresource.oc1..example"
     action: detach_software_source
@@ -112,9 +112,12 @@ resource:
 
 from ansible.module_utils.basic import AnsibleModule
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import OCI_COMMON_ARGS
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 try:
     import oci
@@ -122,23 +125,6 @@ try:
     HAS_OCI_SDK = True
 except ImportError:
     HAS_OCI_SDK = False
-
-
-def to_dict(resource):
-    """Convert an OCI SDK resource to a serializable dict."""
-    if resource is None:
-        return {}
-    result = {}
-    for key, value in resource.__dict__.items():
-        if key.startswith("_"):
-            continue
-        if hasattr(value, "__dict__") and not isinstance(value, (str, int, float, bool, list, dict)):
-            result[key] = to_dict(value)
-        elif isinstance(value, list):
-            result[key] = [to_dict(i) if hasattr(i, "__dict__") else i for i in value]
-        else:
-            result[key] = value
-    return result
 
 
 def get_managed_instance(client, managed_instance_id):
