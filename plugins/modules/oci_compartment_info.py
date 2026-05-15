@@ -25,7 +25,6 @@ options:
             - When used alone, retrieves a single compartment.
             - Also serves as the parent compartment when listing sub-compartments.
         type: str
-        required: true
     name:
         description:
             - Filter results by name.
