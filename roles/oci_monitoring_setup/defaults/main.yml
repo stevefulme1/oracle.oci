@@ -1,0 +1,4 @@
+---
+oci_monitoring_setup_compartment_id: ""
+oci_monitoring_setup_region: ""
+oci_monitoring_setup_state: present

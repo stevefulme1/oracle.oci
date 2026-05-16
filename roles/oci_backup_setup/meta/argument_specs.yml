@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure boot/block volume backup policies"
+    options:
+      oci_backup_setup_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_backup_setup_region:
+        description: OCI region
+        type: str

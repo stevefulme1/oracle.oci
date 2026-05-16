@@ -1,0 +1,4 @@
+---
+oci_database_deploy_compartment_id: ""
+oci_database_deploy_region: ""
+oci_database_deploy_state: present

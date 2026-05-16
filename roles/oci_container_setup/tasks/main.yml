@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_container_setup_compartment_id is defined
+    quiet: true
+
+- name: Execute oci container setup
+  ansible.builtin.debug:
+    msg: "Deploy OKE cluster with node pools"

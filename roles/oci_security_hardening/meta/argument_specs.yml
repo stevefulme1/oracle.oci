@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Apply CIS benchmark security policies"
+    options:
+      oci_security_hardening_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_security_hardening_region:
+        description: OCI region
+        type: str

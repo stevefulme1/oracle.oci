@@ -1,0 +1,4 @@
+---
+oci_container_setup_compartment_id: ""
+oci_container_setup_region: ""
+oci_container_setup_state: present

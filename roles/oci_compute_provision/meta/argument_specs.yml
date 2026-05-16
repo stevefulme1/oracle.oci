@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Provision compute instances with block storage"
+    options:
+      oci_compute_provision_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_compute_provision_region:
+        description: OCI region
+        type: str

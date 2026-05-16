@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Deploy OKE cluster with node pools"
+    options:
+      oci_container_setup_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_container_setup_region:
+        description: OCI region
+        type: str

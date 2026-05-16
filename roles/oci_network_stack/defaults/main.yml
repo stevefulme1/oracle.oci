@@ -1,0 +1,4 @@
+---
+oci_network_stack_compartment_id: ""
+oci_network_stack_region: ""
+oci_network_stack_state: present

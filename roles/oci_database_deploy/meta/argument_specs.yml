@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Deploy Oracle DB system or Autonomous Database"
+    options:
+      oci_database_deploy_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_database_deploy_region:
+        description: OCI region
+        type: str

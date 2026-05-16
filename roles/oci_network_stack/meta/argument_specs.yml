@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Deploy VCN with subnets, gateways, and security lists"
+    options:
+      oci_network_stack_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_network_stack_region:
+        description: OCI region
+        type: str

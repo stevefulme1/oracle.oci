@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure compartments, groups, policies, and dynamic groups"
+    options:
+      oci_iam_setup_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_iam_setup_region:
+        description: OCI region
+        type: str

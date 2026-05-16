@@ -1,0 +1,4 @@
+---
+oci_backup_setup_compartment_id: ""
+oci_backup_setup_region: ""
+oci_backup_setup_state: present

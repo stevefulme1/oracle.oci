@@ -1,0 +1,4 @@
+---
+oci_load_balancer_setup_compartment_id: ""
+oci_load_balancer_setup_region: ""
+oci_load_balancer_setup_state: present

@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Deploy load balancer with backend sets"
+    options:
+      oci_load_balancer_setup_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_load_balancer_setup_region:
+        description: OCI region
+        type: str

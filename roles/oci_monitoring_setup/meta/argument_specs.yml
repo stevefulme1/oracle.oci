@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure alarms, notifications, and events"
+    options:
+      oci_monitoring_setup_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_monitoring_setup_region:
+        description: OCI region
+        type: str

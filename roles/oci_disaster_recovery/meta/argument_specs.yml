@@ -1,0 +1,12 @@
+---
+argument_specs:
+  main:
+    short_description: "Configure DR with cross-region replication"
+    options:
+      oci_disaster_recovery_compartment_id:
+        description: OCI compartment OCID
+        type: str
+        required: true
+      oci_disaster_recovery_region:
+        description: OCI region
+        type: str

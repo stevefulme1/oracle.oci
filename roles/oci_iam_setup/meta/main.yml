@@ -1,0 +1,8 @@
+---
+galaxy_info:
+  author: Steve Fulmer
+  description: "Configure compartments, groups, policies, and dynamic groups"
+  license: Apache-2.0
+  min_ansible_version: '2.16'
+  galaxy_tags: [oci]
+dependencies: []

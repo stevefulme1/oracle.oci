@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_security_hardening_compartment_id is defined
+    quiet: true
+
+- name: Execute oci security hardening
+  ansible.builtin.debug:
+    msg: "Apply CIS benchmark security policies"

@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_network_stack_compartment_id is defined
+    quiet: true
+
+- name: Execute oci network stack
+  ansible.builtin.debug:
+    msg: "Deploy VCN with subnets, gateways, and security lists"

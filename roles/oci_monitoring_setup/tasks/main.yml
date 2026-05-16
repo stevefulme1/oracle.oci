@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_monitoring_setup_compartment_id is defined
+    quiet: true
+
+- name: Execute oci monitoring setup
+  ansible.builtin.debug:
+    msg: "Configure alarms, notifications, and events"

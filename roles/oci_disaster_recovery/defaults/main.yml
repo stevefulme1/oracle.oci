@@ -1,0 +1,4 @@
+---
+oci_disaster_recovery_compartment_id: ""
+oci_disaster_recovery_region: ""
+oci_disaster_recovery_state: present

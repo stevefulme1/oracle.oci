@@ -1,0 +1,4 @@
+---
+oci_iam_setup_compartment_id: ""
+oci_iam_setup_region: ""
+oci_iam_setup_state: present

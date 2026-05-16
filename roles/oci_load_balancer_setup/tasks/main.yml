@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_load_balancer_setup_compartment_id is defined
+    quiet: true
+
+- name: Execute oci load balancer setup
+  ansible.builtin.debug:
+    msg: "Deploy load balancer with backend sets"

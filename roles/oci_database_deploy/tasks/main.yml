@@ -1,0 +1,9 @@
+---
+- name: Validate
+  ansible.builtin.assert:
+    that: oci_database_deploy_compartment_id is defined
+    quiet: true
+
+- name: Execute oci database deploy
+  ansible.builtin.debug:
+    msg: "Deploy Oracle DB system or Autonomous Database"

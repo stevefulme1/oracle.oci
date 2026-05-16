@@ -1,0 +1,4 @@
+---
+oci_security_hardening_compartment_id: ""
+oci_security_hardening_region: ""
+oci_security_hardening_state: present
