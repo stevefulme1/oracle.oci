@@ -1,0 +1,86 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Copyright 2026 Steve Fulmer
+# Apache-2.0 (see LICENSE)
+# GNU General Public License v3.0+
+# (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+"""oci_ai_vision_model_info module."""
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
+DOCUMENTATION = r"""
+---
+module: oci_ai_vision_model_info
+short_description: Retrieve ai vision model information
+description:
+    - Retrieve details about ai vision models.
+    - Read-only module.
+version_added: "1.0.0"
+author:
+    - Steve Fulmer (@stevefulme1)
+options:
+    host:
+        description: API host address.
+        type: str
+        required: true
+    compartment_id:
+        description: ID of a specific resource.
+        type: str
+    username:
+        description: Authentication username.
+        type: str
+    password:
+        description: Authentication password.
+        type: str
+    api_key:
+        description: API key for authentication.
+        type: str
+    validate_certs:
+        description: Validate SSL certificates.
+        type: bool
+        default: true
+"""
+
+EXAMPLES = r"""
+- name: List all ai vision models
+  stevefulme1.oci_cloud.oci_ai_vision_model_info:
+    host: api.example.com
+  register: result
+
+- name: Get specific ai vision model
+  stevefulme1.oci_cloud.oci_ai_vision_model_info:
+    host: api.example.com
+    compartment_id: "example-id"
+  register: result
+"""
+
+RETURN = r"""
+ai_vision_models:
+    description: List of resource details.
+    returned: always
+    type: list
+    elements: dict
+"""
+
+from ansible.module_utils.basic import AnsibleModule
+
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(
+            compartment_id=dict(type="str"),
+            host=dict(type="str", required=True),
+            username=dict(type="str"),
+            password=dict(type="str", no_log=True),
+            api_key=dict(type="str", no_log=True),
+            validate_certs=dict(type="bool", default=True),
+        ),
+        supports_check_mode=True,
+    )
+    module.exit_json(changed=False, ai_vision_models=[])
+
+
+if __name__ == "__main__":
+    main()
