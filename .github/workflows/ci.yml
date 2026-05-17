@@ -108,6 +108,9 @@ jobs:
       - name: Install dependencies
         run: pip install ansible-core>=2.16 oci pytest pytest-cov
 
+      - name: Create mock OCI key for tests
+        run: openssl genrsa -out /tmp/oci_test_key.pem 2048 2>/dev/null
+
       - name: Run unit tests
         working-directory: ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION }}
         env:
