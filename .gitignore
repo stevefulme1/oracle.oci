@@ -9,3 +9,5 @@ build/
 .pytest_cache/
 tests/output/
 *.tar.gz
+*.tar.gz
+.DS_Store
