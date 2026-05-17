@@ -34,9 +34,37 @@ options:
             - Filter results by display name.
             - Only used when listing with I(compartment_id).
         type: str
+    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
 """
 
-EXAMPLES = r"""
+EXAMPLES = r    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
+"""
 - name: List all log groups in a compartment
   stevefulme1.oci_cloud.oci_log_group_info:
     compartment_id: "ocid1.compartment.oc1..example"

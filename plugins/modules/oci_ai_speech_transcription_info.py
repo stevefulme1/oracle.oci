@@ -41,9 +41,37 @@ options:
         description: Validate SSL certificates.
         type: bool
         default: true
+    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
 """
 
-EXAMPLES = r"""
+EXAMPLES = r    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
+"""
 - name: List all ai speech transcriptions
   stevefulme1.oci_cloud.oci_ai_speech_transcription_info:
     host: api.example.com

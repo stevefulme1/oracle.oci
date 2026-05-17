@@ -29,9 +29,37 @@ options:
             - The OCID of a specific subscription to retrieve.
             - When specified, returns a single resource instead of a list.
         type: str
+    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
 """
 
-EXAMPLES = r"""
+EXAMPLES = r    limit:
+        description:
+            - Maximum number of results to return.
+        type: int
+        default: 1000
+    page:
+        description:
+            - Pagination token from a previous list call.
+        type: str
+    max_results:
+        description:
+            - Maximum total number of results to return.
+        type: int
+        default: 1000
+"""
 - name: List all subscriptions in a compartment
   stevefulme1.oci_cloud.oci_notification_subscription_info:
     compartment_id: "ocid1.compartment.oc1..example"
