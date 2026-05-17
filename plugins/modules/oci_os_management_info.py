@@ -57,21 +57,7 @@ options:
         default: 1000
 """
 
-EXAMPLES = r    limit:
-        description:
-            - Maximum number of results to return.
-        type: int
-        default: 1000
-    page:
-        description:
-            - Pagination token from a previous list call.
-        type: str
-    max_results:
-        description:
-            - Maximum total number of results to return.
-        type: int
-        default: 1000
-"""
+EXAMPLES = r"""
 - name: List all os managements
   stevefulme1.oci_cloud.oci_os_management_info:
     host: api.example.com
