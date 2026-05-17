@@ -88,8 +88,8 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.core import ComputeClient
     from oci.core.models import (
-    CreateComputeImageCapabilitySchemaDetails,
-    UpdateComputeImageCapabilitySchemaDetails,
+        CreateComputeImageCapabilitySchemaDetails,
+        UpdateComputeImageCapabilitySchemaDetails,
     )
     from oci.exceptions import ServiceError
     HAS_OCI_SDK = True

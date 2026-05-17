@@ -85,8 +85,8 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.service_mesh import ServiceMeshClient
     from oci.service_mesh.models import (
-    CreateMeshDetails,
-    UpdateMeshDetails,
+        CreateMeshDetails,
+        UpdateMeshDetails,
     )
     from oci.exceptions import ServiceError
     HAS_OCI_SDK = True

@@ -84,8 +84,8 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.opsi import OperationsInsightsClient
     from oci.opsi.models import (
-    CreateOperationsInsightsWarehouseDetails,
-    UpdateOperationsInsightsWarehouseDetails,
+        CreateOperationsInsightsWarehouseDetails,
+        UpdateOperationsInsightsWarehouseDetails,
     )
     from oci.exceptions import ServiceError
     HAS_OCI_SDK = True

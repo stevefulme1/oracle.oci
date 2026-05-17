@@ -84,8 +84,8 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.vulnerability_scanning import VulnerabilityScanningClient
     from oci.vulnerability_scanning.models import (
-    CreateContainerScanTargetDetails,
-    UpdateContainerScanTargetDetails,
+        CreateContainerScanTargetDetails,
+        UpdateContainerScanTargetDetails,
     )
     from oci.exceptions import ServiceError
     HAS_OCI_SDK = True

@@ -80,8 +80,8 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.core import ComputeManagementClient
     from oci.core.models import (
-    CreateInstanceConfigurationDetails,
-    UpdateInstanceConfigurationDetails,
+        CreateInstanceConfigurationDetails,
+        UpdateInstanceConfigurationDetails,
     )
     from oci.exceptions import ServiceError
     HAS_OCI_SDK = True
