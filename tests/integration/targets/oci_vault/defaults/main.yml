@@ -1,0 +1,3 @@
+---
+oci_test_vault_name: test-vault-{{ tiny_prefix }}
+oci_test_compartment_id: "{{ oci_compartment_id }}"
