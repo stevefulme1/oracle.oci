@@ -41,23 +41,23 @@ options:
         description: Validate SSL certificates.
         type: bool
         default: true
-  limit:
-    description:
-      - Maximum number of results to return.
+    limit:
+        description:
+          - Maximum number of results to return.
       - OCI API default varies by service, max is typically 1000.
-    type: int
-    default: 1000
+        type: int
+        default: 1000
   page:
     description:
       - Pagination token from a previous list call.
       - Use to continue listing from where the last call left off.
     type: str
-  max_results:
-    description:
-      - Maximum total number of results to return.
+    max_results:
+        description:
+          - Maximum total number of results to return.
       - Set to 0 for no limit.
-    type: int
-    default: 1000
+        type: int
+        default: 1000
 """
 
 EXAMPLES = r"""
