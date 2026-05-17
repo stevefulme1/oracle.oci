@@ -1,0 +1,48 @@
+---
+- name: Create autonomous_database
+  stevefulme1.oci_cloud.oci_autonomous_database:
+    display_name: "{{ oci_test_autonomous_database_name }}"
+    compartment_id: "{{ oci_test_compartment_id }}"
+    state: present
+  register: create_result
+
+- name: Verify creation
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.autonomous_database is defined
+      - create_result.autonomous_database.display_name == oci_test_autonomous_database_name
+
+- name: Create same autonomous_database again (idempotency)
+  stevefulme1.oci_cloud.oci_autonomous_database:
+    display_name: "{{ oci_test_autonomous_database_name }}"
+    compartment_id: "{{ oci_test_compartment_id }}"
+    state: present
+  register: idem_result
+
+- name: Verify idempotency
+  ansible.builtin.assert:
+    that:
+      - idem_result is not changed
+
+- name: Delete autonomous_database
+  stevefulme1.oci_cloud.oci_autonomous_database:
+    display_name: "{{ oci_test_autonomous_database_name }}"
+    state: absent
+  register: delete_result
+
+- name: Verify deletion
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+
+- name: Delete again (idempotency)
+  stevefulme1.oci_cloud.oci_autonomous_database:
+    display_name: "{{ oci_test_autonomous_database_name }}"
+    state: absent
+  register: delete_idem
+
+- name: Verify delete idempotency
+  ansible.builtin.assert:
+    that:
+      - delete_idem is not changed

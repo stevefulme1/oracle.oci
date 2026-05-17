@@ -1,0 +1,3 @@
+---
+oci_test_autonomous_database_name: test-autonomous_database-{{ tiny_prefix }}
+oci_test_compartment_id: "{{ oci_compartment_id }}"
