@@ -72,7 +72,7 @@ options:
         description:
             - Maximum time in seconds to wait for the resource to reach the desired state.
         type: int
-        default: 1800
+        default: 1200
 extends_documentation_fragment:
     - stevefulme1.oci_cloud.oci_common
 requirements:

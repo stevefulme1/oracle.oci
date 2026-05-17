@@ -174,7 +174,7 @@ def get_module_args():
         ),
         prompt=dict(type="str", required=True),
         system_prompt=dict(type="str"),
-        max_tokens=dict(type="int", default=256),
+        max_tokens=dict(type="int", default=256, no_log=False),
         temperature=dict(type="float", default=0.7),
     )
     module_args.update(OCI_COMMON_ARGS)
