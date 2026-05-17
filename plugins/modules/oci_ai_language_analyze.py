@@ -50,7 +50,7 @@ options:
             - Required when I(analysis_type=translation).
         type: str
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -58,14 +58,14 @@ requirements:
 
 EXAMPLES = r"""
 - name: Analyze sentiment of text
-  oracle.oci.oci_ai_language_analyze:
+  stevefulme1.oci_cloud.oci_ai_language_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     text: "The product is excellent and the support team was very helpful."
     analysis_type: sentiment
   register: sentiment_result
 
 - name: Extract entities from multiple texts
-  oracle.oci.oci_ai_language_analyze:
+  stevefulme1.oci_cloud.oci_ai_language_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     text:
       - "Oracle Corporation is headquartered in Austin, Texas."
@@ -73,14 +73,14 @@ EXAMPLES = r"""
     analysis_type: entities
 
 - name: Translate text to Spanish
-  oracle.oci.oci_ai_language_analyze:
+  stevefulme1.oci_cloud.oci_ai_language_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     text: "Hello, how are you today?"
     analysis_type: translation
     target_language: "es"
 
 - name: Check mode - preview request
-  oracle.oci.oci_ai_language_analyze:
+  stevefulme1.oci_cloud.oci_ai_language_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     text: "Some text to analyze"
     analysis_type: sentiment
@@ -125,11 +125,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():

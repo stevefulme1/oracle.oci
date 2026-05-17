@@ -40,7 +40,7 @@ options:
         type: str
         default: "application/json"
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -48,7 +48,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Get predictions from a deployed model
-  oracle.oci.oci_data_science_predict:
+  stevefulme1.oci_cloud.oci_data_science_predict:
     endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       instances:
@@ -61,7 +61,7 @@ EXAMPLES = r"""
   register: prediction_result
 
 - name: Send a list payload
-  oracle.oci.oci_data_science_predict:
+  stevefulme1.oci_cloud.oci_data_science_predict:
     endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       - [1.5, 2.3, 0.8]
@@ -69,7 +69,7 @@ EXAMPLES = r"""
     content_type: "application/json"
 
 - name: Check mode - preview request
-  oracle.oci.oci_data_science_predict:
+  stevefulme1.oci_cloud.oci_data_science_predict:
     endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       instances:
@@ -111,10 +111,10 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import get_oci_config
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import get_oci_config
 
 
 def get_module_args():

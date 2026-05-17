@@ -43,7 +43,7 @@ options:
         elements: str
         required: true
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -51,7 +51,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Detect anomalies in sensor data
-  oracle.oci.oci_ai_anomaly_detect:
+  stevefulme1.oci_cloud.oci_ai_anomaly_detect:
     model_id: "ocid1.aianomalydetectionmodel.oc1..example"
     signal_names:
       - temperature
@@ -73,7 +73,7 @@ EXAMPLES = r"""
   register: anomaly_result
 
 - name: Check mode - preview request
-  oracle.oci.oci_ai_anomaly_detect:
+  stevefulme1.oci_cloud.oci_ai_anomaly_detect:
     model_id: "ocid1.aianomalydetectionmodel.oc1..example"
     signal_names:
       - cpu_usage
@@ -132,11 +132,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():

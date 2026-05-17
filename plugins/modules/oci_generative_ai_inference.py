@@ -71,7 +71,7 @@ options:
         type: float
         default: 0.7
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -79,7 +79,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Generate text with a Cohere model
-  oracle.oci.oci_generative_ai_inference:
+  stevefulme1.oci_cloud.oci_generative_ai_inference:
     compartment_id: "ocid1.compartment.oc1..example"
     model_id: "ocid1.generativeaimodel.oc1..example"
     model_type: cohere
@@ -90,7 +90,7 @@ EXAMPLES = r"""
   register: genai_result
 
 - name: Chat with a Llama model
-  oracle.oci.oci_generative_ai_inference:
+  stevefulme1.oci_cloud.oci_generative_ai_inference:
     compartment_id: "ocid1.compartment.oc1..example"
     model_id: "ocid1.generativeaimodel.oc1..example"
     model_type: llama
@@ -101,7 +101,7 @@ EXAMPLES = r"""
   register: chat_result
 
 - name: Check mode - preview the request payload without calling the API
-  oracle.oci.oci_generative_ai_inference:
+  stevefulme1.oci_cloud.oci_generative_ai_inference:
     compartment_id: "ocid1.compartment.oc1..example"
     model_id: "ocid1.generativeaimodel.oc1..example"
     model_type: cohere
@@ -156,11 +156,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():

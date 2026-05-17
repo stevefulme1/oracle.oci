@@ -75,7 +75,7 @@ options:
         type: str
         default: "en-US"
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -83,7 +83,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Submit a transcription job and wait for completion
-  oracle.oci.oci_ai_speech_transcribe:
+  stevefulme1.oci_cloud.oci_ai_speech_transcribe:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "meeting-recording-transcription"
     input_location:
@@ -100,7 +100,7 @@ EXAMPLES = r"""
   register: transcription_result
 
 - name: Submit a transcription job without waiting
-  oracle.oci.oci_ai_speech_transcribe:
+  stevefulme1.oci_cloud.oci_ai_speech_transcribe:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "podcast-transcription"
     input_location:
@@ -114,7 +114,7 @@ EXAMPLES = r"""
     wait: false
 
 - name: Check mode - preview request
-  oracle.oci.oci_ai_speech_transcribe:
+  stevefulme1.oci_cloud.oci_ai_speech_transcribe:
     compartment_id: "ocid1.compartment.oc1..example"
     display_name: "test-transcription"
     input_location:
@@ -171,11 +171,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():

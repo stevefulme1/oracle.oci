@@ -73,7 +73,7 @@ options:
             - key_value_extraction
             - document_classification
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -81,7 +81,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Extract text from a document in Object Storage
-  oracle.oci.oci_ai_document_analyze:
+  stevefulme1.oci_cloud.oci_ai_document_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     document_source: object_storage
     namespace_name: "mytenancy"
@@ -91,21 +91,21 @@ EXAMPLES = r"""
   register: ocr_result
 
 - name: Extract tables from a base64-encoded document
-  oracle.oci.oci_ai_document_analyze:
+  stevefulme1.oci_cloud.oci_ai_document_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     document_source: base64
     document_data: "JVBERi0xLjQK..."
     analysis_type: table_extraction
 
 - name: Extract key-value pairs from a document URL
-  oracle.oci.oci_ai_document_analyze:
+  stevefulme1.oci_cloud.oci_ai_document_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     document_source: url
     document_url: "https://example.com/form.pdf"
     analysis_type: key_value_extraction
 
 - name: Classify a document
-  oracle.oci.oci_ai_document_analyze:
+  stevefulme1.oci_cloud.oci_ai_document_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     document_source: object_storage
     namespace_name: "mytenancy"
@@ -114,7 +114,7 @@ EXAMPLES = r"""
     analysis_type: document_classification
 
 - name: Check mode - preview request
-  oracle.oci.oci_ai_document_analyze:
+  stevefulme1.oci_cloud.oci_ai_document_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     document_source: url
     document_url: "https://example.com/form.pdf"
@@ -171,11 +171,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():

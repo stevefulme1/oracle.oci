@@ -72,7 +72,7 @@ options:
             - object_detection
             - text_detection
 extends_documentation_fragment:
-    - oracle.oci.oci_common
+    - stevefulme1.oci_cloud.oci_common
 requirements:
     - "python >= 3.8"
     - "oci >= 2.90.0"
@@ -80,7 +80,7 @@ requirements:
 
 EXAMPLES = r"""
 - name: Classify an image from a URL
-  oracle.oci.oci_ai_vision_analyze:
+  stevefulme1.oci_cloud.oci_ai_vision_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     image_source: url
     image_url: "https://example.com/photo.jpg"
@@ -88,7 +88,7 @@ EXAMPLES = r"""
   register: classification_result
 
 - name: Detect objects in an image from Object Storage
-  oracle.oci.oci_ai_vision_analyze:
+  stevefulme1.oci_cloud.oci_ai_vision_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     image_source: object_storage
     namespace_name: "mytenancy"
@@ -97,14 +97,14 @@ EXAMPLES = r"""
     analysis_type: object_detection
 
 - name: Detect text in a base64-encoded image
-  oracle.oci.oci_ai_vision_analyze:
+  stevefulme1.oci_cloud.oci_ai_vision_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     image_source: base64
     image_data: "/9j/4AAQSkZJRg..."
     analysis_type: text_detection
 
 - name: Check mode - preview request
-  oracle.oci.oci_ai_vision_analyze:
+  stevefulme1.oci_cloud.oci_ai_vision_analyze:
     compartment_id: "ocid1.compartment.oc1..example"
     image_source: url
     image_url: "https://example.com/photo.jpg"
@@ -155,11 +155,11 @@ try:
 except ImportError:
     HAS_OCI_SDK = False
 
-from ansible_collections.oracle.oci.plugins.module_utils.oci_common import (
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
     OCI_COMMON_ARGS,
 )
-from ansible_collections.oracle.oci.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.oracle.oci.plugins.module_utils.oci_wait import call_with_retry
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
 
 
 def get_module_args():
