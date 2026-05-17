@@ -160,11 +160,10 @@ try:
     from oci.ai_speech import AIServiceSpeechClient
     from oci.ai_speech.models import (
         CreateTranscriptionJobDetails,
-        InputLocation,
         ObjectLocation,
-        ObjectListInlineInputLocation,
         OutputLocation,
         TranscriptionModelDetails,
+        ObjectListInlineInputLocation,
     )
     from oci.exceptions import ServiceError
 

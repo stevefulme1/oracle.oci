@@ -123,7 +123,6 @@ from ansible.module_utils.basic import AnsibleModule
 try:
     from oci.ai_anomaly_detection import AnomalyDetectionClient
     from oci.ai_anomaly_detection.models import (
-        DetectAnomaliesDetails,
         InlineDetectAnomaliesRequest,
         DataItem,
     )

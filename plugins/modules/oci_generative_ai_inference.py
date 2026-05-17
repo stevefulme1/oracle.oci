@@ -144,11 +144,9 @@ try:
         LlamaLlmInferenceRequest,
         ChatDetails,
         CohereChatRequest,
-        CohereMessage,
         LlamaChatRequest,
         SummarizeTextDetails,
         EmbedTextDetails,
-        ServingMode,
         OnDemandServingMode,
         DedicatedServingMode,
     )

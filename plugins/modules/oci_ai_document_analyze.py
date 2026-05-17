@@ -164,7 +164,6 @@ try:
         DocumentKeyValueExtractionFeature,
         DocumentClassificationFeature,
         InlineDocumentDetails,
-        ObjectStorageLocations,
     )
     from oci.exceptions import ServiceError
 

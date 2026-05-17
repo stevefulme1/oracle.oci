@@ -25,7 +25,7 @@ options:
     endpoint_url:
         description:
             - The full URL of the model deployment predict endpoint.
-            - Typically in the form C(https://modeldeployment.<region>.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1.../predict).
+            - Typically in the form C(https://modeldeployment.<region>.oci.customer-oci.com/<deployment_ocid>/predict).
         type: str
         required: true
     data:
@@ -49,7 +49,7 @@ requirements:
 EXAMPLES = r"""
 - name: Get predictions from a deployed model
   oracle.oci.oci_data_science_predict:
-    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1..example/predict"
+    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       instances:
         - feature1: 1.5
@@ -62,7 +62,7 @@ EXAMPLES = r"""
 
 - name: Send a list payload
   oracle.oci.oci_data_science_predict:
-    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1..example/predict"
+    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       - [1.5, 2.3, 0.8]
       - [3.1, 1.2, 2.5]
@@ -70,7 +70,7 @@ EXAMPLES = r"""
 
 - name: Check mode - preview request
   oracle.oci.oci_data_science_predict:
-    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/ocid1.datasciencemodeldeployment.oc1..example/predict"
+    endpoint_url: "https://modeldeployment.us-ashburn-1.oci.customer-oci.com/<ocid>/predict"
     data:
       instances:
         - feature1: 1.0
@@ -102,12 +102,10 @@ request_payload:
 import json
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.urls import open_url
 
 try:
     import oci
     from oci.signer import Signer
-    from oci.exceptions import ServiceError
 
     HAS_OCI_SDK = True
 except ImportError:
