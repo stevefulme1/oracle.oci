@@ -160,7 +160,8 @@ def create_resource(module, client):
         compartment_id=params.get("compartment_id"),
         display_name=params.get("display_name"),
         image_id=params.get("image_id"),
-        compute_global_image_capability_schema_version_name=params.get("compute_global_image_capability_schema_version_name"),
+        compute_global_image_capability_schema_version_name=
+            params.get("compute_global_image_capability_schema_version_name"),
         schema_data=params.get("schema_data"),
         freeform_tags=params.get("freeform_tags"),
         defined_tags=params.get("defined_tags"),
