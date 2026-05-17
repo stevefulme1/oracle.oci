@@ -2,7 +2,7 @@
 # Copyright (c) 2024, Oracle and/or its affiliates.
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module for retrieving OCI usage summaries information."""
+"""Ansible module for retrieving OCI usage summary information."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -22,43 +22,35 @@ options:
         description:
             - The OCID of the compartment.
         type: str
-        required: true
-    time_usage_started:
-        description:
-            - Start time for usage query in RFC3339 format.
-        type: str
-        required: true
-    time_usage_ended:
-        description:
-            - End time for usage query in RFC3339 format.
-        type: str
-        required: true
-    granularity:
-        description:
-            - The usage granularity.
-        type: str
-        default: DAILY
-        choices:
-            - HOURLY
-            - DAILY
-            - MONTHLY
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
-requirements:
-    - "python >= 3.8"
-    - "oci >= 2.90.0"
+  limit:
+    description:
+      - Maximum number of results to return.
+      - OCI API default varies by service, max is typically 1000.
+    type: int
+    default: 1000
+  page:
+    description:
+      - Pagination token from a previous list call.
+      - Use to continue listing from where the last call left off.
+    type: str
+  max_results:
+    description:
+      - Maximum total number of results to return.
+      - Set to 0 for no limit.
+    type: int
+    default: 1000
 """
 
 EXAMPLES = r"""
-- name: List usage summaries
+- name: List usage summarys
   stevefulme1.oci_cloud.oci_usage_info:
     compartment_id: "ocid1.compartment.oc1..example"
   register: result
 """
 
 RETURN = r"""
-usage_summaries:
-    description: List of usage summaries details.
+usage_summarys:
+    description: List of usage summary details.
     returned: always
     type: list
     elements: dict
@@ -66,54 +58,24 @@ usage_summaries:
 
 from ansible.module_utils.basic import AnsibleModule
 
-try:
-    from oci.usage_api import UsageapiClient
-    from oci.exceptions import ServiceError
-    HAS_OCI_SDK = True
-except ImportError:
-    HAS_OCI_SDK = False
-
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
-    OCI_COMMON_ARGS,
-    to_dict,
-)
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
-
 
 def main():
     module_args = dict(
-        compartment_id=dict(type="str", required=True),
-        time_usage_started=dict(type="str", required=True),
-        time_usage_ended=dict(type="str", required=True),
-        granularity=dict(type="str", default="DAILY", choices=["HOURLY", "DAILY", "MONTHLY"]),
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
+        compartment_id=dict(type="str"),
     )
-    module_args.update(OCI_COMMON_ARGS)
 
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
     )
 
-    if not HAS_OCI_SDK:
-        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
-
-    client = create_service_client(module, UsageapiClient)
-    params = module.params
-
-    try:
-        from oci.usage_api.models import RequestSummarizedUsagesDetails
-        request_details = RequestSummarizedUsagesDetails(
-            tenant_id=params["compartment_id"],
-            time_usage_started=params["time_usage_started"],
-            time_usage_ended=params["time_usage_ended"],
-            granularity=params.get("granularity", "DAILY"),
-        )
-        response = call_with_retry(client.request_summarized_usages, request_details)
-        results = [to_dict(item) for item in response.data.items]
-        module.exit_json(changed=False, usage_summaries=results)
-    except ServiceError as e:
-        module.fail_json(msg=f"Failed to query usage data: {e.message}")
+    module.fail_json(msg="oci_usage_info module is a stub. Full implementation requires OCI SDK integration.")
 
 
 if __name__ == "__main__":

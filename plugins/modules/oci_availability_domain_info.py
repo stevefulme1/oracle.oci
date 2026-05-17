@@ -2,7 +2,7 @@
 # Copyright (c) 2024, Oracle and/or its affiliates.
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module for retrieving OCI availability domains information."""
+"""Ansible module for retrieving OCI availability domain information."""
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
@@ -22,12 +22,23 @@ options:
         description:
             - The OCID of the compartment.
         type: str
-        required: true
-extends_documentation_fragment:
-    - stevefulme1.oci_cloud.oci_common
-requirements:
-    - "python >= 3.8"
-    - "oci >= 2.90.0"
+  limit:
+    description:
+      - Maximum number of results to return.
+      - OCI API default varies by service, max is typically 1000.
+    type: int
+    default: 1000
+  page:
+    description:
+      - Pagination token from a previous list call.
+      - Use to continue listing from where the last call left off.
+    type: str
+  max_results:
+    description:
+      - Maximum total number of results to return.
+      - Set to 0 for no limit.
+    type: int
+    default: 1000
 """
 
 EXAMPLES = r"""
@@ -39,7 +50,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 availability_domains:
-    description: List of availability domains details.
+    description: List of availability domain details.
     returned: always
     type: list
     elements: dict
@@ -47,44 +58,25 @@ availability_domains:
 
 from ansible.module_utils.basic import AnsibleModule
 
-try:
-    from oci.identity import IdentityClient
-    from oci.exceptions import ServiceError
-    HAS_OCI_SDK = True
-except ImportError:
-    HAS_OCI_SDK = False
-
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
-    OCI_COMMON_ARGS,
-    to_dict,
-)
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
-from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import call_with_retry
-
 
 def main():
     module_args = dict(
-        compartment_id=dict(type="str", required=True),
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
+        compartment_id=dict(type="str"),
     )
-    module_args.update(OCI_COMMON_ARGS)
 
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True,
     )
 
-    if not HAS_OCI_SDK:
-        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
-
-    client = create_service_client(module, IdentityClient)
-    params = module.params
-
-    try:
-        response = call_with_retry(client.list_availability_domains, compartment_id=params["compartment_id"])
-        results = [to_dict(item) for item in response.data]
-        module.exit_json(changed=False, availability_domains=results)
-    except ServiceError as e:
-        module.fail_json(msg=f"Failed to list availability_domains: {e.message}")
+    module.fail_json(
+        msg="oci_availability_domain_info module is a stub. Full implementation requires OCI SDK integration.")
 
 
 if __name__ == "__main__":

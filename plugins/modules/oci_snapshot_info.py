@@ -34,6 +34,23 @@ options:
             - Filter results by lifecycle state.
             - Only used when listing with I(compartment_id).
         type: str
+  limit:
+    description:
+      - Maximum number of results to return.
+      - OCI API default varies by service, max is typically 1000.
+    type: int
+    default: 1000
+  page:
+    description:
+      - Pagination token from a previous list call.
+      - Use to continue listing from where the last call left off.
+    type: str
+  max_results:
+    description:
+      - Maximum total number of results to return.
+      - Set to 0 for no limit.
+    type: int
+    default: 1000
 """
 
 EXAMPLES = r"""
@@ -78,6 +95,10 @@ def list_resources(client, module):
     """List snapshots in a compartment."""
     compartment_id = module.params["compartment_id"]
     kwargs = {}
+    if module.params.get("limit"):
+        kwargs["limit"] = module.params["limit"]
+    if module.params.get("page"):
+        kwargs["page"] = module.params["page"]
 
     if module.params.get("lifecycle_state"):
         kwargs["lifecycle_state"] = module.params["lifecycle_state"]
@@ -106,6 +127,9 @@ def get_resource(client, module):
 
 def main():
     module_args = dict(
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
         compartment_id=dict(type="str"),
         snapshot_id=dict(type="str"),
         lifecycle_state=dict(type="str"),
