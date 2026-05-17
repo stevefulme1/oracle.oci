@@ -39,6 +39,23 @@ options:
             - Filter results by instance id.
             - Only used when listing with I(compartment_id).
         type: str
+  limit:
+    description:
+      - Maximum number of results to return.
+      - OCI API default varies by service, max is typically 1000.
+    type: int
+    default: 1000
+  page:
+    description:
+      - Pagination token from a previous list call.
+      - Use to continue listing from where the last call left off.
+    type: str
+  max_results:
+    description:
+      - Maximum total number of results to return.
+      - Set to 0 for no limit.
+    type: int
+    default: 1000
 """
 
 EXAMPLES = r"""
@@ -83,6 +100,10 @@ def list_resources(client, module):
     """List volume attachments in a compartment."""
     compartment_id = module.params["compartment_id"]
     kwargs = {}
+    if module.params.get("limit"):
+        kwargs["limit"] = module.params["limit"]
+    if module.params.get("page"):
+        kwargs["page"] = module.params["page"]
 
     if module.params.get("availability_domain"):
         kwargs["availability_domain"] = module.params["availability_domain"]
@@ -113,6 +134,9 @@ def get_resource(client, module):
 
 def main():
     module_args = dict(
+        limit=dict(type="int", default=1000),
+        page=dict(type="str"),
+        max_results=dict(type="int", default=1000),
         compartment_id=dict(type="str"),
         volume_attachment_id=dict(type="str"),
         availability_domain=dict(type="str"),
