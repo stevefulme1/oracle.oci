@@ -12,20 +12,12 @@ DOCUMENTATION = r"""
 module: oci_container_scan_recipe
 short_description: Manage OCI Container Scan Recipes
 description:
-    - Create, update, and delete container image scan recipes for vulnerability detection.
-    - Uses the OCI Python SDK.
+    - Create, update, and delete container scan recipes in Oracle Cloud Infrastructure.
+    - This module uses the OCI Python SDK.
 version_added: "2.2.0"
 author:
     - Oracle (@oracle)
 options:
-    state:
-        description:
-            - The desired state of the container scan recipe.
-        type: str
-        default: present
-        choices:
-            - present
-            - absent
     compartment_id:
         description:
             - The OCID of the compartment.
@@ -38,18 +30,32 @@ options:
         type: str
     display_name:
         description:
-            - Display Name for the container scan recipe.
+            - The display name of the container scan recipe.
         type: str
     scan_settings:
         description:
-            - Scan Settings for the container scan recipe.
+            - Scan settings for the container scan recipe.
+        type: dict
+    state:
+        description:
+            - The desired state of the container scan recipe.
         type: str
+        choices:
+            - present
+            - absent
+        default: present
+extends_documentation_fragment:
+    - stevefulme1.oci_cloud.oci_common
+requirements:
+    - "python >= 3.8"
+    - "oci >= 2.90.0"
 """
 
 EXAMPLES = r"""
 - name: Create a container scan recipe
   stevefulme1.oci_cloud.oci_container_scan_recipe:
     compartment_id: "ocid1.compartment.oc1..example"
+    display_name: "my-container-scan-recipe"
     state: present
 
 - name: Delete a container scan recipe
@@ -61,29 +67,190 @@ EXAMPLES = r"""
 RETURN = r"""
 container_scan_recipe:
     description: Details of the container scan recipe.
-    returned: on success
+    returned: On success when state is present.
     type: dict
+    sample:
+        id: "ocid1.container_scan_recipe.oc1..example"
+        display_name: "my-container-scan-recipe"
+        lifecycle_state: "ACTIVE"
 """
 
 from ansible.module_utils.basic import AnsibleModule
 
+try:
+    from oci.vulnerability_scanning import VulnerabilityScanningClient
+    from oci.vulnerability_scanning.models import (
+    CreateContainerScanRecipeDetails,
+    UpdateContainerScanRecipeDetails,
+    )
+    from oci.exceptions import ServiceError
+    HAS_OCI_SDK = True
+except ImportError:
+    HAS_OCI_SDK = False
 
-def main():
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_common import (
+    OCI_COMMON_ARGS,
+    DEAD_STATES,
+    READY_STATES,
+    to_dict,
+)
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import create_service_client
+from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait import (
+    call_with_retry,
+    wait_for_resource,
+)
+
+
+def get_module_args():
+    """Build module argument spec."""
     module_args = dict(
-        state=dict(type="str", default="present", choices=["present", "absent"]),
         compartment_id=dict(type="str"),
         container_scan_recipe_id=dict(type="str"),
         display_name=dict(type="str"),
-        scan_settings=dict(type="str"),
+        scan_settings=dict(type="dict"),
+        state=dict(type="str", choices=["present", "absent"], default="present"),
     )
+    module_args.update(OCI_COMMON_ARGS)
+    return module_args
 
+
+def get_resource(client, resource_id):
+    """Get a container scan recipe by OCID."""
+    try:
+        response = call_with_retry(client.get_container_scan_recipe, resource_id)
+        return response.data
+    except ServiceError as e:
+        if e.status == 404:
+            return None
+        raise
+
+
+def find_resource(client, compartment_id, display_name):
+    """Find a container scan recipe by display name in a compartment."""
+    if not compartment_id:
+        return None
+    try:
+        response = call_with_retry(
+            client.list_container_scan_recipes, compartment_id=compartment_id,
+        )
+        for item in response.data.items:
+            if getattr(item, "lifecycle_state", None) in DEAD_STATES:
+                continue
+            if display_name and getattr(item, "display_name", None) == display_name:
+                return item
+    except ServiceError:
+        pass
+    return None
+
+
+def create_resource(module, client):
+    """Create a new container scan recipe."""
+    params = module.params
+    create_details = CreateContainerScanRecipeDetails(
+        compartment_id=params.get("compartment_id"),
+        display_name=params.get("display_name"),
+        scan_settings=params.get("scan_settings"),
+        freeform_tags=params.get("freeform_tags"),
+        defined_tags=params.get("defined_tags"),
+    )
+    response = call_with_retry(client.create_container_scan_recipe, create_details)
+    resource = response.data
+    if hasattr(resource, "id") and module.params.get("wait", True):
+        resource = wait_for_resource(
+            module, client.get_container_scan_recipe, resource.id, target_states=READY_STATES,
+        )
+    return resource
+
+
+def update_resource(module, client, existing):
+    """Update an existing container scan recipe."""
+    params = module.params
+    update_details = UpdateContainerScanRecipeDetails(
+        display_name=params.get("display_name"),
+        scan_settings=params.get("scan_settings"),
+        freeform_tags=params.get("freeform_tags"),
+        defined_tags=params.get("defined_tags"),
+    )
+    response = call_with_retry(client.update_container_scan_recipe, existing.id, update_details)
+    resource = response.data
+    if hasattr(resource, "id") and module.params.get("wait", True):
+        resource = wait_for_resource(
+            module, client.get_container_scan_recipe, resource.id, target_states=READY_STATES,
+        )
+    return resource
+
+
+def delete_resource(module, client, existing):
+    """Delete a container scan recipe."""
+    call_with_retry(client.delete_container_scan_recipe, existing.id)
+    if module.params.get("wait", True):
+        wait_for_resource(
+            module, client.get_container_scan_recipe, existing.id, target_states=DEAD_STATES,
+        )
+
+
+def needs_update(params, existing):
+    """Check if resource attributes differ from desired state."""
+    updatable = ["display_name"]
+    for attr in updatable:
+        desired = params.get(attr)
+        if desired is None:
+            continue
+        current = getattr(existing, attr, None)
+        if current != desired:
+            return True
+    if params.get("freeform_tags") is not None:
+        if getattr(existing, "freeform_tags", None) != params["freeform_tags"]:
+            return True
+    if params.get("defined_tags") is not None:
+        if getattr(existing, "defined_tags", None) != params["defined_tags"]:
+            return True
+    return False
+
+
+def main():
     module = AnsibleModule(
-        argument_spec=module_args,
+        argument_spec=get_module_args(),
         supports_check_mode=True,
     )
 
-    module.fail_json(
-        msg="oci_container_scan_recipe module is a stub. Full implementation requires OCI SDK integration.")
+    if not HAS_OCI_SDK:
+        module.fail_json(msg="The 'oci' Python SDK is required. Install with: pip install oci")
+
+    client = create_service_client(module, VulnerabilityScanningClient)
+    params = module.params
+    state = params["state"]
+
+    existing = None
+    if params.get("container_scan_recipe_id"):
+        existing = get_resource(client, params["container_scan_recipe_id"])
+    elif params.get("compartment_id"):
+        existing = find_resource(client, params["compartment_id"], params.get("display_name"))
+
+    if state == "absent":
+        if existing is None:
+            module.exit_json(changed=False)
+        if module.check_mode:
+            module.exit_json(changed=True)
+        delete_resource(module, client, existing)
+        module.exit_json(changed=True)
+        return
+
+    if existing is None:
+        if module.check_mode:
+            module.exit_json(changed=True)
+        resource = create_resource(module, client)
+        module.exit_json(changed=True, container_scan_recipe=to_dict(resource))
+        return
+
+    if needs_update(params, existing):
+        if module.check_mode:
+            module.exit_json(changed=True)
+        resource = update_resource(module, client, existing)
+        module.exit_json(changed=True, container_scan_recipe=to_dict(resource))
+        return
+
+    module.exit_json(changed=False, container_scan_recipe=to_dict(existing))
 
 
 if __name__ == "__main__":
