@@ -22,23 +22,6 @@ options:
         description:
             - The OCID of the compartment.
         type: str
-    limit:
-        description:
-          - Maximum number of results to return.
-      - OCI API default varies by service, max is typically 1000.
-        type: int
-        default: 1000
-  page:
-    description:
-      - Pagination token from a previous list call.
-      - Use to continue listing from where the last call left off.
-    type: str
-    max_results:
-        description:
-          - Maximum total number of results to return.
-      - Set to 0 for no limit.
-        type: int
-        default: 1000
 """
 
 EXAMPLES = r"""
@@ -61,9 +44,6 @@ from ansible.module_utils.basic import AnsibleModule
 
 def main():
     module_args = dict(
-        limit=dict(type="int", default=1000),
-        page=dict(type="str"),
-        max_results=dict(type="int", default=1000),
         limit=dict(type="int", default=1000),
         page=dict(type="str"),
         max_results=dict(type="int", default=1000),
