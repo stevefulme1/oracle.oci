@@ -18,7 +18,7 @@ platforms:
     ssh_user: opc
     freeform_tags:
       purpose: molecule-test
-      collection: oracle.oci
+      collection: stevefulme1.oci_cloud
 
 provisioner:
   name: ansible
