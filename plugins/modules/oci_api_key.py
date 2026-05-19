@@ -109,7 +109,7 @@ from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait imp
 def get_module_args():
     module_args = dict(
         user_id=dict(type="str", required=True),
-        key_value=dict(type="str", no_log=False),
+        key_value=dict(type="str", no_log=True),
         api_key_id=dict(type="str"),
         state=dict(type="str", default="present", choices=["present", "absent"]),
     )

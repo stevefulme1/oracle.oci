@@ -240,7 +240,7 @@ def get_module_args():
         ssh_public_keys=dict(type="list", elements="str", no_log=False),
         subnet_id=dict(type="str"),
         hostname=dict(type="str"),
-        db_home=dict(type="dict"),
+        db_home=dict(type="dict", no_log=True),
         display_name=dict(type="str"),
         node_count=dict(type="int", default=1),
         data_storage_size_in_gb=dict(type="int"),

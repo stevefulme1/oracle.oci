@@ -189,7 +189,7 @@ def get_module_args():
             choices=["NONE", "DB_BACKUP", "VM_CLUSTER_NEW"],
             default="NONE",
         ),
-        database=dict(type="dict"),
+        database=dict(type="dict", no_log=True),
         state=dict(type="str", choices=["present", "absent"], default="present"),
     )
     module_args.update(OCI_COMMON_ARGS)

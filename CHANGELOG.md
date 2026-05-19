@@ -6,6 +6,17 @@ in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-05-18
+
+### Security
+
+- Add `no_log=True` to `db_home` dict parameter in `oci_db_system` to prevent
+  nested `admin_password` from leaking to Ansible logs
+- Add `no_log=True` to `database` dict parameter in `oci_db_home` to prevent
+  nested `admin_password` from leaking to Ansible logs
+- Fix `key_value` in `oci_api_key` from `no_log=False` to `no_log=True`
+- Expand `.gitignore` with `*.pem`, `*.key`, `.env`, `credentials*`, `vault_pass*`
+
 ## [4.0.0] - 2026-05-17
 
 ### Added

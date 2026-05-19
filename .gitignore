@@ -11,3 +11,9 @@ tests/output/
 *.tar.gz
 *.tar.gz
 .DS_Store
+*.pem
+*.key
+.env
+.env.*
+credentials*
+vault_pass*
