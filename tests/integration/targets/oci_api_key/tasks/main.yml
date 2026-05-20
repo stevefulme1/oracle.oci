@@ -1,0 +1,45 @@
+---
+- name: Upload an API key
+  stevefulme1.oci_cloud.oci_api_key:
+    user_id: "{{ oci_api_key_user_id }}"
+    key_value: "{{ oci_api_key_key_value }}"
+    state: present
+  register: create_result
+- name: Verify API key was uploaded
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.id is defined
+- name: Set API key fingerprint fact
+  ansible.builtin.set_fact:
+    test_api_key_id: "{{ create_result.resource.id }}"
+- name: Upload same API key again (idempotency check)
+  stevefulme1.oci_cloud.oci_api_key:
+    user_id: "{{ oci_api_key_user_id }}"
+    key_value: "{{ oci_api_key_key_value }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Delete the API key
+  stevefulme1.oci_cloud.oci_api_key:
+    user_id: "{{ oci_api_key_user_id }}"
+    api_key_id: "{{ test_api_key_id }}"
+    state: absent
+  register: delete_result
+- name: Verify API key was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete API key again (already gone)
+  stevefulme1.oci_cloud.oci_api_key:
+    user_id: "{{ oci_api_key_user_id }}"
+    api_key_id: "{{ test_api_key_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

@@ -1,0 +1,59 @@
+---
+- name: Create a tag namespace
+  stevefulme1.oci_cloud.oci_tag_namespace:
+    compartment_id: "{{ oci_tag_namespace_compartment_id }}"
+    name: "{{ oci_tag_namespace_name }}"
+    description: "{{ oci_tag_namespace_description }}"
+    state: present
+  register: create_result
+- name: Verify tag namespace was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_tag_namespace_name
+      - create_result.resource.description == oci_tag_namespace_description
+      - create_result.resource.id is defined
+- name: Set tag namespace ID fact
+  ansible.builtin.set_fact:
+    test_tag_namespace_id: "{{ create_result.resource.id }}"
+- name: Create same tag namespace again (idempotency check)
+  stevefulme1.oci_cloud.oci_tag_namespace:
+    compartment_id: "{{ oci_tag_namespace_compartment_id }}"
+    tag_namespace_id: "{{ test_tag_namespace_id }}"
+    name: "{{ oci_tag_namespace_name }}"
+    description: "{{ oci_tag_namespace_description }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update tag namespace description
+  stevefulme1.oci_cloud.oci_tag_namespace:
+    tag_namespace_id: "{{ test_tag_namespace_id }}"
+    description: "{{ oci_tag_namespace_updated_description }}"
+    state: present
+  register: update_result
+- name: Verify tag namespace was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.description == oci_tag_namespace_updated_description
+- name: Delete the tag namespace
+  stevefulme1.oci_cloud.oci_tag_namespace:
+    tag_namespace_id: "{{ test_tag_namespace_id }}"
+    state: absent
+  register: delete_result
+- name: Verify tag namespace was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete tag namespace again (already gone)
+  stevefulme1.oci_cloud.oci_tag_namespace:
+    tag_namespace_id: "{{ test_tag_namespace_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

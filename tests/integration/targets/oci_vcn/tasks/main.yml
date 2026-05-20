@@ -7,7 +7,6 @@
     dns_label: "{{ oci_vcn_dns_label }}"
     state: present
   register: create_result
-
 - name: Verify VCN was created
   ansible.builtin.assert:
     that:
@@ -16,11 +15,9 @@
       - create_result.resource.cidr_blocks == oci_vcn_cidr_blocks
       - create_result.resource.lifecycle_state == "AVAILABLE"
       - create_result.resource.id is defined
-
 - name: Set VCN ID fact
   ansible.builtin.set_fact:
     test_vcn_id: "{{ create_result.resource.id }}"
-
 - name: Create same VCN again (idempotency check)
   stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ oci_vcn_compartment_id }}"
@@ -29,12 +26,10 @@
     display_name: "{{ oci_vcn_display_name }}"
     state: present
   register: idempotent_result
-
 - name: Verify no change on idempotent run
   ansible.builtin.assert:
     that:
       - idempotent_result is not changed
-
 - name: Update VCN display_name
   stevefulme1.oci_cloud.oci_vcn:
     compartment_id: "{{ oci_vcn_compartment_id }}"
@@ -43,30 +38,25 @@
     display_name: "{{ oci_vcn_updated_display_name }}"
     state: present
   register: update_result
-
 - name: Verify VCN was updated
   ansible.builtin.assert:
     that:
       - update_result is changed
       - update_result.resource.display_name == oci_vcn_updated_display_name
-
 - name: Delete the VCN
   stevefulme1.oci_cloud.oci_vcn:
     vcn_id: "{{ test_vcn_id }}"
     state: absent
   register: delete_result
-
 - name: Verify VCN was deleted
   ansible.builtin.assert:
     that:
       - delete_result is changed
-
 - name: Delete VCN again (already gone)
   stevefulme1.oci_cloud.oci_vcn:
     vcn_id: "{{ test_vcn_id }}"
     state: absent
   register: delete_again_result
-
 - name: Verify no change when already deleted
   ansible.builtin.assert:
     that:

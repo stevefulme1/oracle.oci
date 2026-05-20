@@ -1,0 +1,61 @@
+---
+- name: Create a boot volume from backup
+  stevefulme1.oci_cloud.oci_boot_volume:
+    compartment_id: "{{ oci_compartment_id }}"
+    availability_domain: "{{ oci_boot_volume_availability_domain }}"
+    display_name: "{{ oci_boot_volume_display_name }}"
+    source_details:
+      type: "bootVolumeBackup"
+      id: "{{ oci_boot_volume_backup_id }}"
+    size_in_gbs: "{{ oci_boot_volume_size_in_gbs }}"
+    state: present
+  register: create_result
+- name: Verify boot volume was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_boot_volume_display_name
+      - create_result.resource.id is defined
+- name: Set boot volume ID fact
+  ansible.builtin.set_fact:
+    test_boot_volume_id: "{{ create_result.resource.id }}"
+- name: Create same boot volume again (idempotency check)
+  stevefulme1.oci_cloud.oci_boot_volume:
+    boot_volume_id: "{{ test_boot_volume_id }}"
+    compartment_id: "{{ oci_compartment_id }}"
+    display_name: "{{ oci_boot_volume_display_name }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update boot volume display_name
+  stevefulme1.oci_cloud.oci_boot_volume:
+    boot_volume_id: "{{ test_boot_volume_id }}"
+    display_name: "{{ oci_boot_volume_updated_display_name }}"
+    state: present
+  register: update_result
+- name: Verify boot volume was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_boot_volume_updated_display_name
+- name: Delete the boot volume
+  stevefulme1.oci_cloud.oci_boot_volume:
+    boot_volume_id: "{{ test_boot_volume_id }}"
+    state: absent
+  register: delete_result
+- name: Verify boot volume was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete boot volume again (already gone)
+  stevefulme1.oci_cloud.oci_boot_volume:
+    boot_volume_id: "{{ test_boot_volume_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

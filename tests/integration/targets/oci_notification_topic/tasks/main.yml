@@ -1,0 +1,60 @@
+---
+- name: Create a notification topic
+  stevefulme1.oci_cloud.oci_notification_topic:
+    compartment_id: "{{ oci_notification_topic_compartment_id }}"
+    name: "{{ oci_notification_topic_name }}"
+    description: "{{ oci_notification_topic_description | default(omit) }}"
+    state: present
+  register: create_result
+- name: Verify notification topic was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_notification_topic_name
+      - create_result.resource.lifecycle_state == "ACTIVE"
+      - create_result.resource.topic_id is defined
+- name: Set notification topic ID fact
+  ansible.builtin.set_fact:
+    test_notification_topic_id: "{{ create_result.resource.topic_id }}"
+- name: Create same notification topic again (idempotency check)
+  stevefulme1.oci_cloud.oci_notification_topic:
+    compartment_id: "{{ oci_notification_topic_compartment_id }}"
+    topic_id: "{{ test_notification_topic_id }}"
+    name: "{{ oci_notification_topic_name }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update notification topic description
+  stevefulme1.oci_cloud.oci_notification_topic:
+    compartment_id: "{{ oci_notification_topic_compartment_id }}"
+    topic_id: "{{ test_notification_topic_id }}"
+    name: "{{ oci_notification_topic_name }}"
+    description: "{{ oci_notification_topic_updated_description }}"
+    state: present
+  register: update_result
+- name: Verify notification topic was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.description == oci_notification_topic_updated_description
+- name: Delete the notification topic
+  stevefulme1.oci_cloud.oci_notification_topic:
+    topic_id: "{{ test_notification_topic_id }}"
+    state: absent
+  register: delete_result
+- name: Verify notification topic was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete notification topic again (already gone)
+  stevefulme1.oci_cloud.oci_notification_topic:
+    topic_id: "{{ test_notification_topic_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

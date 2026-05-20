@@ -1,0 +1,58 @@
+---
+- name: Create a Network Security Group
+  stevefulme1.oci_cloud.oci_nsg:
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_nsg_vcn_id }}"
+    display_name: "{{ oci_nsg_display_name }}"
+    state: present
+  register: create_result
+- name: Verify NSG was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_nsg_display_name
+      - create_result.resource.id is defined
+- name: Set NSG ID fact
+  ansible.builtin.set_fact:
+    test_nsg_id: "{{ create_result.resource.id }}"
+- name: Create same NSG again (idempotency check)
+  stevefulme1.oci_cloud.oci_nsg:
+    nsg_id: "{{ test_nsg_id }}"
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_nsg_vcn_id }}"
+    display_name: "{{ oci_nsg_display_name }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update NSG display_name
+  stevefulme1.oci_cloud.oci_nsg:
+    nsg_id: "{{ test_nsg_id }}"
+    display_name: "{{ oci_nsg_updated_display_name }}"
+    state: present
+  register: update_result
+- name: Verify NSG was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_nsg_updated_display_name
+- name: Delete the NSG
+  stevefulme1.oci_cloud.oci_nsg:
+    nsg_id: "{{ test_nsg_id }}"
+    state: absent
+  register: delete_result
+- name: Verify NSG was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete NSG again (already gone)
+  stevefulme1.oci_cloud.oci_nsg:
+    nsg_id: "{{ test_nsg_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

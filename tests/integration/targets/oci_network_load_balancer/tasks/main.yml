@@ -1,0 +1,62 @@
+---
+- name: Create a network load balancer
+  stevefulme1.oci_cloud.oci_network_load_balancer:
+    compartment_id: "{{ oci_network_load_balancer_compartment_id }}"
+    display_name: "{{ oci_network_load_balancer_display_name }}"
+    subnet_id: "{{ oci_network_load_balancer_subnet_id }}"
+    is_private: "{{ oci_network_load_balancer_is_private | default(false) }}"
+    state: present
+  register: create_result
+- name: Verify network load balancer was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_network_load_balancer_display_name
+      - create_result.resource.lifecycle_state == "ACTIVE"
+      - create_result.resource.id is defined
+- name: Set network load balancer ID fact
+  ansible.builtin.set_fact:
+    test_network_load_balancer_id: "{{ create_result.resource.id }}"
+- name: Create same network load balancer again (idempotency check)
+  stevefulme1.oci_cloud.oci_network_load_balancer:
+    compartment_id: "{{ oci_network_load_balancer_compartment_id }}"
+    network_load_balancer_id: "{{ test_network_load_balancer_id }}"
+    display_name: "{{ oci_network_load_balancer_display_name }}"
+    subnet_id: "{{ oci_network_load_balancer_subnet_id }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update network load balancer display_name
+  stevefulme1.oci_cloud.oci_network_load_balancer:
+    compartment_id: "{{ oci_network_load_balancer_compartment_id }}"
+    network_load_balancer_id: "{{ test_network_load_balancer_id }}"
+    display_name: "{{ oci_network_load_balancer_updated_display_name }}"
+    subnet_id: "{{ oci_network_load_balancer_subnet_id }}"
+    state: present
+  register: update_result
+- name: Verify network load balancer was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_network_load_balancer_updated_display_name
+- name: Delete the network load balancer
+  stevefulme1.oci_cloud.oci_network_load_balancer:
+    network_load_balancer_id: "{{ test_network_load_balancer_id }}"
+    state: absent
+  register: delete_result
+- name: Verify network load balancer was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete network load balancer again (already gone)
+  stevefulme1.oci_cloud.oci_network_load_balancer:
+    network_load_balancer_id: "{{ test_network_load_balancer_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

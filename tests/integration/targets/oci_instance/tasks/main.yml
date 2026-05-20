@@ -10,7 +10,6 @@
     shape_config: "{{ oci_instance_shape_config }}"
     state: present
   register: create_result
-
 - name: Verify instance was created
   ansible.builtin.assert:
     that:
@@ -19,11 +18,9 @@
       - create_result.resource.lifecycle_state == "RUNNING"
       - create_result.resource.shape == oci_instance_shape
       - create_result.resource.id is defined
-
 - name: Set instance ID fact
   ansible.builtin.set_fact:
     test_instance_id: "{{ create_result.resource.id }}"
-
 - name: Create same instance again (idempotency check)
   stevefulme1.oci_cloud.oci_instance:
     compartment_id: "{{ oci_instance_compartment_id }}"
@@ -35,12 +32,10 @@
     display_name: "{{ oci_instance_display_name }}"
     state: present
   register: idempotent_result
-
 - name: Verify no change on idempotent run
   ansible.builtin.assert:
     that:
       - idempotent_result is not changed
-
 - name: Update instance display_name
   stevefulme1.oci_cloud.oci_instance:
     compartment_id: "{{ oci_instance_compartment_id }}"
@@ -52,31 +47,26 @@
     display_name: "{{ oci_instance_updated_display_name }}"
     state: present
   register: update_result
-
 - name: Verify instance was updated
   ansible.builtin.assert:
     that:
       - update_result is changed
       - update_result.resource.display_name == oci_instance_updated_display_name
       - update_result.resource.lifecycle_state == "RUNNING"
-
 - name: Delete the compute instance
   stevefulme1.oci_cloud.oci_instance:
     instance_id: "{{ test_instance_id }}"
     state: absent
   register: delete_result
-
 - name: Verify instance was deleted
   ansible.builtin.assert:
     that:
       - delete_result is changed
-
 - name: Delete instance again (already gone)
   stevefulme1.oci_cloud.oci_instance:
     instance_id: "{{ test_instance_id }}"
     state: absent
   register: delete_again_result
-
 - name: Verify no change when already deleted
   ansible.builtin.assert:
     that:

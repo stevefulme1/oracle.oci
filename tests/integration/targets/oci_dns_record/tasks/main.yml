@@ -1,0 +1,70 @@
+---
+- name: Create a DNS record
+  stevefulme1.oci_cloud.oci_dns_record:
+    compartment_id: "{{ oci_dns_record_compartment_id }}"
+    zone_name_or_id: "{{ oci_dns_record_zone_name_or_id }}"
+    domain: "{{ oci_dns_record_domain }}"
+    rtype: "{{ oci_dns_record_rtype }}"
+    rdata: "{{ oci_dns_record_rdata }}"
+    ttl: "{{ oci_dns_record_ttl | default(300) }}"
+    state: present
+  register: create_result
+- name: Verify DNS record was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.domain == oci_dns_record_domain
+      - create_result.resource.rtype == oci_dns_record_rtype
+- name: Create same DNS record again (idempotency check)
+  stevefulme1.oci_cloud.oci_dns_record:
+    compartment_id: "{{ oci_dns_record_compartment_id }}"
+    zone_name_or_id: "{{ oci_dns_record_zone_name_or_id }}"
+    domain: "{{ oci_dns_record_domain }}"
+    rtype: "{{ oci_dns_record_rtype }}"
+    rdata: "{{ oci_dns_record_rdata }}"
+    ttl: "{{ oci_dns_record_ttl | default(300) }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update DNS record rdata
+  stevefulme1.oci_cloud.oci_dns_record:
+    compartment_id: "{{ oci_dns_record_compartment_id }}"
+    zone_name_or_id: "{{ oci_dns_record_zone_name_or_id }}"
+    domain: "{{ oci_dns_record_domain }}"
+    rtype: "{{ oci_dns_record_rtype }}"
+    rdata: "{{ oci_dns_record_updated_rdata }}"
+    ttl: "{{ oci_dns_record_ttl | default(300) }}"
+    state: present
+  register: update_result
+- name: Verify DNS record was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.rdata == oci_dns_record_updated_rdata
+- name: Delete the DNS record
+  stevefulme1.oci_cloud.oci_dns_record:
+    compartment_id: "{{ oci_dns_record_compartment_id }}"
+    zone_name_or_id: "{{ oci_dns_record_zone_name_or_id }}"
+    domain: "{{ oci_dns_record_domain }}"
+    rtype: "{{ oci_dns_record_rtype }}"
+    state: absent
+  register: delete_result
+- name: Verify DNS record was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete DNS record again (already gone)
+  stevefulme1.oci_cloud.oci_dns_record:
+    compartment_id: "{{ oci_dns_record_compartment_id }}"
+    zone_name_or_id: "{{ oci_dns_record_zone_name_or_id }}"
+    domain: "{{ oci_dns_record_domain }}"
+    rtype: "{{ oci_dns_record_rtype }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed
