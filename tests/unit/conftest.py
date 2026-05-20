@@ -93,6 +93,110 @@ except ImportError:
     _oci_load_balancer_models = _OciModelsModule("oci.load_balancer.models")
     _oci_load_balancer.models = _oci_load_balancer_models
 
+    # oci.key_management
+    _oci_key_management = types.ModuleType("oci.key_management")
+    _oci_key_management.__path__ = []
+    _oci_key_management.KmsManagementClient = MagicMock
+    _oci_key_management.KmsVaultClient = MagicMock
+    _oci.key_management = _oci_key_management
+
+    _oci_key_management_models = _OciModelsModule("oci.key_management.models")
+    _oci_key_management.models = _oci_key_management_models
+
+    # oci.dns
+    _oci_dns = types.ModuleType("oci.dns")
+    _oci_dns.__path__ = []
+    _oci_dns.DnsClient = MagicMock
+    _oci.dns = _oci_dns
+
+    _oci_dns_models = _OciModelsModule("oci.dns.models")
+    _oci_dns.models = _oci_dns_models
+
+    # oci.database
+    _oci_database = types.ModuleType("oci.database")
+    _oci_database.__path__ = []
+    _oci_database.DatabaseClient = MagicMock
+    _oci.database = _oci_database
+
+    _oci_database_models = _OciModelsModule("oci.database.models")
+    _oci_database.models = _oci_database_models
+
+    # oci.monitoring
+    _oci_monitoring = types.ModuleType("oci.monitoring")
+    _oci_monitoring.__path__ = []
+    _oci_monitoring.MonitoringClient = MagicMock
+    _oci.monitoring = _oci_monitoring
+
+    _oci_monitoring_models = _OciModelsModule("oci.monitoring.models")
+    _oci_monitoring.models = _oci_monitoring_models
+
+    # oci.logging
+    _oci_logging = types.ModuleType("oci.logging")
+    _oci_logging.__path__ = []
+    _oci_logging.LoggingManagementClient = MagicMock
+    _oci.logging = _oci_logging
+
+    _oci_logging_models = _OciModelsModule("oci.logging.models")
+    _oci_logging.models = _oci_logging_models
+
+    # oci.ons (Oracle Notification Service)
+    _oci_ons = types.ModuleType("oci.ons")
+    _oci_ons.__path__ = []
+    _oci_ons.NotificationControlPlaneClient = MagicMock
+    _oci.ons = _oci_ons
+
+    _oci_ons_models = _OciModelsModule("oci.ons.models")
+    _oci_ons.models = _oci_ons_models
+
+    # oci.file_storage
+    _oci_file_storage = types.ModuleType("oci.file_storage")
+    _oci_file_storage.__path__ = []
+    _oci_file_storage.FileStorageClient = MagicMock
+    _oci.file_storage = _oci_file_storage
+
+    _oci_file_storage_models = _OciModelsModule("oci.file_storage.models")
+    _oci_file_storage.models = _oci_file_storage_models
+
+    # oci.mysql
+    _oci_mysql = types.ModuleType("oci.mysql")
+    _oci_mysql.__path__ = []
+    _oci_mysql.DbSystemClient = MagicMock
+    _oci.mysql = _oci_mysql
+
+    _oci_mysql_models = _OciModelsModule("oci.mysql.models")
+    _oci_mysql.models = _oci_mysql_models
+
+    # oci.nosql
+    _oci_nosql = types.ModuleType("oci.nosql")
+    _oci_nosql.__path__ = []
+    _oci_nosql.NosqlClient = MagicMock
+    _oci.nosql = _oci_nosql
+
+    _oci_nosql_models = _OciModelsModule("oci.nosql.models")
+    _oci_nosql.models = _oci_nosql_models
+
+    # oci.vault
+    _oci_vault = types.ModuleType("oci.vault")
+    _oci_vault.__path__ = []
+    _oci_vault.VaultsClient = MagicMock
+    _oci.vault = _oci_vault
+
+    _oci_vault_models = _OciModelsModule("oci.vault.models")
+    _oci_vault.models = _oci_vault_models
+
+    # oci.container_engine (OKE)
+    _oci_container_engine = types.ModuleType("oci.container_engine")
+    _oci_container_engine.__path__ = []
+    _oci_container_engine.ContainerEngineClient = MagicMock
+    _oci.container_engine = _oci_container_engine
+
+    _oci_container_engine_models = _OciModelsModule("oci.container_engine.models")
+    _oci_container_engine.models = _oci_container_engine_models
+
+    # oci.pagination
+    _oci_pagination = MagicMock()
+    _oci.pagination = _oci_pagination
+
     for _name, _mod in [
         ("oci", _oci),
         ("oci.exceptions", _oci_exceptions),
@@ -107,6 +211,29 @@ except ImportError:
         ("oci.identity.models", _oci_identity_models),
         ("oci.load_balancer", _oci_load_balancer),
         ("oci.load_balancer.models", _oci_load_balancer_models),
+        ("oci.key_management", _oci_key_management),
+        ("oci.key_management.models", _oci_key_management_models),
+        ("oci.dns", _oci_dns),
+        ("oci.dns.models", _oci_dns_models),
+        ("oci.database", _oci_database),
+        ("oci.database.models", _oci_database_models),
+        ("oci.monitoring", _oci_monitoring),
+        ("oci.monitoring.models", _oci_monitoring_models),
+        ("oci.logging", _oci_logging),
+        ("oci.logging.models", _oci_logging_models),
+        ("oci.ons", _oci_ons),
+        ("oci.ons.models", _oci_ons_models),
+        ("oci.file_storage", _oci_file_storage),
+        ("oci.file_storage.models", _oci_file_storage_models),
+        ("oci.mysql", _oci_mysql),
+        ("oci.mysql.models", _oci_mysql_models),
+        ("oci.nosql", _oci_nosql),
+        ("oci.nosql.models", _oci_nosql_models),
+        ("oci.vault", _oci_vault),
+        ("oci.vault.models", _oci_vault_models),
+        ("oci.container_engine", _oci_container_engine),
+        ("oci.container_engine.models", _oci_container_engine_models),
+        ("oci.pagination", _oci_pagination),
     ]:
         sys.modules[_name] = _mod
 
@@ -141,6 +268,22 @@ except (ImportError, ModuleNotFoundError):
 
     sys.modules["ansible_collections"].oracle = sys.modules["ansible_collections.oracle"]
     sys.modules["ansible_collections.oracle"].oci = _oci_mod
+
+    # Also register stevefulme1.oci_cloud as an alias so that ``from
+    # ansible_collections.stevefulme1.oci_cloud.plugins...`` resolves to the
+    # same tree.  Several modules still reference the old namespace.
+    if "ansible_collections.stevefulme1" not in sys.modules:
+        _sn = types.ModuleType("ansible_collections.stevefulme1")
+        _sn.__path__ = []
+        _sn.__package__ = "ansible_collections.stevefulme1"
+        sys.modules["ansible_collections.stevefulme1"] = _sn
+        sys.modules["ansible_collections"].stevefulme1 = _sn
+
+    _oci_cloud_mod = types.ModuleType("ansible_collections.stevefulme1.oci_cloud")
+    _oci_cloud_mod.__path__ = [_collection_root]
+    _oci_cloud_mod.__package__ = "ansible_collections.stevefulme1.oci_cloud"
+    sys.modules["ansible_collections.stevefulme1.oci_cloud"] = _oci_cloud_mod
+    sys.modules["ansible_collections.stevefulme1"].oci_cloud = _oci_cloud_mod
 
 
 @pytest.fixture

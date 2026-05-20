@@ -9,9 +9,9 @@ import pytest
 
 
 MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_security_list"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_security_list(
@@ -83,6 +83,7 @@ class TestOciSecurityListCreate:
         module = MagicMock()
         module.params = security_list_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
@@ -110,6 +111,7 @@ class TestOciSecurityListCreate:
         module = MagicMock()
         module.params = security_list_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
@@ -145,6 +147,7 @@ class TestOciSecurityListDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list()
@@ -178,6 +181,7 @@ class TestOciSecurityListDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         oci_sl = OciSecurityList(module)
@@ -210,6 +214,7 @@ class TestOciSecurityListUpdate:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="old-name")
@@ -243,6 +248,7 @@ class TestOciSecurityListIdempotent:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="test-security-list")
@@ -268,6 +274,7 @@ class TestOciSecurityListIdempotent:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_security_list import OciSecurityList
         resource = _build_security_list(display_name="old-name")

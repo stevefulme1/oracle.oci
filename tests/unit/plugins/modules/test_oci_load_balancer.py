@@ -9,9 +9,9 @@ import pytest
 
 
 MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_load_balancer"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_load_balancer(
@@ -73,6 +73,7 @@ class TestOciLoadBalancerCreate:
         module = MagicMock()
         module.params = lb_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
@@ -105,6 +106,7 @@ class TestOciLoadBalancerCreate:
         module = MagicMock()
         module.params = lb_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
@@ -141,6 +143,7 @@ class TestOciLoadBalancerDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer()
@@ -174,6 +177,7 @@ class TestOciLoadBalancerDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         oci_lb = OciLoadBalancer(module)
@@ -210,6 +214,7 @@ class TestOciLoadBalancerUpdate:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="old-name")
@@ -242,6 +247,7 @@ class TestOciLoadBalancerIdempotent:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="test-lb")
@@ -267,6 +273,7 @@ class TestOciLoadBalancerIdempotent:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_load_balancer import OciLoadBalancer
         resource = _build_load_balancer(display_name="old-name")
