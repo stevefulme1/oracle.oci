@@ -135,7 +135,7 @@ def main():
         page=dict(type="str"),
         max_results=dict(type="int", default=1000),
         compartment_id=dict(type="str"),
-        secret_id=dict(type="str"),
+        secret_id=dict(type="str", no_log=False),
         name=dict(type="str"),
         lifecycle_state=dict(type="str"),
     )

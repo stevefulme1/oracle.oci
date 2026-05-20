@@ -184,7 +184,7 @@ def needs_update(module, resource):
 def main():
     module_args = dict(
         user_id=dict(type="str", required=True),
-        auth_token_id=dict(type="str"),
+        auth_token_id=dict(type="str", no_log=False),
         description=dict(type="str"),
         state=dict(type="str", choices=["present", "absent"], default="present"),
     )

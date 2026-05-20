@@ -180,7 +180,7 @@ def needs_update(module, resource):
 def main():
     module_args = dict(
         user_id=dict(type="str", required=True),
-        customer_secret_key_id=dict(type="str"),
+        customer_secret_key_id=dict(type="str", no_log=False),
         display_name=dict(type="str"),
         state=dict(type="str", choices=["present", "absent"], default="present"),
     )

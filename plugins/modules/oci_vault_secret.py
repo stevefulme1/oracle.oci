@@ -177,7 +177,7 @@ def get_module_args():
         compartment_id=dict(type="str"),
         vault_id=dict(type="str"),
         key_id=dict(type="str"),
-        secret_name=dict(type="str"),
+        secret_name=dict(type="str", no_log=False),
         description=dict(type="str"),
         secret_content=dict(
             type="dict",
@@ -187,7 +187,7 @@ def get_module_args():
                 content=dict(type="str", required=True, no_log=True),
             ),
         ),
-        secret_id=dict(type="str"),
+        secret_id=dict(type="str", no_log=False),
         state=dict(type="str", choices=["present", "absent"], default="present"),
     )
     module_args.update(OCI_COMMON_ARGS)
