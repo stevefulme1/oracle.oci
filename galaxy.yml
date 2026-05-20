@@ -1,7 +1,7 @@
 ---
 namespace: stevefulme1
 name: oci_cloud
-version: 1.2.1
+version: 0.1.0
 readme: README.md
 authors:
   - Steve Fulmer <sfulmer@redhat.com>
@@ -9,6 +9,7 @@ description: >-
   Ansible Collection for Oracle Cloud Infrastructure (OCI).
   Provides modules for compute, networking, database, IAM, storage,
   security, observability, and a dynamic inventory plugin.
+  Status: Pre-release. Under active development.
 license:
   - GPL-3.0-or-later
 tags:
