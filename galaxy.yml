@@ -31,3 +31,4 @@ build_ignore:
   - .git
   - .github
   - tests/output
+license_file: COPYING
