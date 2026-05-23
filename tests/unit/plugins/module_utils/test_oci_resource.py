@@ -6,7 +6,6 @@ __metaclass__ = type
 from unittest.mock import MagicMock, patch
 
 
-
 RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
 
 
