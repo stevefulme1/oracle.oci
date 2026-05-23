@@ -137,7 +137,7 @@ class TestOciFileSystemUpdate:
             "state": "absent",
             "availability_domain": None,
             "display_name": None,
-            "display_name": "updated-file_system",
+            "display_name_updated": "updated-file_system",
         })
 
         updated = _build_file_system(display_name="updated-file_system")

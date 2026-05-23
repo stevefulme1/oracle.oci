@@ -16,9 +16,10 @@ WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_
 
 def _build_route_table(
     display_name='test-rt',
-    route_rules=[],
+    route_rules=None,
 ):
     """Return a mock OCI route_table object."""
+    route_rules = route_rules if route_rules is not None else []
     route_table = MagicMock()
     route_table.display_name = 'test-rt'
     route_table.route_rules = []
@@ -143,7 +144,7 @@ class TestOciRouteTableUpdate:
             "vcn_id": None,
             "display_name": None,
             "route_rules": None,
-            "display_name": "updated-route_table",
+            "display_name_updated": "updated-route_table",
         })
 
         updated = _build_route_table(display_name="updated-route_table")

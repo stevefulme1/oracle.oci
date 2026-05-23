@@ -16,9 +16,10 @@ WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_
 
 def _build_service_gateway(
     display_name='test-sgw',
-    services=[],
+    services=None,
 ):
     """Return a mock OCI service_gateway object."""
+    services = services if services is not None else []
     service_gateway = MagicMock()
     service_gateway.display_name = 'test-sgw'
     service_gateway.services = []
@@ -143,7 +144,7 @@ class TestOciServiceGatewayUpdate:
             "vcn_id": None,
             "display_name": None,
             "services": None,
-            "display_name": "updated-service_gateway",
+            "display_name_updated": "updated-service_gateway",
         })
 
         updated = _build_service_gateway(display_name="updated-service_gateway")

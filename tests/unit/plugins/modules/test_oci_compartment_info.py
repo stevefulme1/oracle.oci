@@ -36,7 +36,7 @@ def info_module_args(module_args):
     """Module args for info queries."""
     module_args.update({
         "compartment_id": "ocid1.compartment.oc1..test",
-        "compartment_id": None,
+        "compartment_id_updated": None,
         "limit": 1000,
         "page": None,
         "max_results": 1000,

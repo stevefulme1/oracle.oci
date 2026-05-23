@@ -146,7 +146,7 @@ class TestOciTagNamespaceUpdate:
             "name": None,
             "description": None,
             "is_retired": None,
-            "description": "Updated description",
+            "description_updated": "Updated description",
         })
 
         updated = _build_tag_namespace(name="updated-tag_namespace")

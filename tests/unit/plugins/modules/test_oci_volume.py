@@ -147,7 +147,7 @@ class TestOciVolumeUpdate:
             "display_name": None,
             "size_in_gbs": None,
             "vpus_per_gb": None,
-            "display_name": "updated-volume",
+            "display_name_updated": "updated-volume",
         })
 
         updated = _build_volume(display_name="updated-volume")

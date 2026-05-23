@@ -147,7 +147,7 @@ class TestOciOkeClusterUpdate:
             "vcn_id": None,
             "kubernetes_version": None,
             "options": None,
-            "name": "updated-oke_cluster",
+            "name_updated": "updated-oke_cluster",
         })
 
         updated = _build_oke_cluster(name="updated-oke_cluster")

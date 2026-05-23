@@ -50,8 +50,8 @@ def nosql_table_create_args(module_args):
 class TestOciNosqlTableCreate:
     """Test NoSQL table creation."""
 
-    @patch(f"{MODULE_PATH}.TableLimits", lambda **kw: MagicMock(**kw))
-    @patch(f"{MODULE_PATH}.CreateTableDetails", lambda **kw: MagicMock(**kw))
+    @patch(f"{MODULE_PATH}.TableLimits", MagicMock)
+    @patch(f"{MODULE_PATH}.CreateTableDetails", MagicMock)
     @patch(f"{AUTH_PATH}.create_service_client")
     def test_create_nosql_table(self, mock_create_client, nosql_table_create_args):
         """Creating a NoSQL table calls create_table."""
@@ -123,8 +123,8 @@ class TestOciNosqlTableDelete:
 class TestOciNosqlTableUpdate:
     """Test NoSQL table update."""
 
-    @patch(f"{MODULE_PATH}.TableLimits", lambda **kw: MagicMock(**kw))
-    @patch(f"{MODULE_PATH}.UpdateTableDetails", lambda **kw: MagicMock(**kw))
+    @patch(f"{MODULE_PATH}.TableLimits", MagicMock)
+    @patch(f"{MODULE_PATH}.UpdateTableDetails", MagicMock)
     @patch(f"{AUTH_PATH}.create_service_client")
     def test_update_nosql_table(self, mock_create_client, module_args):
         """Updating a NoSQL table calls update_table."""

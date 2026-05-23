@@ -167,7 +167,7 @@ class TestOciInstanceUpdate:
             "metadata": None,
             "platform_config": None,
             "source_details": None,
-            "display_name": "updated-instance",
+            "display_name_updated": "updated-instance",
         })
 
         updated = _build_instance(display_name="updated-instance")

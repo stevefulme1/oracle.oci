@@ -133,7 +133,7 @@ class TestOciDrgUpdate:
             "drg_id": "ocid1.test.oc1..testresource",
             "state": "absent",
             "display_name": None,
-            "display_name": "updated-drg",
+            "display_name_updated": "updated-drg",
         })
 
         updated = _build_drg(display_name="updated-drg")

@@ -140,7 +140,7 @@ class TestOciGroupUpdate:
             "compartment_id": None,
             "name": None,
             "description": None,
-            "description": "Updated description",
+            "description_updated": "Updated description",
         })
 
         updated = _build_group(name="updated-group")

@@ -137,7 +137,7 @@ class TestOciImageUpdate:
             "state": "absent",
             "instance_id": None,
             "display_name": None,
-            "display_name": "updated-image",
+            "display_name_updated": "updated-image",
         })
 
         updated = _build_image(display_name="updated-image")

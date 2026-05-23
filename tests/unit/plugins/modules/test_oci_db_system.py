@@ -60,9 +60,9 @@ def db_system_create_args(module_args):
 class TestOciDbSystemCreate:
     """Test DB System creation."""
 
-    @patch(f"{MODULE_PATH}.LaunchDbSystemDetails", lambda **kw: MagicMock(**kw))
-    @patch(f"{MODULE_PATH}.CreateDbHomeDetails", lambda **kw: MagicMock(**kw))
-    @patch(f"{MODULE_PATH}.CreateDatabaseDetails", lambda **kw: MagicMock(**kw))
+    @patch(f"{MODULE_PATH}.LaunchDbSystemDetails", MagicMock)
+    @patch(f"{MODULE_PATH}.CreateDbHomeDetails", MagicMock)
+    @patch(f"{MODULE_PATH}.CreateDatabaseDetails", MagicMock)
     @patch(f"{AUTH_PATH}.create_service_client")
     def test_create_db_system(self, mock_create_client, db_system_create_args):
         """Creating a DB System calls launch_db_system."""
@@ -141,7 +141,7 @@ class TestOciDbSystemDelete:
 class TestOciDbSystemUpdate:
     """Test DB System update."""
 
-    @patch(f"{MODULE_PATH}.UpdateDbSystemDetails", lambda **kw: MagicMock(**kw))
+    @patch(f"{MODULE_PATH}.UpdateDbSystemDetails", MagicMock)
     @patch(f"{AUTH_PATH}.create_service_client")
     def test_update_db_system(self, mock_create_client, module_args):
         """Updating a DB System calls update_db_system."""

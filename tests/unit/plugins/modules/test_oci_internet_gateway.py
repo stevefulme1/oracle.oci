@@ -143,7 +143,7 @@ class TestOciInternetGatewayUpdate:
             "vcn_id": None,
             "display_name": None,
             "is_enabled": None,
-            "display_name": "updated-internet_gateway",
+            "display_name_updated": "updated-internet_gateway",
         })
 
         updated = _build_internet_gateway(display_name="updated-internet_gateway")

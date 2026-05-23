@@ -137,7 +137,7 @@ class TestOciNsgUpdate:
             "state": "absent",
             "vcn_id": None,
             "display_name": None,
-            "display_name": "updated-nsg",
+            "display_name_updated": "updated-nsg",
         })
 
         updated = _build_nsg(display_name="updated-nsg")

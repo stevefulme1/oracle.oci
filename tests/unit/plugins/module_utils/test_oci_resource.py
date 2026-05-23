@@ -3,9 +3,8 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, patch
 
-import pytest
 
 
 RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"

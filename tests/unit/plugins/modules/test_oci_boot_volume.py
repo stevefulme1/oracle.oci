@@ -149,7 +149,7 @@ class TestOciBootVolumeUpdate:
             "source_details": None,
             "size_in_gbs": None,
             "vpus_per_gb": None,
-            "display_name": "updated-boot_volume",
+            "display_name_updated": "updated-boot_volume",
         })
 
         updated = _build_boot_volume(display_name="updated-boot_volume")

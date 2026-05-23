@@ -141,7 +141,7 @@ class TestOciMountTargetUpdate:
             "availability_domain": None,
             "subnet_id": None,
             "display_name": None,
-            "display_name": "updated-mount_target",
+            "display_name_updated": "updated-mount_target",
         })
 
         updated = _build_mount_target(display_name="updated-mount_target")

@@ -139,7 +139,7 @@ class TestOciDnsZoneUpdate:
             "state": "absent",
             "name": None,
             "zone_type": None,
-            "name": "updated-dns_zone",
+            "name_updated": "updated-dns_zone",
         })
 
         updated = _build_dns_zone(name="updated-dns_zone")

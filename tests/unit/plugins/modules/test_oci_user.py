@@ -146,7 +146,7 @@ class TestOciUserUpdate:
             "name": None,
             "description": None,
             "email": None,
-            "description": "Updated description",
+            "description_updated": "Updated description",
         })
 
         updated = _build_user(name="updated-user")

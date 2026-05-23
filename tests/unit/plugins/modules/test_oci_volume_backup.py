@@ -141,7 +141,7 @@ class TestOciVolumeBackupUpdate:
             "volume_id": None,
             "display_name": None,
             "type": None,
-            "display_name": "updated-volume_backup",
+            "display_name_updated": "updated-volume_backup",
         })
 
         updated = _build_volume_backup(display_name="updated-volume_backup")

@@ -146,7 +146,7 @@ class TestOciDynamicGroupUpdate:
             "name": None,
             "description": None,
             "matching_rule": None,
-            "description": "Updated description",
+            "description_updated": "Updated description",
         })
 
         updated = _build_dynamic_group(name="updated-dynamic_group")

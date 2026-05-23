@@ -17,9 +17,10 @@ WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_
 def _build_policy(
     name='test-policy',
     description='Test policy',
-    statements=['Allow group test-group to manage all-resources in tenancy'],
+    statements=None,
 ):
     """Return a mock OCI policy object."""
+    statements = statements if statements is not None else ['Allow group test-group to manage all-resources in tenancy']
     policy = MagicMock()
     policy.name = 'test-policy'
     policy.description = 'Test policy'
@@ -146,7 +147,7 @@ class TestOciPolicyUpdate:
             "name": None,
             "description": None,
             "statements": None,
-            "description": "Updated description",
+            "description_updated": "Updated description",
         })
 
         updated = _build_policy(name="updated-policy")

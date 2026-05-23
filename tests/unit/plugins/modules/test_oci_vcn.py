@@ -16,10 +16,11 @@ WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_
 
 def _build_vcn(
     display_name='test-vcn',
-    cidr_blocks=['10.0.0.0/16'],
+    cidr_blocks=None,
     dns_label='testvcn',
 ):
     """Return a mock OCI vcn object."""
+    cidr_blocks = cidr_blocks if cidr_blocks is not None else ['10.0.0.0/16']
     vcn = MagicMock()
     vcn.display_name = 'test-vcn'
     vcn.cidr_blocks = ['10.0.0.0/16']
@@ -145,7 +146,7 @@ class TestOciVcnUpdate:
             "cidr_blocks": None,
             "display_name": None,
             "dns_label": None,
-            "display_name": "updated-vcn",
+            "display_name_updated": "updated-vcn",
         })
 
         updated = _build_vcn(display_name="updated-vcn")

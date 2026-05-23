@@ -143,7 +143,7 @@ class TestOciNatGatewayUpdate:
             "vcn_id": None,
             "display_name": None,
             "block_traffic": None,
-            "display_name": "updated-nat_gateway",
+            "display_name_updated": "updated-nat_gateway",
         })
 
         updated = _build_nat_gateway(display_name="updated-nat_gateway")
