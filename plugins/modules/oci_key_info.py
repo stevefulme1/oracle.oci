@@ -53,6 +53,9 @@ options:
             - Maximum total number of results to return.
         type: int
         default: 1000
+
+extends_documentation_fragment:
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""
@@ -68,7 +71,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-keys:
+oci_keys:
     description: List of key details.
     returned: always
     type: list
@@ -159,7 +162,7 @@ def main():
     else:
         resources = list_resources(client, module)
 
-    module.exit_json(changed=False, keys=resources)
+    module.exit_json(changed=False, oci_keys=resources)
 
 
 if __name__ == "__main__":
