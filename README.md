@@ -15,7 +15,7 @@ a matching `_info` module for read-only facts gathering.
 |---|---|
 | Python | >= 3.12 |
 | ansible-core | >= 2.16.0 |
-| OCI Python SDK (`oci`) | >= 2.90.0 |
+| OCI Python SDK (`oci`) | >= 2.168.2 |
 
 ## Installation
 
@@ -26,7 +26,7 @@ ansible-galaxy collection install stevefulme1.oci_cloud
 Install the Python dependency:
 
 ```bash
-pip install oci>=2.90.0
+pip install oci>=2.168.2
 ```
 
 ## Authentication
