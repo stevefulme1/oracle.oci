@@ -49,6 +49,9 @@ options:
             - Maximum total number of results to return.
         type: int
         default: 1000
+
+extends_documentation_fragment:
+    - stevefulme1.oci_cloud.oci_common
 """
 
 EXAMPLES = r"""

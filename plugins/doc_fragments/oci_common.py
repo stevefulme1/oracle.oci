@@ -15,17 +15,17 @@ options:
     description:
       - Path to the OCI configuration file.
     type: str
-    default: ~/.oci/config
+    default: "~/.oci/config"
   config_profile_name:
     description:
       - The profile name in the OCI configuration file.
     type: str
-    default: DEFAULT
+    default: "DEFAULT"
   auth_type:
     description:
       - The authentication method to use.
     type: str
-    default: api_key
+    default: "api_key"
     choices:
       - api_key
       - instance_principal
