@@ -3,10 +3,12 @@
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
+# pylint: disable=unused-import
 from ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth import (  # noqa: F401
     create_service_client,
     get_oci_config,
 )
+# pylint: enable=unused-import
 
 DOCUMENTATION = r"""
 ---
