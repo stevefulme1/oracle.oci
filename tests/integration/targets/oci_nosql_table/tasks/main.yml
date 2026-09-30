@@ -1,0 +1,59 @@
+---
+- name: Create a NoSQL table
+  stevefulme1.oci_cloud.oci_nosql_table:
+    compartment_id: "{{ oci_nosql_table_compartment_id }}"
+    name: "{{ oci_nosql_table_name }}"
+    ddl_statement: "{{ oci_nosql_table_ddl_statement }}"
+    table_limits: "{{ oci_nosql_table_table_limits }}"
+    state: present
+  register: create_result
+- name: Verify NoSQL table was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_nosql_table_name
+      - create_result.resource.id is defined
+- name: Set NoSQL table ID fact
+  ansible.builtin.set_fact:
+    test_nosql_table_id: "{{ create_result.resource.id }}"
+- name: Create same NoSQL table again (idempotency check)
+  stevefulme1.oci_cloud.oci_nosql_table:
+    compartment_id: "{{ oci_nosql_table_compartment_id }}"
+    table_name_or_id: "{{ test_nosql_table_id }}"
+    name: "{{ oci_nosql_table_name }}"
+    ddl_statement: "{{ oci_nosql_table_ddl_statement }}"
+    table_limits: "{{ oci_nosql_table_table_limits }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update NoSQL table limits
+  stevefulme1.oci_cloud.oci_nosql_table:
+    table_name_or_id: "{{ test_nosql_table_id }}"
+    table_limits: "{{ oci_nosql_table_updated_table_limits }}"
+    state: present
+  register: update_result
+- name: Verify NoSQL table was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+- name: Delete the NoSQL table
+  stevefulme1.oci_cloud.oci_nosql_table:
+    table_name_or_id: "{{ test_nosql_table_id }}"
+    state: absent
+  register: delete_result
+- name: Verify NoSQL table was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete NoSQL table again (already gone)
+  stevefulme1.oci_cloud.oci_nosql_table:
+    table_name_or_id: "{{ test_nosql_table_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

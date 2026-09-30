@@ -71,7 +71,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-oci_keys:
+key_list:
     description: List of key details.
     returned: always
     type: list
@@ -162,7 +162,7 @@ def main():
     else:
         resources = list_resources(client, module)
 
-    module.exit_json(changed=False, oci_keys=resources)
+    module.exit_json(changed=False, key_list=resources)
 
 
 if __name__ == "__main__":

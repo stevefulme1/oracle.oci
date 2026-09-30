@@ -1,0 +1,63 @@
+---
+- name: Create an identity domain
+  stevefulme1.oci_cloud.oci_identity_domain:
+    compartment_id: "{{ oci_identity_domain_compartment_id }}"
+    display_name: "{{ oci_identity_domain_display_name }}"
+    description: "{{ oci_identity_domain_description }}"
+    home_region: "{{ oci_identity_domain_home_region }}"
+    license_type: "{{ oci_identity_domain_license_type }}"
+    state: present
+  register: create_result
+- name: Verify identity domain was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_identity_domain_display_name
+      - create_result.resource.description == oci_identity_domain_description
+      - create_result.resource.id is defined
+- name: Set identity domain ID fact
+  ansible.builtin.set_fact:
+    test_identity_domain_id: "{{ create_result.resource.id }}"
+- name: Create same identity domain again (idempotency check)
+  stevefulme1.oci_cloud.oci_identity_domain:
+    compartment_id: "{{ oci_identity_domain_compartment_id }}"
+    domain_id: "{{ test_identity_domain_id }}"
+    display_name: "{{ oci_identity_domain_display_name }}"
+    description: "{{ oci_identity_domain_description }}"
+    home_region: "{{ oci_identity_domain_home_region }}"
+    license_type: "{{ oci_identity_domain_license_type }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update identity domain description
+  stevefulme1.oci_cloud.oci_identity_domain:
+    domain_id: "{{ test_identity_domain_id }}"
+    description: "{{ oci_identity_domain_updated_description }}"
+    state: present
+  register: update_result
+- name: Verify identity domain was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.description == oci_identity_domain_updated_description
+- name: Delete the identity domain
+  stevefulme1.oci_cloud.oci_identity_domain:
+    domain_id: "{{ test_identity_domain_id }}"
+    state: absent
+  register: delete_result
+- name: Verify identity domain was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete identity domain again (already gone)
+  stevefulme1.oci_cloud.oci_identity_domain:
+    domain_id: "{{ test_identity_domain_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

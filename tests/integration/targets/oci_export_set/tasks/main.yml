@@ -1,0 +1,40 @@
+---
+# Export sets are created automatically with mount targets and cannot be
+# created or deleted directly.  This test covers update-only operations.
+- name: Update an export set
+  stevefulme1.oci_cloud.oci_export_set:
+    export_set_id: "{{ oci_export_set_id }}"
+    display_name: "{{ oci_export_set_display_name }}"
+    max_fs_stat_bytes: "{{ oci_export_set_max_fs_stat_bytes }}"
+    max_fs_stat_files: "{{ oci_export_set_max_fs_stat_files }}"
+    state: present
+  register: update_result
+- name: Verify export set was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_export_set_display_name
+      - update_result.resource.id is defined
+- name: Update same export set again (idempotency check)
+  stevefulme1.oci_cloud.oci_export_set:
+    export_set_id: "{{ oci_export_set_id }}"
+    display_name: "{{ oci_export_set_display_name }}"
+    max_fs_stat_bytes: "{{ oci_export_set_max_fs_stat_bytes }}"
+    max_fs_stat_files: "{{ oci_export_set_max_fs_stat_files }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update export set display_name
+  stevefulme1.oci_cloud.oci_export_set:
+    export_set_id: "{{ oci_export_set_id }}"
+    display_name: "{{ oci_export_set_updated_display_name }}"
+    state: present
+  register: rename_result
+- name: Verify export set display_name was updated
+  ansible.builtin.assert:
+    that:
+      - rename_result is changed
+      - rename_result.resource.display_name == oci_export_set_updated_display_name

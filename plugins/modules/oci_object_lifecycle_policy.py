@@ -99,7 +99,7 @@ resource:
   returned: on success
   type: dict
   contains:
-    lifecycle_rules:
+    lifecycle_items:
       description: The list of lifecycle rules.
       type: list
 """

@@ -1,0 +1,74 @@
+---
+- name: Create an OKE node pool
+  stevefulme1.oci_cloud.oci_oke_node_pool:
+    compartment_id: "{{ oci_node_pool_compartment_id }}"
+    cluster_id: "{{ oci_node_pool_cluster_id }}"
+    name: "{{ oci_node_pool_name }}"
+    node_shape: "{{ oci_node_pool_node_shape }}"
+    node_image_id: "{{ oci_node_pool_node_image_id }}"
+    subnet_ids: "{{ oci_node_pool_subnet_ids }}"
+    size: "{{ oci_node_pool_size }}"
+    node_shape_config: "{{ oci_node_pool_node_shape_config | default(omit) }}"
+    state: present
+  register: create_result
+- name: Verify OKE node pool was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_node_pool_name
+      - create_result.resource.lifecycle_state == "ACTIVE"
+      - create_result.resource.id is defined
+- name: Set OKE node pool ID fact
+  ansible.builtin.set_fact:
+    test_node_pool_id: "{{ create_result.resource.id }}"
+- name: Create same OKE node pool again (idempotency check)
+  stevefulme1.oci_cloud.oci_oke_node_pool:
+    compartment_id: "{{ oci_node_pool_compartment_id }}"
+    cluster_id: "{{ oci_node_pool_cluster_id }}"
+    node_pool_id: "{{ test_node_pool_id }}"
+    name: "{{ oci_node_pool_name }}"
+    node_shape: "{{ oci_node_pool_node_shape }}"
+    node_image_id: "{{ oci_node_pool_node_image_id }}"
+    subnet_ids: "{{ oci_node_pool_subnet_ids }}"
+    size: "{{ oci_node_pool_size }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update OKE node pool size
+  stevefulme1.oci_cloud.oci_oke_node_pool:
+    compartment_id: "{{ oci_node_pool_compartment_id }}"
+    cluster_id: "{{ oci_node_pool_cluster_id }}"
+    node_pool_id: "{{ test_node_pool_id }}"
+    name: "{{ oci_node_pool_name }}"
+    node_shape: "{{ oci_node_pool_node_shape }}"
+    node_image_id: "{{ oci_node_pool_node_image_id }}"
+    subnet_ids: "{{ oci_node_pool_subnet_ids }}"
+    size: "{{ oci_node_pool_updated_size }}"
+    state: present
+  register: update_result
+- name: Verify OKE node pool was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.node_config_details.size == oci_node_pool_updated_size
+- name: Delete the OKE node pool
+  stevefulme1.oci_cloud.oci_oke_node_pool:
+    node_pool_id: "{{ test_node_pool_id }}"
+    state: absent
+  register: delete_result
+- name: Verify OKE node pool was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete OKE node pool again (already gone)
+  stevefulme1.oci_cloud.oci_oke_node_pool:
+    node_pool_id: "{{ test_node_pool_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

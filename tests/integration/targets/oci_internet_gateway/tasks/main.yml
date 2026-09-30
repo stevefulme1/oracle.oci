@@ -1,0 +1,60 @@
+---
+- name: Create an internet gateway
+  stevefulme1.oci_cloud.oci_internet_gateway:
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_internet_gateway_vcn_id }}"
+    display_name: "{{ oci_internet_gateway_display_name }}"
+    is_enabled: true
+    state: present
+  register: create_result
+- name: Verify internet gateway was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_internet_gateway_display_name
+      - create_result.resource.id is defined
+- name: Set internet gateway ID fact
+  ansible.builtin.set_fact:
+    test_ig_id: "{{ create_result.resource.id }}"
+- name: Create same internet gateway again (idempotency check)
+  stevefulme1.oci_cloud.oci_internet_gateway:
+    ig_id: "{{ test_ig_id }}"
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_internet_gateway_vcn_id }}"
+    display_name: "{{ oci_internet_gateway_display_name }}"
+    is_enabled: true
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update internet gateway display_name
+  stevefulme1.oci_cloud.oci_internet_gateway:
+    ig_id: "{{ test_ig_id }}"
+    display_name: "{{ oci_internet_gateway_updated_display_name }}"
+    state: present
+  register: update_result
+- name: Verify internet gateway was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_internet_gateway_updated_display_name
+- name: Delete the internet gateway
+  stevefulme1.oci_cloud.oci_internet_gateway:
+    ig_id: "{{ test_ig_id }}"
+    state: absent
+  register: delete_result
+- name: Verify internet gateway was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete internet gateway again (already gone)
+  stevefulme1.oci_cloud.oci_internet_gateway:
+    ig_id: "{{ test_ig_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

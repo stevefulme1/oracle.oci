@@ -1,0 +1,59 @@
+---
+- name: Create an auth token
+  stevefulme1.oci_cloud.oci_auth_token:
+    user_id: "{{ oci_auth_token_user_id }}"
+    description: "{{ oci_auth_token_description }}"
+    state: present
+  register: create_result
+- name: Verify auth token was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.description == oci_auth_token_description
+      - create_result.resource.id is defined
+- name: Set auth token ID fact
+  ansible.builtin.set_fact:
+    test_auth_token_id: "{{ create_result.resource.id }}"
+- name: Create same auth token again (idempotency check)
+  stevefulme1.oci_cloud.oci_auth_token:
+    user_id: "{{ oci_auth_token_user_id }}"
+    auth_token_id: "{{ test_auth_token_id }}"
+    description: "{{ oci_auth_token_description }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update auth token description
+  stevefulme1.oci_cloud.oci_auth_token:
+    user_id: "{{ oci_auth_token_user_id }}"
+    auth_token_id: "{{ test_auth_token_id }}"
+    description: "{{ oci_auth_token_updated_description }}"
+    state: present
+  register: update_result
+- name: Verify auth token was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.description == oci_auth_token_updated_description
+- name: Delete the auth token
+  stevefulme1.oci_cloud.oci_auth_token:
+    user_id: "{{ oci_auth_token_user_id }}"
+    auth_token_id: "{{ test_auth_token_id }}"
+    state: absent
+  register: delete_result
+- name: Verify auth token was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete auth token again (already gone)
+  stevefulme1.oci_cloud.oci_auth_token:
+    user_id: "{{ oci_auth_token_user_id }}"
+    auth_token_id: "{{ test_auth_token_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

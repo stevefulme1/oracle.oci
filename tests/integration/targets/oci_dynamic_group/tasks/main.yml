@@ -1,0 +1,61 @@
+---
+- name: Create a dynamic group
+  stevefulme1.oci_cloud.oci_dynamic_group:
+    compartment_id: "{{ oci_dynamic_group_compartment_id }}"
+    name: "{{ oci_dynamic_group_name }}"
+    description: "{{ oci_dynamic_group_description }}"
+    matching_rule: "{{ oci_dynamic_group_matching_rule }}"
+    state: present
+  register: create_result
+- name: Verify dynamic group was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.name == oci_dynamic_group_name
+      - create_result.resource.description == oci_dynamic_group_description
+      - create_result.resource.id is defined
+- name: Set dynamic group ID fact
+  ansible.builtin.set_fact:
+    test_dynamic_group_id: "{{ create_result.resource.id }}"
+- name: Create same dynamic group again (idempotency check)
+  stevefulme1.oci_cloud.oci_dynamic_group:
+    compartment_id: "{{ oci_dynamic_group_compartment_id }}"
+    dynamic_group_id: "{{ test_dynamic_group_id }}"
+    name: "{{ oci_dynamic_group_name }}"
+    description: "{{ oci_dynamic_group_description }}"
+    matching_rule: "{{ oci_dynamic_group_matching_rule }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update dynamic group description
+  stevefulme1.oci_cloud.oci_dynamic_group:
+    dynamic_group_id: "{{ test_dynamic_group_id }}"
+    description: "{{ oci_dynamic_group_updated_description }}"
+    state: present
+  register: update_result
+- name: Verify dynamic group was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.description == oci_dynamic_group_updated_description
+- name: Delete the dynamic group
+  stevefulme1.oci_cloud.oci_dynamic_group:
+    dynamic_group_id: "{{ test_dynamic_group_id }}"
+    state: absent
+  register: delete_result
+- name: Verify dynamic group was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete dynamic group again (already gone)
+  stevefulme1.oci_cloud.oci_dynamic_group:
+    dynamic_group_id: "{{ test_dynamic_group_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed

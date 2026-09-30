@@ -9,9 +9,9 @@ import pytest
 
 
 MODULE_PATH = "ansible_collections.oracle.oci.plugins.modules.oci_bucket"
-AUTH_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_auth"
-RESOURCE_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_resource"
-WAIT_PATH = "ansible_collections.oracle.oci.plugins.module_utils.oci_wait"
+AUTH_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_auth"
+RESOURCE_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_resource"
+WAIT_PATH = "ansible_collections.stevefulme1.oci_cloud.plugins.module_utils.oci_wait"
 
 
 def _build_bucket(
@@ -63,6 +63,7 @@ class TestOciBucketCreate:
         module = MagicMock()
         module.params = bucket_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
@@ -90,6 +91,7 @@ class TestOciBucketCreate:
         module = MagicMock()
         module.params = bucket_create_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
@@ -120,6 +122,7 @@ class TestOciBucketDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket()
@@ -152,6 +155,7 @@ class TestOciBucketDelete:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         oci_bucket = OciBucket(module)
@@ -184,6 +188,7 @@ class TestOciBucketUpdate:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket(public_access_type="NoPublicAccess")
@@ -215,6 +220,7 @@ class TestOciBucketIdempotent:
         module = MagicMock()
         module.params = module_args
         module.check_mode = False
+        module.params["wait"] = False
 
         from ansible_collections.oracle.oci.plugins.modules.oci_bucket import OciBucket
         resource = _build_bucket(public_access_type="NoPublicAccess")

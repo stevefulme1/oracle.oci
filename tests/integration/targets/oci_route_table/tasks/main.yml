@@ -1,0 +1,60 @@
+---
+- name: Create a route table
+  stevefulme1.oci_cloud.oci_route_table:
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_route_table_vcn_id }}"
+    display_name: "{{ oci_route_table_display_name }}"
+    route_rules: "{{ oci_route_table_route_rules }}"
+    state: present
+  register: create_result
+- name: Verify route table was created
+  ansible.builtin.assert:
+    that:
+      - create_result is changed
+      - create_result.resource.display_name == oci_route_table_display_name
+      - create_result.resource.id is defined
+- name: Set route table ID fact
+  ansible.builtin.set_fact:
+    test_route_table_id: "{{ create_result.resource.id }}"
+- name: Create same route table again (idempotency check)
+  stevefulme1.oci_cloud.oci_route_table:
+    route_table_id: "{{ test_route_table_id }}"
+    compartment_id: "{{ oci_compartment_id }}"
+    vcn_id: "{{ oci_route_table_vcn_id }}"
+    display_name: "{{ oci_route_table_display_name }}"
+    route_rules: "{{ oci_route_table_route_rules }}"
+    state: present
+  register: idempotent_result
+- name: Verify no change on idempotent run
+  ansible.builtin.assert:
+    that:
+      - idempotent_result is not changed
+- name: Update route table display_name
+  stevefulme1.oci_cloud.oci_route_table:
+    route_table_id: "{{ test_route_table_id }}"
+    display_name: "{{ oci_route_table_updated_display_name }}"
+    state: present
+  register: update_result
+- name: Verify route table was updated
+  ansible.builtin.assert:
+    that:
+      - update_result is changed
+      - update_result.resource.display_name == oci_route_table_updated_display_name
+- name: Delete the route table
+  stevefulme1.oci_cloud.oci_route_table:
+    route_table_id: "{{ test_route_table_id }}"
+    state: absent
+  register: delete_result
+- name: Verify route table was deleted
+  ansible.builtin.assert:
+    that:
+      - delete_result is changed
+- name: Delete route table again (already gone)
+  stevefulme1.oci_cloud.oci_route_table:
+    route_table_id: "{{ test_route_table_id }}"
+    state: absent
+  register: delete_again_result
+- name: Verify no change when already deleted
+  ansible.builtin.assert:
+    that:
+      - delete_again_result is not changed
